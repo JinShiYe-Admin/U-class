@@ -189,5 +189,63 @@
 				}
 			}
 		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"js/mui.min.js",
+					"html/u-class/class-home.html",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"html/sourse/source-home.html",
+					"html/u-class/u-home.html"
+				],
+				"refer": [
+					"html/animation-class/ani-home.html"
+				],
+				"priority": 0
+			},
+			"html/u-class/class-home.html": {
+				"resources": [
+					"css/utils/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/sourse/source-home.html": {
+				"resources": [
+					"css/utils/common.css",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/u-class/u-home.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/utils/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/animation-class/ani-home.html": {
+				"resources": [
+					"css/utils/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/libs/vue/vue-router.min.js",
+				"js/libs/vue/vue.js",
+				"js/libs/vue/vue-router.js",
+				"js/libs/vue/vue.min.js",
+				"js/mui.js",
+				"css/mui.css"
+			]
+		}
 	}
 }
