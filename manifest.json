@@ -247,8 +247,17 @@
 				],
 				"refer": [
 					"html/sourse/source-home.html",
-					"html/animation-class/ani-home.html"
+					"html/animation-class/ani-home.html",
+					"html/utils/filter.html"
 				],
+				"priority": 0
+			},
+			"html/utils/filter.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/utils/common.css"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

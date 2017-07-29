@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/utils/common.css" />
+		<style>
+			header:last-of-type {
+				/*背景颜色*/
+				background: #FAFAFA;
+			}
+
+			h1.mui-title {
+				color: #323232;
+				font-family: '微软雅黑', '微软雅黑';
+			}
+
+			.mui-action-back {
+				color: #5090FC;
+			}
+
+			.title-text-pull-right {
+				color: #5DC3FD;
+			}
+
+			body,
+			.mui-content {
+				background-color: white;
+				word-break: break-all;
+			}
+
+			.mui-table-view:after {
+				height: 0px;
+			}
+
+			.mui-table-view-cell {
+				background-color: #F2F2F2;
+				text-align: center;
+				border-radius: 7px;
+				margin: 5px;
+			}
+
+			.mui-table-view-cell:active,
+			.mui-table-view-cell.mui-active,
+			.filter-select {
+				background-color: #4E90FE;
+				color: white;
+			}
+
+			.filter-title {
+				padding: 15px 5px 5px 10px;
+			}
+
+			.filter-title:first-child {
+				padding-top: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">高级筛选</h1>
+			<div class="title-text-pull-right">确定</div>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view">
+					<div class="filter-title">科目:</div>
+					<div class="mui-row">
+						<div class="mui-col-xs-4 mui-col-sm-4">
+							<li class="mui-table-view-cell mui-ellipsis filter-select">
+								一二三四五
+							</li>
+						</div>
+						<div class="mui-col-xs-4 mui-col-sm-4">
+							<li class="mui-table-view-cell mui-ellipsis">
+								一二三四五六七八九十
+							</li>
+						</div>
+						<div class="mui-col-xs-4 mui-col-sm-4">
+							<li class="mui-table-view-cell mui-ellipsis">
+								一二三四
+							</li>
+						</div>
+						<div class="mui-col-xs-4 mui-col-sm-4">
+							<li class="mui-table-view-cell mui-ellipsis">
+								一二三
+							</li>
+						</div>
+					</div>
+				</ul>
+			</div>
+		</div>
+
+		<script src="../../js/mui.min.js "></script>
+		<script type="text/javascript ">
+			mui.init()
+		</script>
+	</body>
+
+</html>

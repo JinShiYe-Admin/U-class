@@ -51,6 +51,7 @@
 			function initListener() {
 				//选项卡点击事件
 				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					//utils.openNewWindowWithData('../utils/filter.html');
 					var targetTab = this.getAttribute('href');
 					if(targetTab == activeTab) {
 						return;
