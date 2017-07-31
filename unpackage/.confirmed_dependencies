@@ -1,59 +1,67 @@
 {
-  "index.html": {
-    "resources": [
-      "js/mui.min.js",
-      "html/u-class/class-home.html",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "html/sourse/source-home.html",
-      "html/u-class/u-home.html"
-    ],
-    "refer": [
-      "html/u-class/class-home.html",
-      "html/sourse/source-home.html",
-      "html/u-class/u-home.html",
-      "html/animation-class/ani-home.html"
-    ]
-  },
-  "html/u-class/class-home.html": {
-    "resources": [
-      "css/utils/common.css"
-    ],
-    "refer": []
-  },
-  "html/sourse/source-home.html": {
-    "resources": [
-      "css/utils/common.css",
-      "css/mui.min.css"
-    ],
-    "refer": []
-  },
-  "html/u-class/u-home.html": {
-    "resources": [
-      "css/mui.min.css",
-      "css/utils/common.css"
-    ],
-    "refer": []
-  },
-  "html/animation-class/ani-home.html": {
-    "resources": [
-      "css/utils/common.css",
-      "css/mui.min.css"
-    ],
-    "refer": []
-  },
-  "html/index/index.html": {
-    "resources": [
-      "html/u-class/u-home.html",
-      "js/mui.min.js",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "js/utils/utils.js"
-    ],
-    "refer": [
-      "html/u-class/u-home.html",
-      "html/sourse/source-home.html",
-      "html/animation-class/ani-home.html"
-    ]
-  }
+	"index.html": {
+		"resources": [
+			"js/mui.min.js",
+			"html/u-class/class-home.html",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"html/sourse/source-home.html",
+			"html/u-class/u-home.html"
+		],
+		"refer": [
+			"html/u-class/class-home.html",
+			"html/sourse/source-home.html",
+			"html/u-class/u-home.html",
+			"html/animation-class/ani-home.html"
+		]
+	},
+	"html/u-class/class-home.html": {
+		"resources": [
+			"css/utils/common.css"
+		],
+		"refer": []
+	},
+	"html/sourse/source-home.html": {
+		"resources": [
+			"css/utils/common.css",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/u-class/u-home.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/utils/common.css"
+		],
+		"refer": []
+	},
+	"html/animation-class/ani-home.html": {
+		"resources": [
+			"css/utils/common.css",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/index/index.html": {
+		"resources": [
+			"html/u-class/u-home.html",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/utils/utils.js"
+		],
+		"refer": [
+			"html/u-class/u-home.html",
+			"html/sourse/source-home.html",
+			"html/animation-class/ani-home.html",
+			"html/utils/filter.html"
+		]
+	},
+	"html/utils/filter.html": {
+		"resources": [
+			"js/libs/vue/vue.js",
+			"css/mui.min.css",
+			"css/utils/common.css"
+		]
+	}
 }
