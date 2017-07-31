@@ -31,14 +31,19 @@
 	"html/u-class/u-home.html": {
 		"resources": [
 			"css/mui.min.css",
-			"css/utils/common.css"
+			"css/utils/common.css",
+			"html/u-class/find-teacher.html",
+			"html/utils/webviewGroup.js"
 		],
-		"refer": []
+		"refer": [
+			"html/u-class/find-teacher.html"
+		]
 	},
 	"html/animation-class/ani-home.html": {
 		"resources": [
 			"css/utils/common.css",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"js/libs/vue/vue.js"
 		],
 		"refer": []
 	},
@@ -54,7 +59,8 @@
 			"html/u-class/u-home.html",
 			"html/sourse/source-home.html",
 			"html/animation-class/ani-home.html",
-			"html/utils/filter.html"
+			"html/utils/filter.html",
+			"html/utils/download.html"
 		]
 	},
 	"html/utils/filter.html": {
@@ -62,6 +68,23 @@
 			"js/libs/vue/vue.js",
 			"css/mui.min.css",
 			"css/utils/common.css"
+		]
+	},
+	"html/u-class/primary.html": {
+		"resources": [
+			"js/u-class/school.js",
+			"js/libs/vue/vue.min.js"
+		]
+	},
+	"html/u-class/find-teacher.html": {
+		"resources": [
+			"html/u-class/primary.html",
+			"css/mui.min.css",
+			"css/utils/common.css",
+			"css/u-class/school.css"
+		],
+		"refer": [
+			"html/u-class/primary.html"
 		]
 	}
 }

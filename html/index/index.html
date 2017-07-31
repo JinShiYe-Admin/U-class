@@ -38,12 +38,10 @@
 			var main; //当前webview
 			mui.init();
 			mui.plusReady(function() {
-				initSubPage();
-			});
-
-			window.onload = function() {
 				initListener();
-			}
+				initSubPage();
+				utils.preloadWebWithData("../utils/download.html");//预加载下载页
+			});
 
 			/**
 			 * 初始化监听
