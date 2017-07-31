@@ -1,3 +1,8 @@
+<!--
+	作者：444811716@qq.com
+	时间：2017-07-31
+	描述：高级筛选
+-->
 <!doctype html>
 <html>
 
@@ -32,6 +37,7 @@
 				word-break: break-all;
 			}
 
+			.mui-table-view:before,
 			.mui-table-view:after {
 				height: 0px;
 			}
@@ -64,41 +70,132 @@
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">高级筛选</h1>
-			<div class="title-text-pull-right">确定</div>
+			<div id="commit" class="title-text-pull-right" @tap="commitData">确定</div>
 		</header>
 		<div class="mui-content mui-scroll-wrapper">
-			<div class="mui-scroll">
-				<ul class="mui-table-view">
-					<div class="filter-title">科目:</div>
-					<div class="mui-row">
-						<div class="mui-col-xs-4 mui-col-sm-4">
-							<li class="mui-table-view-cell mui-ellipsis filter-select">
-								一二三四五
-							</li>
-						</div>
-						<div class="mui-col-xs-4 mui-col-sm-4">
-							<li class="mui-table-view-cell mui-ellipsis">
-								一二三四五六七八九十
-							</li>
-						</div>
-						<div class="mui-col-xs-4 mui-col-sm-4">
-							<li class="mui-table-view-cell mui-ellipsis">
-								一二三四
-							</li>
-						</div>
-						<div class="mui-col-xs-4 mui-col-sm-4">
-							<li class="mui-table-view-cell mui-ellipsis">
-								一二三
-							</li>
-						</div>
-					</div>
-				</ul>
+			<div id="filter" class="mui-scroll">
+				<filter-item class="mui-table-view" v-for="(value, index) in filter_array" :key="index" :value="value" :index="index"></filter-item>
 			</div>
 		</div>
-
+		<script type="text/javascript" src="../../js/utils/utils.js"></script>
 		<script src="../../js/mui.min.js "></script>
+		<script type="text/javascript" src="../../js/libs/vue/vue.js"></script>
+
 		<script type="text/javascript ">
-			mui.init()
+			//筛选组件
+			Vue.component("filter-item", {
+				props: ["value", "index"],
+				template: '\
+				<div>\
+					<div class="filter-title">{{value.type+":"}}</div>\
+					<div class="mui-row" >\
+						<div class="mui-col-xs-4 mui-col-sm-4" v-for="(item_value,item_index) in value.item_array">\
+							<li class="mui-table-view-cell mui-ellipsis" @tap="selectItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item}}</li>\
+						</div>\
+					</div>\
+				</div>',
+				methods: {
+					/**
+					 * 点击筛选选项
+					 * @param {Object} index 筛选类型
+					 * @param {Object} item_index 筛选类型的选项
+					 */
+					selectItem: function(index, item_index) {
+						//console.log("tap:" + index + ' ' + item_index);
+						if(vm_filter.filter_array[index].selectNum === item_index) { //点击同一个
+							vm_filter.filter_array[index].item_array[item_index].isSelect = !vm_filter.filter_array[index].item_array[item_index].isSelect;
+						} else {
+							if(vm_filter.filter_array[index].selectNum !== null) {
+								vm_filter.filter_array[index].item_array[vm_filter.filter_array[index].selectNum].isSelect = false;
+							}
+							vm_filter.filter_array[index].item_array[item_index].isSelect = true;
+						}
+						vm_filter.filter_array[index].selectNum = item_index;
+					}
+				}
+			});
+			//筛选
+			var vm_filter = new Vue({
+				el: "#filter",
+				data: {
+					filter_array: []
+				}
+			});
+			//确定按钮
+			var vm_commit = new Vue({
+				el: "#commit",
+				methods: {
+					/**
+					 * 点击确定按钮
+					 */
+					commitData: function() {
+						var commitData = [];
+						for(var i in vm_filter.filter_array) {
+							if(vm_filter.filter_array[i].selectNum !== null) {
+								commitData.push({
+									type: vm_filter.filter_array[i].type,
+									item: vm_filter.filter_array[i].item_array[vm_filter.filter_array[i].selectNum].item
+								});
+							}
+						}
+						//console.log("commitData:" + JSON.stringify(commitData));
+						utils.fireWebWinListen(main.data.webId, main.data.winId, commitData)
+						mui.back();
+					}
+				}
+			})
+			var main; //当前webview
+			mui.init();
+			mui.plusReady(function() {
+				initData();
+			});
+
+			function initData() {
+				main = plus.webview.currentWebview();
+				//console.log(main.id + " " + JSON.stringify(main.data));
+				//				main.data={
+				//					"type": 0,//0,找课程;1,找资源;
+				//					"webId": "webId",//筛选确定之后触发监听事件的webview的id
+				//					"winId": "winId"//筛选确定之后触发监听事件的id
+				//				}
+				show_data(main.data.type)
+			}
+
+			/**
+			 * 假数据
+			 */
+			function show_data(showType) {
+				var data = [{
+					type: "科目",
+					item: ["全部", "语文", "数学", "英语", "体育", "音乐", "美术", "信息技术", "科学", "品德与社会"]
+				}, {
+					type: "教版",
+					item: ["人教版"]
+				}, {
+					type: "年级",
+					item: ["全部", "一年级", "二年级", "三年级", "四年级", "五年级", "六年级"]
+				}]
+				if(showType) {
+					delete data[1];
+				}
+
+				for(var i in data) {
+					//创建类型
+					var temp = {
+						type: data[i].type,//类型名称
+						selectNum: null,//被选中的选项的index
+						item_array: []//类型的选项数组
+					}
+					//往类型里加选项
+					for(var j in data[i].item) {
+						temp.item_array.push({
+							item: data[i].item[j], //选项名称
+							isSelect: false //是否选中
+						});
+					}
+					vm_filter.filter_array.push(temp)
+				}
+			}
 		</script>
 	</body>
 
