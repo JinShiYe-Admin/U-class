@@ -224,9 +224,14 @@
 			"html/u-class/u-home.html": {
 				"resources": [
 					"css/mui.min.css",
-					"css/utils/common.css"
+					"css/utils/common.css",
+					"html/u-class/find-teacher.html",
+					"html/utils/webviewGroup.js",
+					"css/school.css"
 				],
-				"refer": [],
+				"refer": [
+					"html/u-class/find-course.html"
+				],
 				"priority": 0
 			},
 			"html/animation-class/ani-home.html": {
@@ -259,6 +264,62 @@
 				],
 				"refer": [],
 				"priority": 0
+			},
+			"html/u-class/primary.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/libs/vue/vue.min.js",
+					"js/school.js",
+					"js/u-class/school.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/u-class/find-teacher.html": {
+				"resources": [
+					"js/mui.min.js",
+					"html/u-class/primary.html",
+					"js/utils/utils.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"html/utils/webviewGroup.js",
+					"css/utils/common.css",
+					"css/school.css",
+					"css/u-class/school.css"
+				],
+				"refer": [
+					"html/u-class/high.html",
+					"html/u-class/middle.html"
+				],
+				"priority": 0
+			},
+			"html/u-class/high.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/u-class/middle.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/u-class/find-course.html": {
+				"resources": [
+					"html/u-class/primary.html",
+					"css/mui.min.css",
+					"css/school.css",
+					"css/u-class/school.css"
+				],
+				"refer": [
+					"html/u-class/high.html",
+					"html/u-class/middle.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
@@ -266,7 +327,6 @@
 				"js/libs/vue/vue-router.min.js",
 				"js/libs/vue/vue.js",
 				"js/libs/vue/vue-router.js",
-				"js/libs/vue/vue.min.js",
 				"js/mui.js",
 				"css/mui.css"
 			]

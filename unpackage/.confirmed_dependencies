@@ -1,59 +1,152 @@
 {
-  "index.html": {
-    "resources": [
-      "js/mui.min.js",
-      "html/u-class/class-home.html",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "html/sourse/source-home.html",
-      "html/u-class/u-home.html"
-    ],
-    "refer": [
-      "html/u-class/class-home.html",
-      "html/sourse/source-home.html",
-      "html/u-class/u-home.html",
-      "html/animation-class/ani-home.html"
-    ]
-  },
-  "html/u-class/class-home.html": {
-    "resources": [
-      "css/utils/common.css"
-    ],
-    "refer": []
-  },
-  "html/sourse/source-home.html": {
-    "resources": [
-      "css/utils/common.css",
-      "css/mui.min.css"
-    ],
-    "refer": []
-  },
-  "html/u-class/u-home.html": {
-    "resources": [
-      "css/mui.min.css",
-      "css/utils/common.css"
-    ],
-    "refer": []
-  },
-  "html/animation-class/ani-home.html": {
-    "resources": [
-      "css/utils/common.css",
-      "css/mui.min.css"
-    ],
-    "refer": []
-  },
-  "html/index/index.html": {
-    "resources": [
-      "html/u-class/u-home.html",
-      "js/mui.min.js",
-      "fonts/mui.ttf",
-      "css/mui.min.css",
-      "js/utils/utils.js"
-    ],
-    "refer": [
-      "html/u-class/u-home.html",
-      "html/sourse/source-home.html",
-      "html/animation-class/ani-home.html"
-    ]
-  }
+	"index.html": {
+		"resources": [
+			"js/mui.min.js",
+			"html/u-class/class-home.html",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"html/sourse/source-home.html",
+			"html/u-class/u-home.html"
+		],
+		"refer": [
+			"html/u-class/class-home.html",
+			"html/sourse/source-home.html",
+			"html/u-class/u-home.html",
+			"html/animation-class/ani-home.html"
+		]
+	},
+	"html/u-class/class-home.html": {
+		"resources": [
+			"css/utils/common.css"
+		],
+		"refer": []
+	},
+	"html/sourse/source-home.html": {
+		"resources": [
+			"css/utils/common.css",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/u-class/u-home.html": {
+		"resources": [
+			"css/mui.min.css",
+			"css/utils/common.css",
+			"html/u-class/find-teacher.html",
+			"html/utils/webviewGroup.js",
+			"css/school.css"
+		],
+		"refer": [
+			"html/u-class/find-course.html",
+			"html/u-class/find-teacher.html"
+		]
+	},
+	"html/animation-class/ani-home.html": {
+		"resources": [
+			"css/utils/common.css",
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/index/index.html": {
+		"resources": [
+			"html/u-class/u-home.html",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/utils/utils.js"
+		],
+		"refer": [
+			"html/u-class/u-home.html",
+			"html/sourse/source-home.html",
+			"html/animation-class/ani-home.html"
+		]
+	},
+	"html/u-class/tab-top-webview-main.html": {
+		"resources": [
+			"html/u-class/tab-top-subpage-1.html",
+			"js/utils/webviewGroup.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"html/u-class/tab-top-subpage-1.html",
+			"html/u-class/tab-top-subpage-5.html",
+			"html/u-class/tab-top-subpage-3.html",
+			"html/u-class/tab-top-subpage-4.html",
+			"html/u-class/tab-top-subpage-2.html"
+		]
+	},
+	"html/u-class/tab-top-subpage-5.html": {
+		"resources": [
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/u-class/tab-top-subpage-3.html": {
+		"resources": [
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/u-class/tab-top-subpage-2.html": {
+		"resources": [
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/u-class/primary.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/libs/vue/vue.min.js",
+			"js/school.js",
+			"js/u-class/school.js"
+		],
+		"refer": []
+	},
+	"html/u-class/find-teacher.html": {
+		"resources": [
+			"js/mui.min.js",
+			"html/u-class/primary.html",
+			"js/utils/utils.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"html/utils/webviewGroup.js",
+			"css/utils/common.css",
+			"css/school.css",
+			"css/u-class/school.css"
+		],
+		"refer": [
+			"html/u-class/primary.html",
+			"html/u-class/high.html",
+			"html/u-class/middle.html"
+		]
+	},
+	"html/u-class/high.html": {
+		"resources": [
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/u-class/middle.html": {
+		"resources": [
+			"css/mui.min.css"
+		],
+		"refer": []
+	},
+	"html/u-class/find-course.html": {
+		"resources": [
+			"html/u-class/primary.html",
+			"css/mui.min.css",
+			"css/school.css",
+			"css/u-class/school.css"
+		],
+		"refer": [
+			"html/u-class/high.html",
+			"html/u-class/primary.html",
+			"html/u-class/middle.html"
+		]
+	}
 }
