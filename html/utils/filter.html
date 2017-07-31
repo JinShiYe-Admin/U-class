@@ -138,7 +138,7 @@
 								});
 							}
 						}
-						console.log("commitData:" + JSON.stringify(commitData));
+						//console.log("commitData:" + JSON.stringify(commitData));
 						utils.fireWebWinListen(main.data.webId, main.data.winId, commitData)
 						mui.back();
 					}
@@ -152,12 +152,12 @@
 
 			function initData() {
 				main = plus.webview.currentWebview();
-				console.log(main.id + " " + JSON.stringify(main.data));
-//				main.data={
-//					"type": 0,//0,找课程;1,找资源;
-//					"webId": "webId",//确定之后触发监听事件的webview的id
-//					"winId": "webId"//确定之后触发监听事件的id
-//				}
+				//console.log(main.id + " " + JSON.stringify(main.data));
+				//				main.data={
+				//					"type": 0,//0,找课程;1,找资源;
+				//					"webId": "webId",//筛选确定之后触发监听事件的webview的id
+				//					"winId": "winId"//筛选确定之后触发监听事件的id
+				//				}
 				show_data(main.data.type)
 			}
 
@@ -180,15 +180,17 @@
 				}
 
 				for(var i in data) {
+					//创建类型
 					var temp = {
-						type: data[i].type,
-						selectNum: null,
-						item_array: []
+						type: data[i].type,//类型名称
+						selectNum: null,//被选中的选项的index
+						item_array: []//类型的选项数组
 					}
+					//往类型里加选项
 					for(var j in data[i].item) {
 						temp.item_array.push({
-							item: data[i].item[j],
-							isSelect: false
+							item: data[i].item[j], //选项名称
+							isSelect: false //是否选中
 						});
 					}
 					vm_filter.filter_array.push(temp)
