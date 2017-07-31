@@ -86,7 +86,7 @@ var utils = (function(mod) {
 	 * @param {Object} winListenId 必填 页面window监听的id
 	 * @param {Object} data 选填 传递的数据
 	 */
-	mod.fireWebWinListen = function(webId, winListenId, data) {
+	mod.fireWinListen = function(webId, winListenId, data) {
 		var pageId = mod.getWebUrlId(webId);
 		var page = plus.webview.getWebviewById(pageId);
 		if(page) {
@@ -95,6 +95,44 @@ var utils = (function(mod) {
 				data: data
 			});
 		}
+	}
+	/**
+	 * 触发页面的window监听
+	 * @param {Object} webId 必填 页面id或者路径
+	 * @param {Object} winListenId 必填 页面window监听的id
+	 * @param {Object} data 选填 传递的数据
+	 */
+	mod.fireWinListenAndShowWeb = function(webId, winListenId, data) {
+		var pageId = mod.getWebUrlId(webId);
+		var page = plus.webview.getWebviewById(pageId);
+		if(page) {
+			//触发目标页面的listener事件
+			mui.fire(page, winListenId, {
+				data: data
+			});
+			page.show('slide-in-right', 250);
+		}
+	}
+
+	/**
+	 * 预加载页面
+	 * @param {Object} tarPagePath 必填 预加载 页面路径
+	 * @param {Object} data 选填 页面路径
+	 */
+	mod.preloadWebWithData = function(tarPagePath, data) {
+		var tarPageId = mod.getWebUrlId(tarPagePath);
+		var targetPage = plus.webview.getWebviewById(tarPageId);
+		if(!targetPage) {
+			targetPage = mui.preload({
+				url: tarPagePath,
+				id: tarPageId,
+				extras: {
+					data: data
+				},
+				styles: mod.getWebStyle(tarPagePath)
+			});
+		}
+		return targetPage;
 	}
 
 	/**
@@ -128,69 +166,161 @@ var utils = (function(mod) {
 	 * @param {Object} num 类型，默认slide-out-right
 	 */
 	mod.getAniClose = function(num) {
-		var aniClose = '';
-		var type = num || 2; //默认2
+		var ani = '';
+		var type = 2; //默认2
+		if(num !== undefined && num !== null && num !== "") {
+			type = num;
+		}
 		switch(type) {
 			case 0:
-				aniClose = 'auto';
+				ani = 'auto';
 				//自动选择显示窗口相对于的动画效果。
 				break;
 			case 1:
-				aniClose = 'none';
+				ani = 'none';
 				//立即关闭页面，无任何动画效果。 此效果忽略动画时间参数，立即关闭。
 				break;
 			case 2:
-				aniClose = 'slide-out-right';
+			default:
+				ani = 'slide-out-right';
 				//页面从屏幕中横向向右侧滑动到屏幕外关闭。
 				//Android - 2.2+ (支持): 默认动画时间为200ms。
 				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
 				break;
 			case 3:
-				aniClose = 'slide-out-left';
+				ani = 'slide-out-left';
 				//页面从屏幕中横向向左侧滑动到屏幕外关闭。
 				//Android - 2.2+ (支持): 默认动画时间为200ms。
 				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
 				break;
 			case 4:
-				aniClose = 'slide-out-top';
+				ani = 'slide-out-top';
 				//页页面从屏幕中竖向向上侧滑动到屏幕外关闭。
 				//Android - 2.2+ (支持): 默认动画时间为200ms。
 				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
 				break;
 			case 5:
-				aniClose = 'slide-out-bottom';
+				ani = 'slide-out-bottom';
 				//页面从屏幕中竖向向下侧滑动到屏幕外关闭。
 				//Android - 2.2+ (支持): 默认动画时间为200ms。
 				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
 				break;
 			case 6:
-				aniClose = 'fade-out';
+				ani = 'fade-out';
 				//页面从不透明到透明逐渐隐藏关闭。
 				//Android - 2.2+ (支持): 默认动画时间为200ms。
 				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
 				break;
 			case 7:
-				aniClose = 'zoom-in';
+				ani = 'zoom-in';
 				//页面逐渐向页面中心缩小关闭。
 				//Android - 2.2+ (支持): 默认动画时间为100ms。
 				//iOS - 5.1.1+ (支持): 默认动画时间为100ms。
 				break;
 			case 8:
-				aniClose = 'zoom-fade-in';
+				ani = 'zoom-fade-in';
 				//页面逐渐向页面中心缩小并且从不透明到透明逐渐隐藏关闭。
 				//Android - 2.2+ (支持): 默认动画时间为100ms。
 				//iOS - 5.1.1+ (支持): 默认动画时间为100ms。
 				break;
 			case 9:
-				aniClose = 'pop-out';
+				ani = 'pop-out';
 				//页面从屏幕右侧滑出消失，同时上一个页面带阴影效果从屏幕左侧滑入显示。
 				//Android - 2.2+ (支持): 默认动画时间为200ms。
 				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
 				break;
+		}
+		return ani;
+	}
+	/**
+	 * 获取显示的动画
+	 * @author 莫尚霖
+	 * @param {Object} num 类型，默认slide-in-right
+	 */
+	mod.getAniShow = function(num) {
+		var ani = '';
+		var type = 2; //默认2
+		if(num !== undefined && num !== null && num !== "") {
+			type = num;
+		}
+		switch(type) {
+			case 0:
+				ani = "auto"
+				//自动选择动画效果，使用上次显示窗口设置的动画效果，如果是第一次显示则默认动画效果“none”。
+				break;
+			case 1:
+				ani = "none"
+				//立即显示页面，无任何动画效果，页面显示默认的动画效果。 此效果忽略动画时间参数，立即显示
+				break;
+			case 2:
 			default:
+				ani = "slide-in-right"
+				//页面从屏幕右侧外向内横向滑动显示
+				//Android - 2.2+ (支持): 默认动画时间为200ms。
+				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
+				break;
+			case 3:
+				ani = "slide-in-left"
+				//页面从屏幕左侧向右横向滑动显示
+				//Android - 2.2+ (支持): 默认动画时间为200ms。
+				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
+				break;
+			case 4:
+				ani = "slide-in-top"
+				//页面从屏幕上侧向下竖向滑动显示
+				//Android - 2.2+ (支持): 默认动画时间为200ms。
+				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
+				break;
+			case 5:
+				ani = "slide-in-bottom"
+				//页面从屏幕下侧向上竖向滑动显示
+				//Android - 2.2+ (支持): 默认动画时间为200ms。
+				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
+				break;
+			case 6:
+				ani = "fade-in"
+				//页面从完全透明到不透明逐渐显示
+				//Android - 2.2+ (支持): 默认动画时间为200ms。
+				//iOS - 5.1.1+ (支持): 默认动画时间为300ms。
+				break;
+			case 7:
+				ani = "zoom-out"
+				//页面在屏幕中间从小到大逐渐放大显示
+				//Android - 2.2+ (支持): 默认动画时间为100ms。
+				//iOS - 5.1.1+ (支持): 默认动画时间为100ms。
+				break;
+			case 8:
+				ani = "zoom-fade-out"
+				//页面在屏幕中间从小到大逐渐放大并且从透明到不透明逐渐显示
+				//Android - 2.2+ (支持): 默认动画时间为100ms。
+				//iOS - 5.1.1+ (支持): 默认动画时间为100ms。
+				break;
+			case 9:
+				ani = "pop-in"
+				//页面从屏幕右侧滑入显示，同时上一个页面带阴影效果从屏幕左侧滑出隐藏
+				//Android - 2.2+ (支持): 默认动画时间为100ms。
+				//此动画是新开窗口侧滑挤压当前屏幕窗口特效，必须是两个Webview窗口的组合动画，
+				//如果当前屏幕已显示多个Webview窗口，则显示新窗口不支持此动画类型，自动转成“slide-in-right”。
+				//iOS - 5.1.1+ (支持): 默认动画时间为100ms。
 				break;
 		}
-		return aniClose;
+		return ani;
+	}
+
+	/**
+	 *初始化mui的scrollY
+	 * @param {Object} muiString
+	 */
+	mod.muiInitScrollY = function(muiString) {
+		muiString = muiString || ".mui-scroll-wrapper";
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui(muiString).scroll({
+			scrollY: true, //是否竖向滚动
+			scrollX: false, //是否横向滚动
+			indicators: true, //是否显示滚动条
+			deceleration: deceleration, //阻尼系数,系数越小滑动越灵敏
+			bounce: true, //是否启用回弹
+		});
 	}
 
 	return mod;
