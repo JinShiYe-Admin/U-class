@@ -45,8 +45,8 @@ var utils = (function(mod) {
 
 	/**
 	 * 打开新界面
-	 * @param {String} targetPage 新页面路径
-	 * @param {Object} data 传递的数据
+	 * @param {String} targetPage 必填 新页面路径
+	 * @param {Object} data 选填 传递的数据
 	 */
 	mod.openNewWindowWithData = function(tarPagePath, data) {
 		if(mod.openWeb) {
@@ -65,7 +65,9 @@ var utils = (function(mod) {
 			mui.openWindow({
 				url: tarPagePath,
 				id: tarPageId,
-				extras: data,
+				extras: {
+					data: data
+				},
 				show: {
 					anishow: 'slide-in-right',
 					duration: mod.showWebTime
@@ -75,6 +77,23 @@ var utils = (function(mod) {
 				},
 				styles: mod.getWebStyle(tarPagePath)
 			})
+		}
+	}
+
+	/**
+	 * 触发页面的window监听
+	 * @param {Object} webId 必填 页面id或者路径
+	 * @param {Object} winListenId 必填 页面window监听的id
+	 * @param {Object} data 选填 传递的数据
+	 */
+	mod.fireWebWinListen = function(webId, winListenId, data) {
+		var pageId = mod.getWebUrlId(webId);
+		var page = plus.webview.getWebviewById(pageId);
+		if(page) {
+			//触发目标页面的listener事件
+			mui.fire(page, winListenId, {
+				data: data
+			});
 		}
 	}
 
