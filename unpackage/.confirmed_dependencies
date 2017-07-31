@@ -36,7 +36,8 @@
 			"html/utils/webviewGroup.js"
 		],
 		"refer": [
-			"html/u-class/find-teacher.html"
+			"html/u-class/find-teacher.html",
+			"html/u-class/find-course.html"
 		]
 	},
 	"html/animation-class/ani-home.html": {
@@ -73,7 +74,8 @@
 	"html/u-class/primary.html": {
 		"resources": [
 			"js/u-class/school.js",
-			"js/libs/vue/vue.min.js"
+			"js/libs/vue/vue.min.js",
+			"css/mui.min.css"
 		]
 	},
 	"html/u-class/find-teacher.html": {
@@ -84,7 +86,31 @@
 			"css/u-class/school.css"
 		],
 		"refer": [
-			"html/u-class/primary.html"
+			"html/u-class/primary.html",
+			"html/u-class/high.html",
+			"html/u-class/middle.html"
+		]
+	},
+	"html/u-class/find-course.html": {
+		"resources": [
+			"html/u-class/primary.html",
+			"css/u-class/school.css",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"html/u-class/primary.html",
+			"html/u-class/middle.html",
+			"html/u-class/high.html"
+		]
+	},
+	"html/u-class/high.html": {
+		"resources": [
+			"css/mui.min.css"
+		]
+	},
+	"html/u-class/middle.html": {
+		"resources": [
+			"css/mui.min.css"
 		]
 	}
 }

@@ -24,7 +24,6 @@
 					</div>
 				</div>
 			</div>
-
 		</header>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
@@ -34,16 +33,16 @@
 			var main; //当前webview
 			mui.plusReady(function() {
 				main = plus.webview.currentWebview();
-				main.addEventListener('show', function(e) {
-					console.log('显示页面:' + main.id);
-				}, false);
 
 				var currentId = plus.webview.currentWebview().id;
 				var group = new webviewGroup(currentId, {
 					items: [{
 						id: "find-teacher.html",
 						url: "find-teacher.html",
-						extras: {}
+						extras: {},
+						styles:{
+							top:"45px"
+						}
 					}, {
 						id: "find-course.html",
 						url: "find-course.html",
