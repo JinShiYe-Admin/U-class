@@ -9,84 +9,32 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link href="../../css/utils/common.css" rel="stylesheet" />
 		<link href="../../css/u-class/school.css" rel="stylesheet" />
 	</head>
 
 	<body>
-
 		<div class="mui-content">
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
 						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="primary1.html">
-							小学
+							<div>小学</div>
 						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="middle.html">
-							初中
+						<a class="mui-control-item" href="#item2mobile" data-wid="middle1.html">
+							<div>初中</div>
 						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="high.html">
-							高中
+						<a class="mui-control-item" href="#item3mobile" data-wid="high1.html">
+							<div>高中</div>
 						</a>
 					</div>
 				</div>
-
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/utils/utils.js"></script>
 		<script src="../utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
-		<script>
-			mui.init();
-			
-			mui.plusReady(function() {
-				var currentId=plus.webview.currentWebview().id;  
-				var group = new webviewGroup(currentId, {
-					items: [{
-						id: "primary1.html",
-						url: "primary.html",
-						extras: {
-							data: {
-								schoolType: 0,
-								serviceType: 1,
-							}
-						}
-					}, {
-						id: "middle.html",
-						url: "middle.html",
-						extras: {
-							data: {
-								schoolType: 1,
-								serviceType: 1,
-							}
-						}
-					}, {
-						id: "high.html",
-						url: "high.html",
-						extras: {
-							data: {
-								schoolType: 2,
-								serviceType: 1,
-							}
-						}
-					}],
-					onChange: function(obj) {
-						var c = document.querySelector(".mui-control-item.mui-active");
-						if(c) {
-							c.classList.remove("mui-active");
-						}
-						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
-					}
-				});
-				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
-					var wid = this.getAttribute("data-wid");
-					group.switchTab(wid);
-				});
-
-			});
-			mui.back = function() {
-				var _self = plus.webview.currentWebview();
-				_self.close("auto");
-			}
-		</script>
+		<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>

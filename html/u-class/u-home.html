@@ -13,14 +13,13 @@
 		<header class="mui-bar mui-bar-nav">
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll" style="background-color: white;margin-left: 100px;">
+					<div class="mui-scroll" style="background-color: white;margin-left: 90px">
 						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="find-teacher.html">
 							找老师
 						</a>
 						<a class="mui-control-item" href="#item2mobile" data-wid="find-course.html">
 							找课程
 						</a>
-
 					</div>
 				</div>
 			</div>
@@ -40,13 +39,16 @@
 						id: "find-teacher.html",
 						url: "find-teacher.html",
 						extras: {},
-						styles:{
-							top:"45px"
+						styles: {
+							top: "45px"
 						}
 					}, {
 						id: "find-course.html",
 						url: "find-course.html",
-						extras: {}
+						extras: {},
+						styles: {
+							top: "45px"
+						}
 					}],
 					onChange: function(obj) {
 						var c = document.querySelector(".mui-control-item.mui-active");

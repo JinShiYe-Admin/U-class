@@ -26,6 +26,25 @@ var vm = new Vue({
 mui.plusReady(function() {
 	var data = plus.webview.currentWebview().data;
 	console.log(JSON.stringify(data));
+	switch(data.serviceType) {
+		case 0:
+			{
+
+			}
+			break;
+		case 1:
+			{
+
+			}
+			break;
+		case 2:
+			{
+
+			}
+			break;
+		default:
+			break;
+	}
 	getData(data);
 	vm.serviceType = data.serviceType;
 })
@@ -71,7 +90,29 @@ function getTeacher(schoolType) {
 }
 
 function getCourse(schoolType) {
-
+	var data = [{
+			id: 1,
+			image:'../../image/default_personalimage.png',
+			courseName: '识字1',
+			teaName: '李旭真',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 2,
+			image:'../../image/default_personalimage.png',
+			courseName: '11-20个数的认识',
+			teaName: '殷先梅',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 3,
+			image:'../../image/default_personalimage.png',
+			courseName: '丑小鸭',
+			teaName: '黄雅慧',
+			teaImg: '../../image/default_personalimage.png'
+		}
+	]
+	vm.items = data;
 }
 var count = 0;
 
