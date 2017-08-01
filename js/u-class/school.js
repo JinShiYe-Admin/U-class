@@ -123,27 +123,29 @@ function getCourse(schoolType) {
 function getSourse(schoolType) {
 	var data = [{
 			id: 1,
-			image: '../../image/default_personalimage.png',
-			courseName: '识字1',
-			teaName: '李旭真',
-			teaImg: '../../image/default_personalimage.png'
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '科学'
 		},
 		{
 			id: 2,
-			image: '../../image/default_personalimage.png',
-			courseName: '11-20个数的认识',
-			teaName: '殷先梅',
-			teaImg: '../../image/default_personalimage.png'
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '数学'
 		},
 		{
-			id: 3,
-			image: '../../image/default_personalimage.png',
-			courseName: '丑小鸭',
-			teaName: '黄雅慧',
-			teaImg: '../../image/default_personalimage.png'
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '美术'
 		}
 	]
 	vm.items = data;
+}
+function download(btn){
+	utils.openNewWindowWithData('../utils/download.html', {
+
+	})
 }
 var count = 0;
 

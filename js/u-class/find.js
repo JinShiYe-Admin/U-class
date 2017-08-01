@@ -50,7 +50,7 @@ function setSubPage() {
 	var group = new webviewGroup(currentId, {
 		items: [{
 			id: "primary" + paraObj.serviceType + ".html",
-			url: "../utils/primary.html",
+			url: "../utils/school.html",
 			extras: {
 				data: {
 					schoolType: 0,
@@ -62,7 +62,7 @@ function setSubPage() {
 			}
 		}, {
 			id: "middle" + paraObj.serviceType + ".html",
-			url: "../utils/middle.html",
+			url: "../utils/school.html",
 			extras: {
 				data: {
 					schoolType: 1,
@@ -74,7 +74,7 @@ function setSubPage() {
 			}
 		}, {
 			id: "high" + paraObj.serviceType + ".html",
-			url: "../utils/high.html",
+			url: "../utils/school.html",
 			extras: {
 				data: {
 					schoolType: 2,
