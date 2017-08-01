@@ -11,11 +11,16 @@
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 		<link href="../../css/u-class/school.css" rel="stylesheet" />
+				<style type="text/css">
+			.mui-segmented-control.mui-segmented-control-inverted {
+			width: 98%;
+		}
+		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
-			<div id="slider" class="mui-slider mui-fullscreen">
+			<div id="slider" class="mui-slider mui-fullscreen" style="background-color: white;">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
 						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="primary1.html">
@@ -28,6 +33,10 @@
 							<div>高中</div>
 						</a>
 					</div>
+					<button id="filter" onclick="toFilter()" type="button" style="float: right;margin-top: 5px;color: dodgerblue;border-color: transparent;">
+		           高级筛选>>
+		        </button>
+
 				</div>
 			</div>
 		</div>

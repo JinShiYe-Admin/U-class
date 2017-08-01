@@ -97,7 +97,27 @@ function setSubPage() {
 		var wid = this.getAttribute("data-wid");
 		group.switchTab(wid);
 	});
+	window.addEventListener("filterChange", function(e) {
+		var data = e.detail.data;
+		console.log(JSON.stringify(data))
+		
+	})
 
+}
+
+function toFilter() {
+	var currentId = plus.webview.currentWebview().id;
+	var type;
+	if(paraObj.serviceType == 1) {
+		type = 0;
+	} else {
+		type = 1
+	}
+	utils.openNewWindowWithData('../utils/filter.html', {
+		type: type,
+		webId: currentId,
+		winId: 'filterChange'
+	})
 }
 mui.back = function() {
 	var _self = plus.webview.currentWebview();
