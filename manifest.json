@@ -219,11 +219,14 @@
 					"css/mui.min.css",
 					"css/u-class/school.css",
 					"html/u-class/primary.html",
-					"js/u-class/find.js"
+					"js/u-class/find.js",
+					"html/utils/primary.html"
 				],
 				"refer": [
 					"html/u-class/middle.html",
-					"html/u-class/high.html"
+					"html/u-class/high.html",
+					"html/utils/middle.html",
+					"html/utils/high.html"
 				],
 				"priority": 0
 			},
@@ -233,7 +236,8 @@
 					"css/utils/common.css",
 					"html/u-class/find-teacher.html",
 					"html/utils/webviewGroup.js",
-					"css/school.css"
+					"css/school.css",
+					"js/utils/webviewGroup.js"
 				],
 				"refer": [
 					"html/u-class/find-course.html"
@@ -244,7 +248,8 @@
 				"resources": [
 					"css/utils/common.css",
 					"css/mui.min.css",
-					"js/libs/vue/vue.js"
+					"js/libs/vue/vue.js",
+					"images/utils/load-img-error.png"
 				],
 				"refer": [],
 				"priority": 0
@@ -297,11 +302,15 @@
 					"css/utils/common.css",
 					"css/school.css",
 					"css/u-class/school.css",
-					"js/u-class/find.js"
+					"js/u-class/find.js",
+					"html/utils/school.html",
+					"html/utils/primary.html"
 				],
 				"refer": [
 					"html/u-class/high.html",
-					"html/u-class/middle.html"
+					"html/u-class/middle.html",
+					"html/utils/middle.html",
+					"html/utils/high.html"
 				],
 				"priority": 0
 			},
@@ -325,12 +334,48 @@
 					"css/mui.min.css",
 					"css/school.css",
 					"css/u-class/school.css",
-					"css/utils/common.css"
+					"css/utils/common.css",
+					"html/utils/primary.html"
 				],
 				"refer": [
 					"html/u-class/high.html",
-					"html/u-class/middle.html"
+					"html/u-class/middle.html",
+					"html/utils/middle.html",
+					"html/utils/high.html"
 				],
+				"priority": 0
+			},
+			"html/utils/school.html": {
+				"resources": [
+					"image/default_personalimage.png",
+					"js/u-class/school.js",
+					"css/mui.min.css",
+					"js/libs/vue/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/utils/middle.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/utils/primary.html": {
+				"resources": [
+					"image/default_personalimage.png",
+					"js/u-class/school.js",
+					"js/libs/vue/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/utils/high.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

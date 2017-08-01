@@ -1,6 +1,5 @@
 var paraObj = {
 	serviceType: '',
-	pathPrefix: '',
 	top: ''
 
 }
@@ -30,21 +29,18 @@ function setSubPage() {
 		case 'find-teacher.html':
 			{
 				paraObj.serviceType = 0;
-				paraObj.pathPrefix = '';
 				paraObj.top = '44px'
 			}
 			break;
 		case 'find-course.html':
 			{
 				paraObj.serviceType = 1;
-				paraObj.pathPrefix = '';
 				paraObj.top = '44px'
 			}
 			break;
 		case 'source-home.html':
 			{
 				paraObj.serviceType = 2;
-				paraObj.pathPrefix = '../u-class/';
 				paraObj.top = '88px'
 			}
 			break;
@@ -54,7 +50,7 @@ function setSubPage() {
 	var group = new webviewGroup(currentId, {
 		items: [{
 			id: "primary" + paraObj.serviceType + ".html",
-			url: paraObj.pathPrefix + "primary.html",
+			url: "../utils/primary.html",
 			extras: {
 				data: {
 					schoolType: 0,
@@ -66,7 +62,7 @@ function setSubPage() {
 			}
 		}, {
 			id: "middle" + paraObj.serviceType + ".html",
-			url: paraObj.pathPrefix + "middle.html",
+			url: "../utils/middle.html",
 			extras: {
 				data: {
 					schoolType: 1,
@@ -78,7 +74,7 @@ function setSubPage() {
 			}
 		}, {
 			id: "high" + paraObj.serviceType + ".html",
-			url: paraObj.pathPrefix + "high.html",
+			url: "../utils/high.html",
 			extras: {
 				data: {
 					schoolType: 2,
