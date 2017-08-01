@@ -11,18 +11,58 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<h1 class="mui-title">优课</h1>
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll" style="background-color: white;margin-left: 90px">
+						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="find-teacher.html">
+							找老师
+						</a>
+						<a class="mui-control-item" href="#item2mobile" data-wid="find-course.html">
+							找课程
+						</a>
+					</div>
+				</div>
+			</div>
 		</header>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
+		<script src="../utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			mui.init();
 			var main; //当前webview
 			mui.plusReady(function() {
 				main = plus.webview.currentWebview();
-				main.addEventListener('show', function(e) {
-					console.log('显示页面:' + main.id);
-				}, false);
+
+				var currentId = plus.webview.currentWebview().id;
+				var group = new webviewGroup(currentId, {
+					items: [{
+						id: "find-teacher.html",
+						url: "find-teacher.html",
+						extras: {},
+						styles: {
+							top: "45px"
+						}
+					}, {
+						id: "find-course.html",
+						url: "find-course.html",
+						extras: {},
+						styles: {
+							top: "45px"
+						}
+					}],
+					onChange: function(obj) {
+						var c = document.querySelector(".mui-control-item.mui-active");
+						if(c) {
+							c.classList.remove("mui-active");
+						}
+						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
+					}
+				});
+				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
+					var wid = this.getAttribute("data-wid");
+					group.switchTab(wid);
+				});
+
 			});
 		</script>
 	</body>

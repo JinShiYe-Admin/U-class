@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link href="../../css/utils/common.css" rel="stylesheet" />
+		<link href="../../css/u-class/school.css" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -14,18 +15,91 @@
 			<a class="mui-pull-left"></a>
 			<h1 class="mui-title">资源</h1>
 		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll">
+						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="primary2.html">
+							<div>小学</div>
+						</a>
+						<a class="mui-control-item" href="#item2mobile" data-wid="middle2.html">
+							<div>初中</div>
+						</a>
+						<a class="mui-control-item" href="#item3mobile" data-wid="high2.html">
+							<div>高中</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
+		<script type="text/javascript" src="../utils/webviewGroup.js"></script>
 		<script type="text/javascript">
+			var main;
+			var primaryID;
+			var serviceType;
 			mui.init();
-			var main; //当前webview
+			var showWeb = function() {
+				console.log('显示页面:' + main.id);
+				var currentId = plus.webview.currentWebview().id;
+				var group = new webviewGroup(currentId, {
+					items: [{
+						id: 'primary2.html',
+						url: "../u-class/primary.html",
+						extras: {
+							data: {
+								schoolType: 0,
+								serviceType: 2,
+							}
+						}
+
+					}, {
+						id: "middle2.html",
+						url: "../u-class/middle.html",
+						extras: {
+							data: {
+								schoolType: 1,
+								serviceType: 2,
+							}
+						},
+
+					}, {
+						id: "high2.html",
+						url: "../u-class/high.html",
+						extras: {
+							data: {
+								schoolType: 2,
+								serviceType: 2,
+							}
+						},
+
+					}],
+					onChange: function(obj) {
+						var c = document.querySelector(".mui-control-item.mui-active");
+						if(c) {
+							c.classList.remove("mui-active");
+						}
+						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
+					}
+				});
+				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
+					var wid = this.getAttribute("data-wid");
+					group.switchTab(wid);
+				});
+				main.removeEventListener('show', showWeb); //移除窗口显示的监听
+			}
 			mui.plusReady(function() {
 				main = plus.webview.currentWebview();
-				main.addEventListener('show', function(e) {
-					console.log('显示页面:' + main.id);
-				}, false);
+				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
+
 			});
+			mui.back = function() {
+				var _self = plus.webview.currentWebview();
+				_self.close("auto");
+			}
 		</script>
+		<!--<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>-->
 	</body>
 
 </html>
