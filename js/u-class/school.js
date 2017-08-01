@@ -61,6 +61,11 @@ function getData(model) {
 				getCourse(model.schoolType);
 			}
 			break;
+		case 2:
+			{
+				getSourse(model.schoolType);
+			}
+			break;
 		default:
 			break;
 	}
@@ -92,21 +97,47 @@ function getTeacher(schoolType) {
 function getCourse(schoolType) {
 	var data = [{
 			id: 1,
-			image:'../../image/default_personalimage.png',
+			image: '../../image/default_personalimage.png',
 			courseName: '识字1',
 			teaName: '李旭真',
 			teaImg: '../../image/default_personalimage.png'
 		},
 		{
 			id: 2,
-			image:'../../image/default_personalimage.png',
+			image: '../../image/default_personalimage.png',
 			courseName: '11-20个数的认识',
 			teaName: '殷先梅',
 			teaImg: '../../image/default_personalimage.png'
 		},
 		{
 			id: 3,
-			image:'../../image/default_personalimage.png',
+			image: '../../image/default_personalimage.png',
+			courseName: '丑小鸭',
+			teaName: '黄雅慧',
+			teaImg: '../../image/default_personalimage.png'
+		}
+	]
+	vm.items = data;
+}
+
+function getSourse(schoolType) {
+	var data = [{
+			id: 1,
+			image: '../../image/default_personalimage.png',
+			courseName: '识字1',
+			teaName: '李旭真',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 2,
+			image: '../../image/default_personalimage.png',
+			courseName: '11-20个数的认识',
+			teaName: '殷先梅',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 3,
+			image: '../../image/default_personalimage.png',
 			courseName: '丑小鸭',
 			teaName: '黄雅慧',
 			teaImg: '../../image/default_personalimage.png'
