@@ -108,8 +108,9 @@ var utils = (function(mod) {
 			});
 		}
 	}
+	
 	/**
-	 * 3.触发页面的window监听并显示页面
+	 * 3.显示页面并触发页面的window监听
 	 * @param {Object} webId 必填 页面id或者路径
 	 * @param {Object} winListenId 选填 页面window监听的id
 	 * @param {Object} data 选填 触发监听时传递的数据
@@ -118,13 +119,13 @@ var utils = (function(mod) {
 		var pageId = mod.getWebUrlId(webId);
 		var page = plus.webview.getWebviewById(pageId);
 		if(page) {
+			page.show('slide-in-right', 250);
 			//触发目标页面的listener事件
 			if(winListenId !== undefined && winListenId !== null && winListenId !== "") {
 				mui.fire(page, winListenId, {
 					data: data
 				});
 			}
-			page.show('slide-in-right', 250);
 		}
 	}
 
@@ -241,6 +242,7 @@ var utils = (function(mod) {
 		}
 		return ani;
 	}
+	
 	/**
 	 * 8.获取显示的动画
 	 * @param {Object} num 类型，默认slide-in-right
