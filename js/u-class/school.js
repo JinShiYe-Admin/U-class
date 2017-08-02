@@ -7,7 +7,7 @@ mui.init({
 		container: '#pullrefresh',
 		down: {
 			style: 'circle',
-			offset: '50px',
+			offset: '0px',
 			callback: pulldownRefresh
 		},
 		up: {
@@ -17,29 +17,37 @@ mui.init({
 	}
 });
 var vm = new Vue({
-	el: '#school',
+	el: '#pullrefresh',
 	data: {
+		bottom: '250px',
+		pageIndex: 1,
+		total: 0,
 		serviceType: '',
+		schoolType: '',
 		items: []
+	},
+	updated: function() {
+
 	}
 });
 mui.plusReady(function() {
+
 	var data = plus.webview.currentWebview().data;
 	console.log(JSON.stringify(data));
 	switch(data.serviceType) {
 		case 0:
 			{
-
+				vm.bottom = '250px'
 			}
 			break;
 		case 1:
 			{
-
+				vm.bottom = '80px'
 			}
 			break;
 		case 2:
 			{
-
+				vm.bottom = '80px'
 			}
 			break;
 		default:
@@ -85,13 +93,59 @@ function getTeacher(schoolType) {
 			type: '数学'
 		},
 		{
-			id: 1,
+			id: 3,
 			name: '王春霞',
+			school: '大营小学',
+			type: '美术'
+		}, {
+			id: 4,
+			name: '陈世新',
+			school: '大营小学',
+			type: '科学'
+		},
+		{
+			id: 5,
+			name: '李连军',
+			school: '大营小学',
+			type: '数学'
+		},
+		{
+			id: 6,
+			name: '王春霞',
+			school: '大营小学',
+			type: '美术'
+		}, {
+			id: 7,
+			name: '陈世新',
+			school: '大营小学',
+			type: '科学'
+		},
+		{
+			id: 8,
+			name: '李连军',
+			school: '大营小学',
+			type: '数学'
+		},
+		{
+			id: 9,
+			name: '王春霞1',
+			school: '大营小学',
+			type: '美术'
+		},
+		{
+			id: 10,
+			name: '王春霞2',
 			school: '大营小学',
 			type: '美术'
 		}
 	]
-	vm.items = data;
+	vm.total = 55;
+	if(vm.pageIndex == 1) {
+		vm.items = data;
+	} else {
+		vm.items = vm.items.concat(data);
+	}
+
 }
 
 function getCourse(schoolType) {
@@ -115,9 +169,64 @@ function getCourse(schoolType) {
 			courseName: '丑小鸭',
 			teaName: '黄雅慧',
 			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 1,
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
+			courseName: '识字1',
+			teaName: '李旭真',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 2,
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
+			courseName: '11-20个数的认识',
+			teaName: '殷先梅',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 3,
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
+			courseName: '丑小鸭',
+			teaName: '黄雅慧',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 1,
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
+			courseName: '识字1',
+			teaName: '李旭真',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 2,
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
+			courseName: '11-20个数的认识',
+			teaName: '殷先梅',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 3,
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
+			courseName: '丑小鸭',
+			teaName: '黄雅慧',
+			teaImg: '../../image/default_personalimage.png'
+		},
+		{
+			id: 1,
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
+			courseName: '识字1',
+			teaName: '李旭真',
+			teaImg: '../../image/default_personalimage.png'
 		}
+
 	]
-	vm.items = data;
+	vm.total = 55;
+	if(vm.pageIndex == 1) {
+		vm.items = data;
+	} else {
+		vm.items = vm.items.concat(data);
+	}
 }
 
 function getSourse(schoolType) {
@@ -138,11 +247,80 @@ function getSourse(schoolType) {
 			name: '第十九课：在山的那一边',
 			school: '上传时间:2017/06/07 下载:1076 格式:png',
 			type: '美术'
+		},
+		{
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '科学'
+		},
+		{
+			id: 2,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '数学'
+		},
+		{
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '美术'
+		},
+		{
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '科学'
+		},
+		{
+			id: 2,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '数学'
+		},
+		{
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '美术'
+		}, {
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '科学'
+		},
+		{
+			id: 2,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '数学'
+		},
+		{
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '美术'
 		}
 	]
-	vm.items = data;
+	vm.total = 55;
+	if(vm.pageIndex == 1) {
+		vm.items = data;
+	} else {
+		vm.items = vm.items.concat(data);
+	}
 }
-function download(btn){
+window.addEventListener("filterChange", function(e) {
+	window.scrollTo(0, 0);
+	var data = e.detail.data;
+	console.log(JSON.stringify(data))
+	vm.pageIndex = 1;
+	data.schoolType = vm.schoolType;
+	data.serviceType = vm.serviceType
+	getData(data)
+
+})
+
+function download(btn) {
 	utils.openNewWindowWithData('../utils/download.html', {
 
 	})
@@ -150,32 +328,40 @@ function download(btn){
 var count = 0;
 
 function pulldownRefresh() {
-	console.log(123)
+	mui('#pullrefresh').pullRefresh().refresh(true);
+	vm.pageIndex = 1;
+	var data = {
+		schoolType: vm.schoolType,
+		serviceType: vm.serviceType
+	}
 	setTimeout(function() {
+		getData(data);
 		mui('#pullrefresh').pullRefresh().endPulldown();
-		var table = document.body.querySelector('.mui-table-view');
-		var cells = document.body.querySelectorAll('.mui-table-view-cell');
-		for(var i = cells.length, len = i + 20; i < len; i++) {
-			var li = document.createElement('li');
-			li.className = 'mui-table-view-cell';
-			li.innerHTML = '<a class="mui-navigate-right">小学-Item ' + (i + 1) + '</a>';
-			table.appendChild(li);
-		}
+
 	}, 1000);
 }
 /**
  * 上拉加载具体业务实现
  */
 function pullupRefresh() {
-	setTimeout(function() {
-		mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-		var table = document.body.querySelector('.mui-table-view');
-		var cells = document.body.querySelectorAll('.mui-table-view-cell');
-		for(var i = cells.length, len = i + 20; i < len; i++) {
-			var li = document.createElement('li');
-			li.className = 'mui-table-view-cell';
-			li.innerHTML = '<a class="mui-navigate-right">小学-Item ' + (i + 1) + '</a>';
-			table.appendChild(li);
+
+	vm.pageIndex++;
+	console.log('pageIndex:' + vm.pageIndex)
+	if(vm.pageIndex * 10 >= vm.total) {
+		setTimeout(function() {
+			mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+
+		}, 1000);
+	} else {
+		var data = {
+			schoolType: vm.schoolType,
+			serviceType: vm.serviceType
 		}
-	}, 1000);
+
+		setTimeout(function() {
+			mui('#pullrefresh').pullRefresh().endPullup(false); //参数为true代表没有更多数据了。
+			getData(data);
+		}, 1000);
+	}
+
 }
