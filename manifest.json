@@ -221,7 +221,8 @@
 					"html/u-class/primary.html",
 					"js/u-class/find.js",
 					"html/utils/primary.html",
-					"html/utils/school.html"
+					"html/utils/school.html",
+					"js/utils/webviewGroup.js"
 				],
 				"refer": [
 					"html/u-class/middle.html",
@@ -251,7 +252,10 @@
 					"css/utils/common.css",
 					"css/mui.min.css",
 					"js/libs/vue/vue.js",
-					"images/utils/load-img-error.png"
+					"images/utils/load-img-error.png",
+					"js/utils/mui.pullToRefresh.material.js",
+					"js/utils/mui.pullToRefresh.js",
+					"js/libs/vue/vue.min.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -353,7 +357,8 @@
 					"image/default_personalimage.png",
 					"js/u-class/school.js",
 					"css/mui.min.css",
-					"js/libs/vue/vue.min.js"
+					"js/libs/vue/vue.min.js",
+					"images/utils/default_personalimage.png"
 				],
 				"refer": [],
 				"priority": 0
@@ -386,7 +391,8 @@
 					"js/utils/fileutil.js",
 					"images/file/word.png",
 					"css/mui.min.css",
-					"css/utils/common.css"
+					"css/utils/common.css",
+					"js/libs/vue/vue.js"
 				],
 				"refer": [],
 				"priority": 0

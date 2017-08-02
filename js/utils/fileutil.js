@@ -4,6 +4,8 @@
  * 2.安卓打开某个应用
  * 3.返回 MIMEType
  * 4.转换文件大小的格式
+ * 5.删除一个本地文件
+ * 6.批量删除文件
  */
 var fileutil = (function(mod) {
 
@@ -130,6 +132,71 @@ var fileutil = (function(mod) {
 			fileSizeString = (size / (1024 * 1024 * 1024)).toFixed(2) + "GB";
 		}
 		return fileSizeString;
+	}
+
+	/**
+	 * 5.删除一个本地文件
+	 * @param {Object} data 必填 传入的数据
+	 * @param {Object.fpath} data.fpath 必填 文件路径
+	 * @param {Object} callback 执行完成的回调
+	 */
+	mod.deleteLocalFile = function(data, callback) {
+		////console.log("deleteLocalFile:" + JSON.stringify(data))
+		plus.io.resolveLocalFileSystemURL(data.fpath, function(succesCB) {
+			////console.log("获取删除本地文件的文件系统成功: " + succesCB.name);
+			succesCB.remove(function(succesCB2) {
+				////console.log("删除本地文件成功: " + JSON.stringify(succesCB2));
+				callback({
+					code: 1,
+					data: data,
+					message: "删除成功"
+				});
+			}, function(errorCB2) {
+				//console.log("删除本地文件失败: " + JSON.stringify(succesCB2));
+				callback({
+					code: 0,
+					data: data,
+					ecode: errorCB.code,
+					message: "删除失败:" + errorCB2.message
+				});
+			});
+		}, function(errorCB) {
+			//console.log("获取删除本地文件的文件系统失败: " + JSON.stringify(errorCB));
+			callback({
+				code: 0,
+				data: data,
+				ecode: errorCB.code,
+				message: "删除失败:" + errorCB.message
+			});
+		});
+	}
+
+	/**
+	 * 6.批量删除文件
+	 * @param {Object} delFileArray 文件列表
+	 * @param {Object} deleteItem 删除一个文件后的回调
+	 * @param {Object} delenteEnd 删除所有的文件之后的回调
+	 */
+	mod.deleteFileArray = function(delFileArray, deleteItem, delenteEnd) {
+		for(var i in delFileArray) {
+			//console.log("delFileArray:" + i + " " + JSON.stringify(delFileArray[i]));
+			if(delFileArray[i].code === undefined) {
+				mod.deleteLocalFile(delFileArray[i], function(data) {
+					//console.log("deleteLocalFile:" + JSON.stringify(data));
+					delFileArray[i].code = data.code;
+					delFileArray[i].ecode = data.ecode;
+					delFileArray[i].message = data.message;
+					deleteItem(delFileArray[i]);
+					if(i == (delFileArray.length - 1)) {
+						delenteEnd();
+					} else {
+						mod.deleteFileArray(delFileArray, deleteItem, delenteEnd);
+					}
+				});
+				break;
+			}
+		}
+
 	}
 	return mod;
 })(window.fileutil || {});

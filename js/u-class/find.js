@@ -97,16 +97,12 @@ function setSubPage() {
 		var wid = this.getAttribute("data-wid");
 		group.switchTab(wid);
 	});
-	window.addEventListener("filterChange", function(e) {
-		var data = e.detail.data;
-		console.log(JSON.stringify(data))
-		
-	})
-
 }
 
 function toFilter() {
-	var currentId = plus.webview.currentWebview().id;
+	var c = document.querySelector(".mui-control-item.mui-active");
+	var id = c.getAttribute('data-wid');
+//	var currentId = plus.webview.currentWebview().id;
 	var type;
 	if(paraObj.serviceType == 1) {
 		type = 0;
@@ -115,7 +111,7 @@ function toFilter() {
 	}
 	utils.openNewWindowWithData('../utils/filter.html', {
 		type: type,
-		webId: currentId,
+		webId: id,
 		winId: 'filterChange'
 	})
 }
