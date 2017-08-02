@@ -110,7 +110,7 @@
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view mui-grid-view" style="padding: 0px 0px 10px;">
-									<li class="mui-table-view-cell mui-media" :class="index==0?'mui-col-xs-12':'mui-col-xs-6'" v-for="(lessonData,index) in item.animationList" @click="clickClass(lessonData)" style="padding: 0px 0px;margin-right: 0px;border:1px solid white;">
+									<li class="mui-table-view-cell mui-media" :class="index==0?'mui-col-xs-12':'mui-col-xs-6'" v-for="(lessonData,index) in item.animationList" v-on:tap="clickClass(lessonData)" style="padding: 0px 0px;margin-right: 0px;border:1px solid white;">
 										<a href="#" style="margin: 0px 0px;">
 											<img class="mui-media-object" src='../../images/utils/load-img-error.png'>
 											<div class="mui-media-body" style="text-align: left;margin-left: 10px;margin-top: 5px;margin-bottom: 5px;">{{lessonData.tempTitle}}</div>
