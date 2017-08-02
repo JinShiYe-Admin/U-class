@@ -28,78 +28,18 @@
 						<a class="mui-control-item" href="#item3mobile" data-wid="high2.html">
 							<div>高中</div>
 						</a>
+
 					</div>
+					<button id="filter" onclick="toFilter()" type="button" style="float: right;margin-top: 5px;color: dodgerblue;border-color: transparent;">
+		           高级筛选>>
+		        </button>
 				</div>
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
-		<script type="text/javascript" src="../utils/webviewGroup.js"></script>
-		<script type="text/javascript">
-			var main;
-			var primaryID;
-			var serviceType;
-			mui.init();
-			var showWeb = function() {
-				console.log('显示页面:' + main.id);
-				var currentId = plus.webview.currentWebview().id;
-				var group = new webviewGroup(currentId, {
-					items: [{
-						id: 'primary2.html',
-						url: "../u-class/primary.html",
-						extras: {
-							data: {
-								schoolType: 0,
-								serviceType: 2,
-							}
-						}
-
-					}, {
-						id: "middle2.html",
-						url: "../u-class/middle.html",
-						extras: {
-							data: {
-								schoolType: 1,
-								serviceType: 2,
-							}
-						},
-
-					}, {
-						id: "high2.html",
-						url: "../u-class/high.html",
-						extras: {
-							data: {
-								schoolType: 2,
-								serviceType: 2,
-							}
-						},
-
-					}],
-					onChange: function(obj) {
-						var c = document.querySelector(".mui-control-item.mui-active");
-						if(c) {
-							c.classList.remove("mui-active");
-						}
-						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
-					}
-				});
-				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
-					var wid = this.getAttribute("data-wid");
-					group.switchTab(wid);
-				});
-				main.removeEventListener('show', showWeb); //移除窗口显示的监听
-			}
-			mui.plusReady(function() {
-				main = plus.webview.currentWebview();
-				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
-
-			});
-			mui.back = function() {
-				var _self = plus.webview.currentWebview();
-				_self.close("auto");
-			}
-		</script>
-		<!--<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript" src="../../js/utils/webviewGroup.js"></script>
+		<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>

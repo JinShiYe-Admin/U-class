@@ -61,6 +61,11 @@ function getData(model) {
 				getCourse(model.schoolType);
 			}
 			break;
+		case 2:
+			{
+				getSourse(model.schoolType);
+			}
+			break;
 		default:
 			break;
 	}
@@ -92,27 +97,55 @@ function getTeacher(schoolType) {
 function getCourse(schoolType) {
 	var data = [{
 			id: 1,
-			image:'../../image/default_personalimage.png',
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '识字1',
 			teaName: '李旭真',
 			teaImg: '../../image/default_personalimage.png'
 		},
 		{
 			id: 2,
-			image:'../../image/default_personalimage.png',
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '11-20个数的认识',
 			teaName: '殷先梅',
 			teaImg: '../../image/default_personalimage.png'
 		},
 		{
 			id: 3,
-			image:'../../image/default_personalimage.png',
+			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '丑小鸭',
 			teaName: '黄雅慧',
 			teaImg: '../../image/default_personalimage.png'
 		}
 	]
 	vm.items = data;
+}
+
+function getSourse(schoolType) {
+	var data = [{
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '科学'
+		},
+		{
+			id: 2,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '数学'
+		},
+		{
+			id: 1,
+			name: '第十九课：在山的那一边',
+			school: '上传时间:2017/06/07 下载:1076 格式:png',
+			type: '美术'
+		}
+	]
+	vm.items = data;
+}
+function download(btn){
+	utils.openNewWindowWithData('../utils/download.html', {
+
+	})
 }
 var count = 0;
 

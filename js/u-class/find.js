@@ -1,22 +1,47 @@
-var serviceType;
+var paraObj = {
+	serviceType: '',
+	top: ''
+
+}
 mui.init();
+var main;
 mui.plusReady(function() {
+	var currentId = plus.webview.currentWebview().id;
+	if(currentId == 'source-home.html') { //
+		main = plus.webview.currentWebview();
+		main.addEventListener('show', showWeb, false); //增加窗口显示的监听
+	} else {
+		setSubPage()
+	}
+
+});
+
+function showWeb() {
+	setSubPage();
+	main.removeEventListener('show', showWeb); //移除窗口显示的监听
+
+}
+
+function setSubPage() {
 	var currentId = plus.webview.currentWebview().id;
 	console.log(currentId)
 	switch(currentId) {
 		case 'find-teacher.html':
 			{
-				serviceType = 0
+				paraObj.serviceType = 0;
+				paraObj.top = '44px'
 			}
 			break;
 		case 'find-course.html':
 			{
-				serviceType = 1
+				paraObj.serviceType = 1;
+				paraObj.top = '44px'
 			}
 			break;
 		case 'source-home.html':
 			{
-				serviceType = 2
+				paraObj.serviceType = 2;
+				paraObj.top = '88px'
 			}
 			break;
 		default:
@@ -24,40 +49,40 @@ mui.plusReady(function() {
 	}
 	var group = new webviewGroup(currentId, {
 		items: [{
-			id: "primary"+serviceType+".html",
-			url: "primary.html",
+			id: "primary" + paraObj.serviceType + ".html",
+			url: "../utils/school.html",
 			extras: {
 				data: {
 					schoolType: 0,
-					serviceType: serviceType,
+					serviceType: paraObj.serviceType,
 				}
 			},
 			styles: {
-				top: "44px"
+				top: paraObj.top
 			}
 		}, {
-			id: "middle"+serviceType+".html",
-			url: "middle.html",
+			id: "middle" + paraObj.serviceType + ".html",
+			url: "../utils/school.html",
 			extras: {
 				data: {
 					schoolType: 1,
-					serviceType: serviceType,
+					serviceType: paraObj.serviceType,
 				}
 			},
 			styles: {
-				top: "44px"
+				top: paraObj.top
 			}
 		}, {
-			id: "high"+serviceType+".html",
-			url: "high.html",
+			id: "high" + paraObj.serviceType + ".html",
+			url: "../utils/school.html",
 			extras: {
 				data: {
 					schoolType: 2,
-					serviceType: serviceType,
+					serviceType: paraObj.serviceType,
 				}
 			},
 			styles: {
-				top: "44px"
+				top: paraObj.top
 			}
 		}],
 		onChange: function(obj) {
@@ -72,8 +97,28 @@ mui.plusReady(function() {
 		var wid = this.getAttribute("data-wid");
 		group.switchTab(wid);
 	});
+	window.addEventListener("filterChange", function(e) {
+		var data = e.detail.data;
+		console.log(JSON.stringify(data))
+		
+	})
 
-});
+}
+
+function toFilter() {
+	var currentId = plus.webview.currentWebview().id;
+	var type;
+	if(paraObj.serviceType == 1) {
+		type = 0;
+	} else {
+		type = 1
+	}
+	utils.openNewWindowWithData('../utils/filter.html', {
+		type: type,
+		webId: currentId,
+		winId: 'filterChange'
+	})
+}
 mui.back = function() {
 	var _self = plus.webview.currentWebview();
 	_self.close("auto");

@@ -1,3 +1,8 @@
+<!--
+	作者：444811716@qq.com
+	时间：2017-08-01
+	描述：下载列表
+-->
 <!doctype html>
 <html>
 
@@ -7,7 +12,107 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="../../css/utils/common.css" />
+		<style>
+			body {
+				word-wrap: break-word;
+			}
 
+			.mui-table-view:after {
+				height: 0px;
+			}
+
+			.mui-table-view:before,
+			.mui-table-view-cell:after {
+				left: 10px;
+				right: 10px;
+			}
+
+			.mui-progressbar {
+				width: auto;
+				background-color: #E8E8E8;
+				margin: 5px 0;
+			}
+
+			.mui-table-view-cell {
+				display: flex;
+				/*justify-content: center;*/
+				align-items: center;
+			}
+
+			.mui-table-view-cell.mui-active {
+				background-color: white;
+			}
+
+			.download-type {
+				background-color: white;
+				padding: 11px 15px 4px 15px;
+			}
+
+			.download-image {
+				margin: 0 15px 0 0;
+				width: 40px;
+			}
+
+			.download-file-name {
+				color: #323232;
+			}
+
+			.download-file-size {
+				display: inline;
+				color: #898989;
+			}
+
+			.download-file-speed {
+				display: inline;
+				float: right;
+				color: #898989;
+			}
+
+			.mui-icon.mui-icon-closeempty {
+				position: absolute;
+				right: 83px;
+				margin-top: -2px;
+				color: #BBBBBB;
+			}
+
+			.mui-btn.mui-btn-outlined {
+				position: absolute;
+				right: 15px;
+				margin-top: -2px;
+				border-radius: 20px;
+				padding: 8px 15px 6px 15px;
+				border-color: #35B8FE;
+				background-color: #EEF9FF;
+				color: #35B8FE;
+			}
+
+			.mui-btn.mui-btn-outlined:active {
+				background-color: #35B8FE;
+			}
+
+			.download-ellipsis {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				word-wrap: break-word;
+			}
+
+			.download-info {
+				margin-right: 100px;
+				/*background-color: wheat;*/
+			}
+
+			.download-delete-logs {
+				float: right;
+				color: #35B8FE;
+			}
+
+			#downloading {
+				margin-bottom: 5px;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -17,37 +122,171 @@
 		</header>
 		<div class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
-				<ul class="mui-table-view">
-					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
-							Item 1
-						</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
-							Item 2
-						</a>
-					</li>
-					<li class="mui-table-view-cell">
-						<a class="mui-navigate-right">
-							Item 3
-						</a>
-					</li>
+				<div class="download-type">正在下载</div>
+				<ul id="downloading" class="mui-table-view">
+				</ul>
+				<div class="download-type download-delete-logs">清除记录</div>
+				<div class="download-type">已下载</div>
+				<ul id="downloaded" class="mui-table-view">
+					<download-item v-for="(value,index) in file_array" :key="index" :infowidth="width" :value="value" :index="index" :type="type"></download-item>
 				</ul>
 			</div>
 		</div>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
 		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/libs/vue/vue.js"></script>
+		<script type="text/javascript" src="../../js/utils/fileutil.js"></script>
 		<script type="text/javascript">
+			Vue.component("download-item", {
+				props: ["value", "infowidth", "index", "type"],
+				template: '\
+					<li class="mui-table-view-cell">\
+						<img class="download-image" src="../../images/file/word.png" />\
+						<div class="download-info">\
+							<div class="download-file-name download-ellipsis" :style="{width: infowidth+\'px\'}">{{value.name}}</div>\
+							<div v-if="value.showProgress" class="mui-progressbar">\
+								<span></span>\
+							</div>\
+							<div class="download-file-size">{{value.size}}</div>\
+							<div class="download-file-speed">{{value.speed}}</div>\
+						</div>\
+						<div class="mui-icon mui-icon-closeempty"></div>\
+						<button type="button" class="mui-btn mui-btn-outlined" @click="clickButton(type,index)">{{value.button}}</button>\
+					</li>',
+				methods: {
+					clickButton: function(type, index) {
+						console.log("clickButton:" + type + " " + index);
+						if(type == "downloaded") { //已下载列表，打开文件
+							console.log("openFile:" + vm_downloaded.file_array[index].name)
+							fileutil.openFile(vm_downloaded.file_array[index].path, function(data) {
+								mui.toast(data.message);
+							});
+						}
+					}
+				}
+			});
+
 			var main; //当前webview
+			var downloadFolder; //下载文件夹对象
+			var fileInfoWidth; //文件名的宽度
+			var vm_downloaded = new Vue({
+				el: "#downloaded",
+				data: {
+					type: "downloaded",
+					width: 0,
+					file_array: []
+				}
+			});
 			mui.init();
 			mui.plusReady(function() {
+				initData();
+				initListener();
+			});
+
+			function initData() {
+				var deceleration = mui.os.ios ? 0.003 : 0.0009;
+				mui(".mui-scroll-wrapper").scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					indicators: true, //是否显示滚动条
+					deceleration: deceleration, //阻尼系数,系数越小滑动越灵敏
+					bounce: false, //是否启用回弹
+				});
 				main = plus.webview.currentWebview();
-				console.log(main.id);
+				fileInfoWidth = plus.screen.resolutionWidth - (30 + 40 + 100 + 15);
+				vm_downloaded.width = fileInfoWidth;
+				createDownloadFolder();
+			}
+
+			function initListener() {
+				//增加下载记录
 				window.addEventListener('addDownLoad', function(e) {
 					console.log("addDownLoad:" + JSON.stringify(e.detail.data));
 				});
-			});
+
+				mui.back = function() {
+					plus.webview.hide(main.id, utils.getAniClose());
+				}
+			}
+
+			/**
+			 * 创建(获取)下载文件夹
+			 */
+			function createDownloadFolder(callback) {
+				plus.io.requestFileSystem(plus.io.PUBLIC_DOCUMENTS, function(fs) {
+					//console.log("获取PUBLIC_DOCUMENT文件系统成功:" + fs.root.fullPath);
+					//创建download文件夹
+					fs.root.getDirectory("download", {
+						create: true
+					}, function(dfs) {
+						//console.log("创建(获取)下载文件夹文件系统成功:" + dfs.name);
+						downloadFolder = dfs;
+						//读取下载文件夹的文件
+						readDownLoadFolder(downloadFolder);
+					}, function(de) {
+						//console.log("创建(获取)下载文件夹文件系统失败:" + de.code + " " + de.message);
+						mui.toast("读取已下载记录失败:" + de.message);
+					});
+				}, function(e) {
+					//console.log("获取PUBLIC_DOCUMENT文件系统失败:" + e.code + " " + e.message);
+					mui.toast("读取已下载记录失败:" + e.message);
+				});
+			}
+
+			/**
+			 * 读取下载文件夹的文件
+			 */
+			function readDownLoadFolder(entry) {
+				var reader = entry.createReader();
+				reader.readEntries(function(entries) {
+					//console.log("读取已下载文件夹成功:" + entries.length);
+					for(var i in entries) {
+						if(entries[i].isFile) {
+							//读取文件的信息
+							getFileInfo(entries[i]);
+						}
+					}
+				}, function(e) {
+					//console.log("读取已下载文件夹失败:" + e.code + " " + e.message);
+					mui.toast("读取已下载记录失败:" + e.message);
+				});
+			}
+
+			/**
+			 * 读取文件的信息
+			 */
+			function getFileInfo(entry) {
+				entry.getMetadata(function(metadata) {
+					//console.log("读取文件的信息成功");
+					//console.log("name:" + entry.name);
+					//console.log("size:" + utils.convertFileSize(metadata.size));
+					//console.log("toLocalURL:" + entry.toLocalURL());
+					addLocalFile({
+						name: entry.name,
+						size: fileutil.convertFileSize(metadata.size),
+						path: entry.toLocalURL()
+					});
+				}, function(e) {
+					//console.log("读取文件的信息失败:" + e.code + " " + e.message);
+					addLocalFile({
+						name: entry.name,
+						size: "",
+						path: entry.toLocalURL()
+					});
+				});
+			}
+
+			/**
+			 * 页面中增加一个成功文件记录
+			 * @param {Object} data
+			 */
+			function addLocalFile(data) {
+				data.showProgress = false;
+				data.speed = "";
+				data.button = "打开";
+				//console.log("addLocalFile:" + JSON.stringify(data));
+				vm_downloaded.file_array.push(data);
+			}
 		</script>
 	</body>
 
