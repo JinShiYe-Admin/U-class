@@ -154,70 +154,70 @@ function getCourse(schoolType) {
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '识字1',
 			teaName: '李旭真',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 2,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '11-20个数的认识',
 			teaName: '殷先梅',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 3,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '丑小鸭',
 			teaName: '黄雅慧',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 1,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '识字1',
 			teaName: '李旭真',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 2,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '11-20个数的认识',
 			teaName: '殷先梅',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 3,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '丑小鸭',
 			teaName: '黄雅慧',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 1,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '识字1',
 			teaName: '李旭真',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 2,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '11-20个数的认识',
 			teaName: '殷先梅',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 3,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '丑小鸭',
 			teaName: '黄雅慧',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		},
 		{
 			id: 1,
 			image: 'https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature',
 			courseName: '识字1',
 			teaName: '李旭真',
-			teaImg: '../../image/default_personalimage.png'
+			teaImg: '../../images/utils/default_personalimage.png'
 		}
 
 	]
