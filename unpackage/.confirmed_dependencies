@@ -24,16 +24,23 @@
 	"html/sourse/source-home.html": {
 		"resources": [
 			"css/utils/common.css",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"js/u-class/find.js",
+			"css/u-class/school.css",
+			"html/utils/school.html"
 		],
-		"refer": []
+		"refer": [
+			"html/utils/school.html",
+			"html/utils/filter.html"
+		]
 	},
 	"html/u-class/u-home.html": {
 		"resources": [
 			"css/mui.min.css",
 			"css/utils/common.css",
 			"html/u-class/find-teacher.html",
-			"html/utils/webviewGroup.js"
+			"html/utils/webviewGroup.js",
+			"js/utils/webviewGroup.js"
 		],
 		"refer": [
 			"html/u-class/find-teacher.html",
@@ -44,7 +51,8 @@
 		"resources": [
 			"css/utils/common.css",
 			"css/mui.min.css",
-			"js/libs/vue/vue.js"
+			"js/libs/vue/vue.js",
+			"images/utils/load-img-error.png"
 		],
 		"refer": []
 	},
@@ -83,24 +91,29 @@
 			"html/u-class/primary.html",
 			"css/mui.min.css",
 			"css/utils/common.css",
-			"css/u-class/school.css"
+			"css/u-class/school.css",
+			"html/utils/school.html"
 		],
 		"refer": [
 			"html/u-class/primary.html",
 			"html/u-class/high.html",
-			"html/u-class/middle.html"
+			"html/u-class/middle.html",
+			"html/utils/school.html"
 		]
 	},
 	"html/u-class/find-course.html": {
 		"resources": [
 			"html/u-class/primary.html",
 			"css/u-class/school.css",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"html/utils/school.html",
+			"css/utils/common.css"
 		],
 		"refer": [
 			"html/u-class/primary.html",
 			"html/u-class/middle.html",
-			"html/u-class/high.html"
+			"html/u-class/high.html",
+			"html/utils/school.html"
 		]
 	},
 	"html/u-class/high.html": {
@@ -111,6 +124,22 @@
 	"html/u-class/middle.html": {
 		"resources": [
 			"css/mui.min.css"
+		]
+	},
+	"html/utils/school.html": {
+		"resources": [
+			"image/default_personalimage.png",
+			"js/u-class/school.js",
+			"js/libs/vue/vue.min.js",
+			"css/mui.min.css"
+		]
+	},
+	"html/utils/download.html": {
+		"resources": [
+			"js/utils/fileutil.js",
+			"images/file/word.png",
+			"css/mui.min.css",
+			"css/utils/common.css"
 		]
 	}
 }

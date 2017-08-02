@@ -1,13 +1,13 @@
-//页面出错
+//页面出错的处理
 window.onerror = function(errorMessage, scriptURI, lineNumber, columnNumber, errorObj) {
-	//	console.log("---ERROR---页面出现错误---start---");
-	//	console.log("错误信息-0:" + JSON.stringify(errorMessage.detail));
-	//	console.log("错误信息-1:" + errorMessage);
-	//	console.log("出错文件:" + scriptURI);
-	//	console.log("出错行号:" + lineNumber);
-	//	console.log("出错列号:" + columnNumber);
-	//	console.log("错误详情:" + errorObj);
-	//	console.log("---ERROR---页面出现错误---end---");
+	console.log("---ERROR---页面出现错误---start---");
+	console.log("错误信息-0:" + JSON.stringify(errorMessage.detail));
+	console.log("错误信息-1:" + errorMessage);
+	console.log("出错文件:" + scriptURI);
+	console.log("出错行号:" + lineNumber);
+	console.log("出错列号:" + columnNumber);
+	console.log("错误详情:" + errorObj);
+	console.log("---ERROR---页面出现错误---end---");
 
 	var webUrl = window.location.toString();
 	var ids = webUrl.split("/");
@@ -37,14 +37,26 @@ window.onerror = function(errorMessage, scriptURI, lineNumber, columnNumber, err
 	}
 
 }
-//公共方法
+
+/**
+ * 使用频繁的公共方法
+ * 1.打开新界面
+ * 2.触发页面的window监听
+ * 3.触发页面的window监听并显示页面
+ * 4.预加载页面
+ * 5.获取url路径的id
+ * 6.默认webview的样式
+ * 7.获取关闭的动画
+ * 8.获取显示的动画
+ * 9.初始化mui的scrollY
+ */
 var utils = (function(mod) {
 	mod.showWebTime = 250; //打开页面的动画持续时间
 	mod.openWeb = false; //是否是打开页面状态
 	mod.openWebTime = 1000; //打开页面持续时间，默认1秒
 
 	/**
-	 * 打开新界面
+	 * 1.打开新界面
 	 * @param {String} targetPage 必填 新页面路径
 	 * @param {Object} data 选填 传递的数据
 	 */
@@ -81,7 +93,7 @@ var utils = (function(mod) {
 	}
 
 	/**
-	 * 触发页面的window监听
+	 * 2.触发页面的window监听
 	 * @param {Object} webId 必填 页面id或者路径
 	 * @param {Object} winListenId 必填 页面window监听的id
 	 * @param {Object} data 选填 传递的数据
@@ -97,7 +109,7 @@ var utils = (function(mod) {
 		}
 	}
 	/**
-	 * 触发页面的window监听
+	 * 3.触发页面的window监听并显示页面
 	 * @param {Object} webId 必填 页面id或者路径
 	 * @param {Object} winListenId 必填 页面window监听的id
 	 * @param {Object} data 选填 传递的数据
@@ -107,15 +119,17 @@ var utils = (function(mod) {
 		var page = plus.webview.getWebviewById(pageId);
 		if(page) {
 			//触发目标页面的listener事件
-			mui.fire(page, winListenId, {
-				data: data
-			});
+			if(winListenId !== undefined && winListenId !== null && winListenId !== "") {
+				mui.fire(page, winListenId, {
+					data: data
+				});
+			}
 			page.show('slide-in-right', 250);
 		}
 	}
 
 	/**
-	 * 预加载页面
+	 * 4.预加载页面
 	 * @param {Object} tarPagePath 必填 预加载 页面路径
 	 * @param {Object} data 选填 页面路径
 	 */
@@ -136,7 +150,7 @@ var utils = (function(mod) {
 	}
 
 	/**
-	 * 获取url路径的id
+	 * 5.获取url路径的id
 	 * @param {String} weburl 页面路径
 	 * @return {String} id 页面id
 	 */
@@ -146,7 +160,7 @@ var utils = (function(mod) {
 	}
 
 	/**
-	 * 默认webview的样式
+	 * 6.默认webview的样式
 	 * @param {Object} path  webView的id或者路径
 	 */
 	mod.getWebStyle = function(path) {
@@ -161,17 +175,12 @@ var utils = (function(mod) {
 	}
 
 	/**
-	 * 获取关闭的动画
-	 * @author 莫尚霖
+	 * 7.获取关闭的动画
 	 * @param {Object} num 类型，默认slide-out-right
 	 */
 	mod.getAniClose = function(num) {
 		var ani = '';
-		var type = 2; //默认2
-		if(num !== undefined && num !== null && num !== "") {
-			type = num;
-		}
-		switch(type) {
+		switch(num) {
 			case 0:
 				ani = 'auto';
 				//自动选择显示窗口相对于的动画效果。
@@ -233,17 +242,12 @@ var utils = (function(mod) {
 		return ani;
 	}
 	/**
-	 * 获取显示的动画
-	 * @author 莫尚霖
+	 * 8.获取显示的动画
 	 * @param {Object} num 类型，默认slide-in-right
 	 */
 	mod.getAniShow = function(num) {
 		var ani = '';
-		var type = 2; //默认2
-		if(num !== undefined && num !== null && num !== "") {
-			type = num;
-		}
-		switch(type) {
+		switch(num) {
 			case 0:
 				ani = "auto"
 				//自动选择动画效果，使用上次显示窗口设置的动画效果，如果是第一次显示则默认动画效果“none”。
@@ -308,7 +312,7 @@ var utils = (function(mod) {
 	}
 
 	/**
-	 *初始化mui的scrollY
+	 * 9.初始化mui的scrollY
 	 * @param {Object} muiString
 	 */
 	mod.muiInitScrollY = function(muiString) {
