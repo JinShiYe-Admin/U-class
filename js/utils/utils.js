@@ -111,10 +111,10 @@ var utils = (function(mod) {
 	/**
 	 * 3.触发页面的window监听并显示页面
 	 * @param {Object} webId 必填 页面id或者路径
-	 * @param {Object} winListenId 必填 页面window监听的id
-	 * @param {Object} data 选填 传递的数据
+	 * @param {Object} winListenId 选填 页面window监听的id
+	 * @param {Object} data 选填 触发监听时传递的数据
 	 */
-	mod.fireWinListenAndShowWeb = function(webId, winListenId, data) {
+	mod.showWebAndFireWinListen = function(webId, winListenId, data) {
 		var pageId = mod.getWebUrlId(webId);
 		var page = plus.webview.getWebviewById(pageId);
 		if(page) {
