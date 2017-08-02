@@ -49,6 +49,8 @@ window.onerror = function(errorMessage, scriptURI, lineNumber, columnNumber, err
  * 7.获取关闭的动画
  * 8.获取显示的动画
  * 9.初始化mui的scrollY
+ * 10.返回一个安卓手机返回键无法关闭的等待框
+ * 11.关闭一个或所有的等待框
  */
 var utils = (function(mod) {
 	mod.showWebTime = 250; //打开页面的动画持续时间
@@ -108,7 +110,7 @@ var utils = (function(mod) {
 			});
 		}
 	}
-	
+
 	/**
 	 * 3.显示页面并触发页面的window监听
 	 * @param {Object} webId 必填 页面id或者路径
@@ -242,7 +244,7 @@ var utils = (function(mod) {
 		}
 		return ani;
 	}
-	
+
 	/**
 	 * 8.获取显示的动画
 	 * @param {Object} num 类型，默认slide-in-right
@@ -327,6 +329,33 @@ var utils = (function(mod) {
 			deceleration: deceleration, //阻尼系数,系数越小滑动越灵敏
 			bounce: true, //是否启用回弹
 		});
+	}
+
+	/**
+	 * 10.返回一个安卓手机返回键无法关闭的等待框
+	 * @param {Object} string 等待框显示的文字，默认'加载中...'
+	 */
+	mod.showWaiting = function(string) {
+		var title = '加载中...';
+		if(string !== undefined && string !== null) {
+			title = string;
+		}
+		var showWaiting = plus.nativeUI.showWaiting(title, {
+			back: 'none'
+		});
+		return showWaiting;
+	}
+
+	/**
+	 * 11.关闭一个或所有的等待框
+	 * @param {Object} waiting 等待框对象
+	 */
+	mod.closeWaiting = function(waiting) {
+		if(waiting) {
+			waiting.close();
+		} else {
+			plus.nativeUI.closeWaiting();
+		}
 	}
 
 	return mod;
