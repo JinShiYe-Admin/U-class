@@ -5,6 +5,7 @@
  * 3.返回 MIMEType
  * 4.转换文件大小的格式
  * 5.删除一个本地文件
+ * 6.批量删除文件
  */
 var fileutil = (function(mod) {
 
@@ -155,6 +156,7 @@ var fileutil = (function(mod) {
 				callback({
 					code: 0,
 					data: data,
+					ecode: errorCB.code,
 					message: "删除失败:" + errorCB2.message
 				});
 			});
@@ -163,9 +165,38 @@ var fileutil = (function(mod) {
 			callback({
 				code: 0,
 				data: data,
+				ecode: errorCB.code,
 				message: "删除失败:" + errorCB.message
 			});
 		});
+	}
+
+	/**
+	 * 6.批量删除文件
+	 * @param {Object} delFileArray 文件列表
+	 * @param {Object} deleteItem 删除一个文件后的回调
+	 * @param {Object} delenteEnd 删除所有的文件之后的回调
+	 */
+	mod.deleteFileArray = function(delFileArray, deleteItem, delenteEnd) {
+		for(var i in delFileArray) {
+			//console.log("delFileArray:" + i + " " + JSON.stringify(delFileArray[i]));
+			if(delFileArray[i].code === undefined) {
+				mod.deleteLocalFile(delFileArray[i], function(data) {
+					//console.log("deleteLocalFile:" + JSON.stringify(data));
+					delFileArray[i].code = data.code;
+					delFileArray[i].ecode = data.ecode;
+					delFileArray[i].message = data.message;
+					deleteItem(delFileArray[i]);
+					if(i == (delFileArray.length - 1)) {
+						delenteEnd();
+					} else {
+						mod.deleteFileArray(delFileArray, deleteItem, delenteEnd);
+					}
+				});
+				break;
+			}
+		}
+
 	}
 	return mod;
 })(window.fileutil || {});
