@@ -348,7 +348,8 @@
 					"html/u-class/high.html",
 					"html/u-class/middle.html",
 					"html/utils/middle.html",
-					"html/utils/high.html"
+					"html/utils/high.html",
+					"html/utils/filter.html"
 				],
 				"priority": 0
 			},
