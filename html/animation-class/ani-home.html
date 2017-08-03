@@ -163,7 +163,11 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/libs/vue/vue.min.js"></script>
+<<<<<<< HEAD
 		<script src="../../js/utils/myStorage.js"></script>
+=======
+		<script src="../../js/utils/utils.js"></script>
+>>>>>>> 290e9f2df3f5ebee81fa96f4ea274d06cf9b5b3a
 		<script src="../../js/utils/mui.pullToRefresh.js"></script>
 		<script src="../../js/utils/mui.pullToRefresh.material.js"></script>
 		<script>
@@ -330,9 +334,24 @@
 				},
 				methods: {
 					clickClass: function(model) {
-						alert('2222');
-						//						console.log('点击的model:' + JSON.stringify(model));
-						//						utils.mOpenWithData("new-detail.html", model);
+						console.log('点击的model:' + JSON.stringify(model));
+						utils.openNewWindowWithData('classPlaying.html',model);
+//						var webview = plus.webview.create("../html/u-class/teachSpace.html", "teachSpace.html", {
+//							titleNView: {
+//								backgroundColor: '#f7f7f7', //导航栏背景色
+//								titleText: '透明渐变(native模式)', //导航栏标题
+//								titleColor: '#000000', //文字颜色
+//								type: 'transparent', //透明渐变样式
+//								autoBackButton: true, //自动绘制返回箭头
+//								splitLine: { //底部分割线
+//									color: '#cccccc'
+//								}
+//							}
+//						}, extras: {
+//							data: 'data'
+//						});
+//						var temp = plus.webview.create()
+//						webview.show("slide-in-right", 300); //直接显示
 					}
 				}
 			});

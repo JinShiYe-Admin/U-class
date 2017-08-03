@@ -6,6 +6,7 @@
  * 4.转换文件大小的格式
  * 5.删除一个本地文件
  * 6.批量删除文件
+ * 7.创建下载任务
  */
 var fileutil = (function(mod) {
 
@@ -196,7 +197,46 @@ var fileutil = (function(mod) {
 				break;
 			}
 		}
+	}
 
+	/**
+	 * 7.创建下载任务
+	 * @param {Object} url 文件路径
+	 * @param {Object} filename 下载到本地的路径
+	 * @param {Object} uploadCompletedCallBack 下载完成时的回调
+	 * @param {Object} onStateChangedCallBack 下载任务状态监听的回调
+	 * @param {Object} successCallBack 下载任务创建成功的回调
+	 */
+	mod.addDownloadTask = function(url, filename, downloadCompletedCallback, onStateChangedCallBack, successCallBack) {
+		//console.log('download ' + url);
+		//console.log('filename ' + filename);
+		var dtask = plus.downloader.createDownload(url, {
+				filename: filename, //下载文件保存的路径
+				timeout: 30, //下载任务超时时间
+				retry: 0 //下载任务重试次数
+			},
+			/**
+			 * 下载完成时的回调
+			 * @param {Object} download 下载任务对象
+			 * @param {Object} status 下载结果状态码
+			 */
+			function(download, status) {
+				// 下载完成
+				downloadCompletedCallback(download, status);
+			}
+		);
+		//下载状态变化的监听
+		dtask.addEventListener("statechanged",
+			/**
+			 * 下载状态变化的监听
+			 * @param {Object} download 下载任务对象
+			 */
+			function(download) {
+				onStateChangedCallBack(download);
+			}
+		);
+		successCallBack(dtask);
+		//dtask.start();
 	}
 	return mod;
 })(window.fileutil || {});
