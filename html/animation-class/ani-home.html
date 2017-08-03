@@ -125,6 +125,7 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/libs/vue/vue.min.js"></script>
+		<script src="../../js/utils/utils.js"></script>
 		<script src="../../js/utils/mui.pullToRefresh.js"></script>
 		<script src="../../js/utils/mui.pullToRefresh.material.js"></script>
 		<script>
@@ -292,6 +293,7 @@
 				methods: {
 					clickClass: function(model) {
 						console.log('点击的model:' + JSON.stringify(model));
+						utils.openNewWindowWithData('classPlaying.html',model);
 //						var webview = plus.webview.create("../html/u-class/teachSpace.html", "teachSpace.html", {
 //							titleNView: {
 //								backgroundColor: '#f7f7f7', //导航栏背景色
