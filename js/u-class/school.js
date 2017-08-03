@@ -53,12 +53,11 @@ mui.plusReady(function() {
 	})
 	window.addEventListener("showPop", function(e) {
 		var data = e.detail.data;
-		if(data=='show'){
+		if(data == 'show') {
 			mui('#topPopover').popover('show')
-		}else{
+		} else {
 			mui('#topPopover').popover('hide')
 		}
-		
 
 	})
 
@@ -67,6 +66,13 @@ mui.plusReady(function() {
 		case 0:
 			{
 				vm.bottom = '250px'
+				mui('body').on('tap', '.mui-content', function() {
+					var page = plus.webview.getWebviewById('u-home.html');
+					//触发目标页面的listener事件
+					mui.fire(page, 'toUHome', {
+						data: ''
+					});
+				});
 			}
 			break;
 		case 1:
@@ -339,25 +345,16 @@ function getSourse(schoolType) {
 	}
 }
 
-mui('body').on('tap', '.mui-content', function() {
-	var page = plus.webview.getWebviewById('u-home.html');
-	//触发目标页面的listener事件
-	mui.fire(page, 'toUHome', {
-		data: ''
-	});
-	page = plus.webview.getWebviewById('source-home.html');
-	//触发目标页面的listener事件
-	mui.fire(page, 'toUHome', {
-		data: ''
-	});
-});
-
 function toTeaInfo(teaInfo) {
 	utils.openNewWindowWithData('../u-class/teachSpace.html', teaInfo)
 }
 
 function download(btn) {
-	utils.openNewWindowWithData('../utils/download.html', {
+	console.log(123)
+	utils.showWebAndFireWinListen('../utils/download.html', 'addDownLoad', {
+		url: "https://www.baidu.com/img/bd_logo.png",
+		name: "bd_logo.png",
+		size: "123456"
 
 	})
 }
@@ -410,7 +407,7 @@ mui('.mui-popover').on('tap', 'li', function(e) {
 		id: id
 	}
 	var page = plus.webview.getWebviewById('source-home.html')
-		window.myStorage.setItem('province', data);
+	window.myStorage.setItem('province', data);
 
 	mui.fire(page, 'hidePop', {
 		data
