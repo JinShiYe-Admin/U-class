@@ -69,16 +69,12 @@
 			}
 
 			.mui-icon.mui-icon-closeempty {
-				position: absolute;
-				right: 83px;
-				margin-top: -2px;
+				margin-left: 8px;
 				color: #BBBBBB;
 			}
 
 			.mui-btn.mui-btn-outlined {
-				position: absolute;
-				right: 15px;
-				margin-top: -2px;
+				margin-top: -1px;
 				border-radius: 20px;
 				padding: 8px 15px 6px 15px;
 				border-color: #35B8FE;
@@ -100,7 +96,7 @@
 			}
 
 			.download-info {
-				margin-right: 100px;
+				/*margin-right: 100px;*/
 				/*background-color: wheat;*/
 			}
 
@@ -147,7 +143,7 @@
 		</header>
 		<div id="content" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
-				<div class="download-type">正在下载</div>
+				<div class="download-type">正在下载{{downloading_title}}</div>
 				<ul id="downloading" class="mui-table-view">
 					<download-item v-for="(value,index) in file_array" :key="index" :infowidth="width" :value="value" :index="index"></download-item>
 				</ul>
@@ -172,25 +168,25 @@
 			</div>
 		</div>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
-		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/libs/vue/vue.js"></script>
 		<script type="text/javascript" src="../../js/utils/fileutil.js"></script>
 		<script type="text/javascript">
 			Vue.component("download-item", {
 				props: ["value", "infowidth", "index"],
 				template: '\
-					<li class="mui-table-view-cell">\
+					<li v-if="value.isShow" class="mui-table-view-cell">\
 						<img class="download-image" src="../../images/file/word.png" />\
 						<div class="download-info">\
 							<div class="download-file-name download-ellipsis" :style="{width: infowidth+\'px\'}">{{value.name}}</div>\
-							<div v-if="value.showProgress" class="mui-progressbar">\
+							<div :id="value.taskid" v-show="value.showProgress" class="mui-progressbar">\
 								<span></span>\
 							</div>\
 							<div class="download-file-size">{{value.size}}</div>\
 							<div class="download-file-speed">{{value.speed}}</div>\
 						</div>\
-						<div :id="type+\'_\'+value.name" class="mui-icon mui-icon-closeempty" @click="clickClose(index)" :data-index="index"></div>\
-						<button type="button" class="mui-btn mui-btn-outlined" @click="clickButton(index)">{{value.button}}</button>\
+						<div class="mui-icon mui-icon-closeempty" @click="clickClose(index)" :data-index="index"></div>\
+						<button type="button" class="mui-btn mui-btn-outlined" @click="clickButton(index)" :disabled="value.disabled">{{value.button}}</button>\
 					</li>',
 				methods: {
 					/**
@@ -198,7 +194,29 @@
 					 * @param {Object} index 对应的index
 					 */
 					clickButton: function(index) {
-						console.log("clickButton:" + index);
+						console.log("clickButton:" + vm_down.file_array[index].state);
+						if(vm_down.file_array[index].state == "-1") {
+							//等待中
+							return;
+						} else if(vm_down.file_array[index].state == "-2" || vm_down.file_array[index].state == "0" || vm_down.file_array[index].state == "1" || vm_down.file_array[index].state == "2" || vm_down.file_array[index].state == "3") {
+							//-2,重新进入队列的下载任务;0,下载任务开始调度;1,下载任务开始请求;2,下载任务请求已经接收;3,下载任务接收数据;
+							vm_down.file_array[index].disabled = true;
+							vm_down.file_array[index].task.pause();
+							vm_down.file_array[index].state = "5"; //5,下载任务已暂停
+							vm_down.file_array[index].button = "继续";
+							initDownloading();
+							vm_down.file_array[index].disabled = false;
+							//继续下载
+							startDownloadingFirst();
+						} else if(vm_down.file_array[index].state == "5") {
+							//5,下载任务已暂停;
+							vm_down.file_array[index].disabled = true;
+							vm_down.file_array[index].state = "-2"; //-2,下载任务暂停后重新进入下载队列
+							vm_down.file_array[index].button = "暂停";
+							vm_down.file_array[index].disabled = false;
+							//继续下载
+							startDownloadingFirst();
+						}
 					},
 					/**
 					 * 点击右侧删除图标
@@ -206,12 +224,45 @@
 					 */
 					clickClose: function(index) {
 						console.log("clickClose:" + index);
+						vm_down.deling = true;
+						mui.confirm('确认删除？', '提示', ['否', '是'], function(e) {
+							vm_down.deling = false;
+							if(e.index == 1) {
+								if(vm_down.file_array[index].state == "4") {
+									//任务已完成
+									if(vm_down.file_array[index].result == "200") {
+										mui.toast("下载任务已完成")
+									} else {
+										vm_down.file_array[index].isShow = false;
+									}
+								} else {
+									//任务未完成
+									var wd = utils.showWaiting("处理中...");
+									if(index == vm_down.downloadingFileId) {
+										//正在下载中的任务
+										vm_down.file_array[index].task.pause();
+										vm_down.file_array[index].task.abort();
+										vm_down.file_array[index].taskid = null;
+										vm_down.file_array[index].task = null;
+									}
+									vm_down.file_array[index].state = "-3"; //-3,取消下载的任务
+									vm_down.file_array[index].isShow = false;
+									wd.close();
+									if(index == vm_down.downloadingFileId) {
+										initDownloading();
+										//继续下载
+										startDownloadingFirst();
+									}
+								}
+							}
+						}, "div");
 					}
 				}
 			});
 
 			var main; //当前webview
 			var downloadFolder; //下载文件夹对象
+			var ul_downloading; //正在下载列表
 			var ul_downloaded; //已下载列表
 			//下载列表
 			var vm_down = new Vue({
@@ -219,11 +270,27 @@
 				data: {
 					width: 0,
 					deling: false, //是否正在删除
+					downloading_num: 0, //正在下载的数量
+					downloading_title: "", //正在下载列表的标题
 					downloaded_num: "", //已下载的数量
 					opacity: 0.5, //清除记录的透明度
-					file_array: [],
+					downloading: false, //是否正在下载
+					downloadNoWiFi: false, //是否不是在WiFi状态也下载
+					downloadingFileId: null, //正在下载的文件id
+					downloadingTaskId: null, //正在下载的任务id
+					file_array: [], //需要下载的文件记录
 				}
 			});
+			//监听下载个数
+			vm_down.$watch("downloading_num", function() {
+				//console.log("$watch-downloading_num:" + vm_down.downloading_num);
+				if(vm_down.downloading_num != 0) {
+					vm_down.downloading_title = " ( " + vm_down.downloading_num + " )";
+				} else {
+					vm_down.downloading_title = "";
+				}
+			});
+
 			//失败列表
 			var vm_fail = new Vue({
 				el: "#failPop",
@@ -267,6 +334,7 @@
 					bounce: false, //是否启用回弹
 				});
 				main = plus.webview.currentWebview();
+				ul_downloading = document.getElementById("downloading");
 				ul_downloaded = document.getElementById("downloaded");
 				div_downloaded_title = document.getElementById("downloaded_title");
 				div_delete_logs = document.getElementById("delete_logs");
@@ -277,7 +345,30 @@
 			function initListener() {
 				//增加下载记录
 				window.addEventListener('addDownLoad', function(e) {
-					console.log("addDownLoad:" + JSON.stringify(e.detail.data));
+					//console.log("addDownLoad:" + JSON.stringify(e.detail.data));
+					var size = fileutil.convertFileSize(e.detail.data.size);
+					//					var url_0 = "http://www.qn-kfpv.jiaobaowang.net/yuncunc/CloudStorage/1488337107966.mp4";
+					//					var url_1 = "http://ojhtju24r.bkt.clouddn.com/jbypc/pc/1046620170612173102.mp4";
+					//					var url_2 = "http://ojhtju24r.bkt.clouddn.com/jbypc/pc/1349520170724152307.MP4";
+					//					var url_3 = "https://www.baidu.com/img/bd_logo.png";
+					var data = {
+						url: e.detail.data.url, //文件路径
+						name: e.detail.data.name, //文件名称
+						initSize: size, //文件大小
+						size: size, //显示的文件大小
+						speed: "", //下载速度
+						isShow: true, //是否显示当前li
+						showProgress: true, //是否显示进度条
+						button: "等待", //按钮中的文字
+						disabled: false, //按钮是否禁止点击
+						task: null, //下载任务对象
+						taskid: null, //下载任务id
+						state: "-1", //下载队列状态:-1,正在等待中;0,下载任务开始调度;1,下载任务开始请求;2,下载任务请求已经接收;3,下载任务接收数据;4,任务完成;5,下载任务已暂停;
+						result: "" //下载的结果:200,成功
+					}
+					vm_down.file_array.push(data);
+					vm_down.downloading_num++;
+					startDownloadingFirst();
 				});
 
 				//修改mui退出当前页面逻辑
@@ -292,7 +383,7 @@
 
 				//双击顶部标题栏，回到列表顶端
 				document.getElementById('title').addEventListener('doubletap', function() {
-					mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0, 100);
+					mui('#content').scroll().scrollTo(0, 0, 100); //100毫秒滚动到顶
 				});
 
 				//打开文件
@@ -314,7 +405,7 @@
 							}, function(data) {
 								if(data.code) {
 									ul_downloaded.removeChild(li);
-									changeDownloadTitle();
+									changeDownloadedTitle();
 								}
 								wd.close();
 								mui.toast(data.message);
@@ -348,7 +439,7 @@
 									} else {
 										vm_fail.failArray.push(item.title);
 									}
-									changeDownloadTitle();
+									changeDownloadedTitle();
 								}, function() {
 									if(vm_fail.failArray.length !== 0) {
 										vm_fail.show();
@@ -413,8 +504,9 @@
 			 * 读取文件的信息
 			 */
 			function getFileInfo(entry) {
+				//console.log("getFileInfo");
 				entry.getMetadata(function(metadata) {
-					//console.log("读取文件的信息成功:"+entry.name+" "+JSON.stringify(metadata));
+					//console.log("读取文件的信息成功:" + entry.name + " " + JSON.stringify(metadata));
 					var data = {
 						name: entry.name,
 						size: fileutil.convertFileSize(metadata.size),
@@ -449,14 +541,14 @@
 						</div>\
 						<div class="mui-icon mui-icon-closeempty"></div>\
 						<button type="button" class="mui-btn mui-btn-outlined">打开</button>';
-				ul_downloaded.appendChild(ele);
-				changeDownloadTitle();
+				ul_downloaded.insertBefore(ele, ul_downloaded.firstChild);
+				changeDownloadedTitle();
 			}
 
 			/**
 			 * 改变已下载标题
 			 */
-			function changeDownloadTitle() {
+			function changeDownloadedTitle() {
 				if(ul_downloaded.childNodes.length) {
 					vm_down.downloaded_num = " ( " + ul_downloaded.childNodes.length + " )";
 					vm_down.opacity = 1;
@@ -464,6 +556,167 @@
 					vm_down.downloaded_num = "";
 					vm_down.opacity = 0.5;
 				}
+			}
+
+			/**
+			 * 开始下载1.查询是否有需要下载的文件
+			 */
+			function startDownloadingFirst() {
+				//console.log("startDownloadingFirst");
+				if(vm_down.downloading) {
+					//有正在下载的任务
+					return;
+				}
+				vm_down.downloading = true;
+				var downFile = false; //是否有下载的文件
+				var length_0 = vm_down.file_array.length;
+				for(var i in vm_down.file_array) {
+					//console.log(i + " " + JSON.stringify(vm_down.file_array[i]))
+					if(vm_down.file_array[i].state == "-1" || vm_down.file_array[i].state == "-2") {
+						//有在等待状态的文件||有继续下载的文件
+						vm_down.downloadingFileId = i;
+						downFile = true;
+						break;
+					}
+				}
+				if(downFile) {
+					startDownloadingSecond();
+				} else {
+					vm_down.downloading = false;
+					vm_down.downloadingFileId = null;
+					vm_down.downloadingTaskId = null;
+					var length_1 = vm_down.file_array.length;
+					if(length_0 != length_1) { //数组有新的文件加入
+						startDownloadingFirst();
+					}
+				}
+			}
+
+			/**
+			 * 开始下载2.判断网络
+			 */
+			function startDownloadingSecond() {
+				var netType = plus.networkinfo.getCurrentType();
+				if(netType == plus.networkinfo.CONNECTION_WIFI || vm_down.downloadNoWiFi) {
+					//WIFI||没有WIFI也上传
+					startDownloadingThird();
+				} else {
+					if(netType != plus.networkinfo.CONNECTION_NONE) {
+						//有网络
+						vm_down.deling = true;
+						mui.confirm('当前不是无线WIFI网络，还继续下载吗？', '提示', ['否', '是'], function(e) {
+							if(e.index == 1) { //是
+								vm_down.downloadNoWiFi = true;
+								startDownloadingThird();
+							} else {
+								vm_down.downloadNoWiFi = false;
+							}
+							vm_down.deling = false;
+						}, 'div');
+					}
+				}
+			}
+
+			/**
+			 * 开始创建下载任务
+			 */
+			function startDownloadingThird() {
+				//console.log("startDownloadingThird");
+				if(vm_down.file_array[vm_down.downloadingFileId].state == "-2") {
+					//继续下载
+					vm_down.downloadingTaskId = vm_down.file_array[vm_down.downloadingFileId].taskid;
+					vm_down.file_array[vm_down.downloadingFileId].task.resume(); //继续下载
+					return;
+				}
+
+				fileutil.addDownloadTask(vm_down.file_array[vm_down.downloadingFileId].url, "_documents/download/" + vm_down.file_array[vm_down.downloadingFileId].name, function(download, status) {
+					//console.log('下载任务完成:' + status + '|' + JSON.stringify(download));
+					//处理下载任务
+					vm_down.file_array[vm_down.downloadingFileId].state = "4"; //4,任务完成
+					vm_down.file_array[vm_down.downloadingFileId].result = status; //下载结果状态
+					vm_down.file_array[vm_down.downloadingFileId].task = null; //清理下载任务
+					vm_down.file_array[vm_down.downloadingFileId].taskid = null; //清理下载任务
+					if(status == 200) {
+						//下载成功
+						//1.处理下载任务
+						vm_down.file_array[vm_down.downloadingFileId].button = "完成"; //改变按钮文字
+						vm_down.file_array[vm_down.downloadingFileId].isShow = false; //隐藏列表中的li
+						//vm_down.file_array.splice(vm_down.downloadingFileId, 1); //删除数据
+						//2.调整标题
+						vm_down.downloading_num--;
+						//3.增加文件记录
+						addFileLog(download.filename);
+					} else {
+						//下载失败
+						//1.处理下载任务
+						vm_down.file_array[vm_down.downloadingFileId].button = "失败"; //改变按钮文字
+						vm_down.file_array[vm_down.downloadingFileId].disabled = true; //禁止点击
+						vm_down.file_array[vm_down.downloadingFileId].size = vm_down.file_array[vm_down.downloadingFileId].initSize; //文件大小
+					}
+					//重置相关数据
+					vm_down.downloadingFileId = null;
+					vm_down.downloadingTaskId = null;
+					vm_down.downloading = false;
+					//继续下载
+					startDownloadingFirst();
+				}, function(download, status) {
+					if(vm_down.downloadingFileId === null || vm_down.file_array[vm_down.downloadingFileId].state == "-3") {
+						//任务取消
+						return;
+					}
+					if(download.state == 0 || download.state == 1 || download.state == 2) {
+						//console.log('下载状态变化:' + download.state + '|' + JSON.stringify(download));
+						//0,下载任务开始调度;1,下载任务开始请求;2,下载任务请求已经接收
+						vm_down.file_array[vm_down.downloadingFileId].state = download.state.toString();
+						vm_down.file_array[vm_down.downloadingFileId].button = "暂停";
+					} else if(download.state == 3) {
+						//3,下载任务接收数据
+						//console.log('下载状态变化:' + download.state + '|' + JSON.stringify(download));
+						if(vm_down.downloadingTaskId != download.id) {
+							return;
+						}
+						vm_down.file_array[vm_down.downloadingFileId].state = download.state.toString();
+						//已下载数据的大小
+						var downloadSize = fileutil.convertFileSize(download.downloadedSize);
+						//下载数据的总大小
+						var totalSize = fileutil.convertFileSize(download.totalSize);
+						vm_down.file_array[vm_down.downloadingFileId].size = downloadSize + "/" + totalSize;
+						var progress = parseInt(download.downloadedSize / download.totalSize * 100);
+						mui("#" + download.id).progressbar().setProgress(progress);
+					}
+					//else {
+					////4,下载任务已完成
+					//console.log('下载状态变化:' + download.state + '|' + JSON.stringify(download));
+					//}
+				}, function(dtask) {
+					//console.log("下载任务创建完成:" + JSON.stringify(dtask));
+					vm_down.downloadingTaskId = dtask.id;
+					vm_down.file_array[vm_down.downloadingFileId].task = dtask;
+					vm_down.file_array[vm_down.downloadingFileId].taskid = dtask.id;
+					dtask.start();
+				});
+			}
+
+			/**
+			 * 成功下载文件后增加文件记录
+			 */
+			function addFileLog(filePath) {
+				plus.io.resolveLocalFileSystemURL(filePath, function(entry) {
+					//console.log("获取下载的文件信息成功:" + entry.fullPath);
+					getFileInfo(entry);
+				}, function(errorCB) {
+					//console.log("获取下载的文件信息失败: " + JSON.stringify(errorCB));
+					mui.toast("获取文件信息失败");
+				});
+			}
+
+			/**
+			 * 重置下载任务相关参数
+			 */
+			function initDownloading() {
+				vm_down.downloadingFileId = null;
+				vm_down.downloadingTaskId = null;
+				vm_down.downloading = false;
 			}
 		</script>
 	</body>
