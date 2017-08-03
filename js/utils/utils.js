@@ -46,7 +46,7 @@ window.onerror = function(errorMessage, scriptURI, lineNumber, columnNumber, err
  * 3.触发页面的window监听并显示页面
  * 4.预加载页面
  * 5.获取url路径的id
- * 6.默认webview的样式
+ * 6.默认webview的样式(tips:安卓中video标签播放视频需要开启硬件加速)
  * 7.获取关闭的动画
  * 8.获取显示的动画
  * 9.初始化mui的scrollY
@@ -175,6 +175,12 @@ var utils = (function(mod) {
 			hardwareAccelerated: false //是否开启硬件加速
 		};
 		//安卓中video标签播放视频需要开启硬件加速
+		var id = mod.getWebUrlId(path);
+		switch(id) {
+			case "classPlaying.html":
+				styles.hardwareAccelerated = true;
+				break;
+		}
 		return styles;
 	}
 
