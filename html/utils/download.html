@@ -194,7 +194,7 @@
 					 * @param {Object} index 对应的index
 					 */
 					clickButton: function(index) {
-						console.log("clickButton:" + vm_down.file_array[index].state);
+						//console.log("clickButton:" + vm_down.file_array[index].state);
 						if(vm_down.file_array[index].state == "-1") {
 							//等待中
 							return;
@@ -223,7 +223,7 @@
 					 * @param {Object} index 对应的index
 					 */
 					clickClose: function(index) {
-						console.log("clickClose:" + index);
+						//console.log("clickClose:" + index);
 						vm_down.deling = true;
 						mui.confirm('确认删除？', '提示', ['否', '是'], function(e) {
 							vm_down.deling = false;
@@ -234,6 +234,7 @@
 										mui.toast("下载任务已完成")
 									} else {
 										vm_down.file_array[index].isShow = false;
+										vm_down.downloading_num--; //调整标题
 									}
 								} else {
 									//任务未完成
@@ -247,6 +248,7 @@
 									}
 									vm_down.file_array[index].state = "-3"; //-3,取消下载的任务
 									vm_down.file_array[index].isShow = false;
+									vm_down.downloading_num--; //调整标题
 									wd.close();
 									if(index == vm_down.downloadingFileId) {
 										initDownloading();
@@ -347,10 +349,6 @@
 				window.addEventListener('addDownLoad', function(e) {
 					//console.log("addDownLoad:" + JSON.stringify(e.detail.data));
 					var size = fileutil.convertFileSize(e.detail.data.size);
-					//					var url_0 = "http://www.qn-kfpv.jiaobaowang.net/yuncunc/CloudStorage/1488337107966.mp4";
-					//					var url_1 = "http://ojhtju24r.bkt.clouddn.com/jbypc/pc/1046620170612173102.mp4";
-					//					var url_2 = "http://ojhtju24r.bkt.clouddn.com/jbypc/pc/1349520170724152307.MP4";
-					//					var url_3 = "https://www.baidu.com/img/bd_logo.png";
 					var data = {
 						url: e.detail.data.url, //文件路径
 						name: e.detail.data.name, //文件名称
