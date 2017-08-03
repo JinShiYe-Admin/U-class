@@ -117,7 +117,8 @@
 			"html/u-class/primary.html",
 			"html/u-class/middle.html",
 			"html/u-class/high.html",
-			"html/utils/school.html"
+			"html/utils/school.html",
+			"html/utils/filter.html"
 		]
 	},
 	"html/u-class/high.html": {
