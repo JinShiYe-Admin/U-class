@@ -147,7 +147,7 @@
 		</header>
 		<div id="content" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
-				<div class="download-type">正在下载</div>
+				<div class="download-type">正在下载{{downloading_num}}</div>
 				<ul id="downloading" class="mui-table-view">
 					<download-item v-for="(value,index) in file_array" :key="index" :infowidth="width" :value="value" :index="index"></download-item>
 				</ul>
@@ -179,17 +179,17 @@
 			Vue.component("download-item", {
 				props: ["value", "infowidth", "index"],
 				template: '\
-					<li class="mui-table-view-cell">\
+					<li v-if="value.isShow" class="mui-table-view-cell">\
 						<img class="download-image" src="../../images/file/word.png" />\
 						<div class="download-info">\
 							<div class="download-file-name download-ellipsis" :style="{width: infowidth+\'px\'}">{{value.name}}</div>\
-							<div v-if="value.showProgress" class="mui-progressbar">\
+							<div :id="value.taskid" v-show="value.showProgress" class="mui-progressbar">\
 								<span></span>\
 							</div>\
 							<div class="download-file-size">{{value.size}}</div>\
 							<div class="download-file-speed">{{value.speed}}</div>\
 						</div>\
-						<div :id="type+\'_\'+value.name" class="mui-icon mui-icon-closeempty" @click="clickClose(index)" :data-index="index"></div>\
+						<div class="mui-icon mui-icon-closeempty" @click="clickClose(index)" :data-index="index"></div>\
 						<button type="button" class="mui-btn mui-btn-outlined" @click="clickButton(index)">{{value.button}}</button>\
 					</li>',
 				methods: {
@@ -198,7 +198,13 @@
 					 * @param {Object} index 对应的index
 					 */
 					clickButton: function(index) {
-						console.log("clickButton:" + index);
+						console.log("clickButton:" + vm_down.file_array[index].state);
+						if(vm_down.file_array[index].state === "-1") {
+							//等待中
+							return;
+						} else if(vm_down.file_array[index].state === "0") {
+							//创建了下载任务
+						}
 					},
 					/**
 					 * 点击右侧删除图标
@@ -221,7 +227,20 @@
 					deling: false, //是否正在删除
 					downloaded_num: "", //已下载的数量
 					opacity: 0.5, //清除记录的透明度
-					file_array: [],
+					downloading: false, //是否正在下载
+					downloadNoWiFi: false, //是否不是在WiFi状态也下载
+					downloadingFileId: null, //正在下载的文件id
+					downloadingTaskId: null, //正在下载的任务id
+					file_array: [], //需要下载的文件记录
+				},
+				computed: {
+					downloading_num: function() {
+						var str = "";
+						if(this.file_array.length != 0) {
+							str = " ( " + this.file_array.length + " )"
+						}
+						return str;
+					}
 				}
 			});
 			//失败列表
@@ -255,6 +274,21 @@
 			mui.plusReady(function() {
 				initData();
 				initListener();
+
+				var data = {
+					url: "https://www.baidu.com/img/bd_logo1.png",
+					name: "bd_logo.png",
+					size: fileutil.convertFileSize(1024 * 1024),
+					speed: "",
+					isShow: true,
+					showProgress: true,
+					button: "等待",
+					task: null,
+					taskid: "",
+					state: "-1" //-1,正在等待中;
+				}
+				vm_down.file_array.push(data);
+				startDownloadingFirst();
 			});
 
 			function initData() {
@@ -449,7 +483,7 @@
 						</div>\
 						<div class="mui-icon mui-icon-closeempty"></div>\
 						<button type="button" class="mui-btn mui-btn-outlined">打开</button>';
-				ul_downloaded.appendChild(ele);
+				ul_downloaded.insertBefore(ele, ul_downloaded.firstChild);
 				changeDownloadTitle();
 			}
 
@@ -464,6 +498,125 @@
 					vm_down.downloaded_num = "";
 					vm_down.opacity = 0.5;
 				}
+			}
+
+			/**
+			 * 开始下载1.查询是否有需要下载的文件
+			 */
+			function startDownloadingFirst() {
+				console.log("startDownloadingFirst");
+				if(vm_down.downloading) {
+					//有正在下载的任务
+					return;
+				}
+				vm_down.downloading = true;
+				var downFile = false; //是否有下载的文件
+				for(var i in vm_down.file_array) {
+					console.log(i + " " + JSON.stringify(vm_down.file_array[i]))
+					if(vm_down.file_array[i].state === "-1") { //有在等待状态的文件
+						vm_down.downloadingFileId = i;
+						downFile = true;
+						break;
+					}
+				}
+				if(downFile) {
+					startDownloadingSecond();
+				} else {
+					vm_down.downloading = false;
+					vm_down.downloadingFileId = null;
+					vm_down.downloadingTaskId = null;
+				}
+			}
+
+			/**
+			 * 开始下载2.判断网络
+			 */
+			function startDownloadingSecond() {
+				var netType = plus.networkinfo.getCurrentType();
+				if(netType == plus.networkinfo.CONNECTION_WIFI || vm_down.downloadNoWiFi) {
+					//WIFI||没有WIFI也上传
+					startDownloadingThird();
+				} else {
+					if(netType != plus.networkinfo.CONNECTION_NONE) {
+						//有网络
+						vm_down.deling = true;
+						mui.confirm('当前不是无线WIFI网络，还继续下载吗？', '提示', ['否', '是'], function(e) {
+							console.log("1234")
+							if(e.index == 1) { //是
+								vm_down.downloadNoWiFi = true;
+								startDownloadingThird();
+							} else {
+								vm_down.downloadNoWiFi = false;
+							}
+							vm_down.deling = false;
+						}, 'div');
+					}
+				}
+			}
+
+			/**
+			 * 开始创建下载任务
+			 */
+			function startDownloadingThird() {
+				var fileInfo = vm_down.file_array[vm_down.downloadingFileId];
+				console.log("startDownloadingThird:" + JSON.stringify(fileInfo));
+				fileutil.addDownloadTask(fileInfo.url, "_documents/download/" + fileInfo.name, function(download, status) {
+					console.log('下载任务完成:' + status + '|' + JSON.stringify(download));
+					if(status == 200) {
+						//下载成功
+						//1.处理下载任务
+						vm_down.file_array[vm_down.downloadingFileId].state = "4"; //4,任务完成
+						vm_down.file_array[vm_down.downloadingFileId].button = "完成"; //改变按钮文字
+						vm_down.file_array[vm_down.downloadingFileId].isShow = false; //隐藏列表中的li
+						vm_down.file_array.splice(vm_down.downloadingFileId, 1); //删除数据
+						//2.增加文件记录
+						addFileLog(download.filename);
+						//3.重置相关数据
+						vm_down.downloadingFileId = null;
+						vm_down.downloadingTaskId = null;
+						vm_down.downloading = false;
+						//4.继续下载
+						startDownloadingFirst();
+					}
+				}, function(download, status) {
+					if(download.state == 0 || download.state == 1 || download.state == 2) {
+						console.log('下载状态变化:' + download.state + '|' + JSON.stringify(download));
+						//0,下载任务开始调度
+						//1,下载任务开始请求
+						//2,下载任务请求已经接收
+						vm_down.file_array[vm_down.downloadingFileId].state = download.state.toString();
+						vm_down.file_array[vm_down.downloadingFileId].button = "暂停";
+					} else if(download.state == 3) {
+						//3,下载任务接收数据
+						console.log('下载状态变化:' + download.state + '|' + JSON.stringify(download));
+						//已下载数据的大小
+						var downloadSize = fileutil.convertFileSize(download.downloadedSize);
+						//下载数据的总大小
+						var totalSize = fileutil.convertFileSize(download.totalSize);
+						vm_down.file_array[vm_down.downloadingFileId].size = downloadSize + "/" + totalSize;
+					} else {
+						console.log('下载状态变化:' + download.state + '|' + JSON.stringify(download));
+					}
+				}, function(dtask) {
+					console.log("下载任务创建完成:" + JSON.stringify(dtask));
+					vm_down.downloadingTaskId = dtask.id;
+					vm_down.file_array[vm_down.downloadingFileId].task = dtask;
+					vm_down.file_array[vm_down.downloadingFileId].taskid = dtask.id;
+					dtask.start();
+				});
+			}
+
+			/**
+			 * 成功下载文件后增加文件记录
+			 */
+			function addFileLog(filePath) {
+				plus.io.resolveLocalFileSystemURL(filePath, function(entry) {
+					//console.log("获取下载的文件信息成功");
+					getFileInfo(entry);
+				}, function(errorCB) {
+					//console.log("获取下载的文件信息失败: " + JSON.stringify(errorCB));
+					mui.toast("获取文件信息失败");
+				});
 			}
 		</script>
 	</body>

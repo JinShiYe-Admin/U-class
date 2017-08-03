@@ -18,6 +18,7 @@ window.onerror = function(errorMessage, scriptURI, lineNumber, columnNumber, err
 		case "u-home.html": //优课主页
 		case "source-home.html": //资源主页
 		case "ani-home.html": //动画课主页
+		case "download.html": //下载列表
 			break;
 		default:
 			showAlert = true;
