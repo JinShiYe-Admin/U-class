@@ -31,9 +31,38 @@ var vm = new Vue({
 	}
 });
 mui.plusReady(function() {
+	window.addEventListener("filterChange", function(e) {
+		window.scrollTo(0, 0);
+		var data = e.detail.data;
+		console.log(JSON.stringify(data))
+		vm.pageIndex = 1;
+		data.schoolType = vm.schoolType;
+		data.serviceType = vm.serviceType
+		getData(data)
+
+	})
+	window.addEventListener("provinceChange", function(e) {
+		window.scrollTo(0, 0);
+		var data = e.detail.data;
+		console.log(JSON.stringify(data))
+		vm.pageIndex = 1;
+		data.schoolType = vm.schoolType;
+		data.serviceType = vm.serviceType
+		getData(data)
+
+	})
+	window.addEventListener("showPop", function(e) {
+		var data = e.detail.data;
+		if(data=='show'){
+			mui('#topPopover').popover('show')
+		}else{
+			mui('#topPopover').popover('hide')
+		}
+		
+
+	})
 
 	var data = plus.webview.currentWebview().data;
-	console.log(JSON.stringify(data));
 	switch(data.serviceType) {
 		case 0:
 			{
@@ -309,16 +338,23 @@ function getSourse(schoolType) {
 		vm.items = vm.items.concat(data);
 	}
 }
-window.addEventListener("filterChange", function(e) {
-	window.scrollTo(0, 0);
-	var data = e.detail.data;
-	console.log(JSON.stringify(data))
-	vm.pageIndex = 1;
-	data.schoolType = vm.schoolType;
-	data.serviceType = vm.serviceType
-	getData(data)
 
-})
+mui('body').on('tap', '.mui-content', function() {
+	var page = plus.webview.getWebviewById('u-home.html');
+	//触发目标页面的listener事件
+	mui.fire(page, 'toUHome', {
+		data: ''
+	});
+	page = plus.webview.getWebviewById('source-home.html');
+	//触发目标页面的listener事件
+	mui.fire(page, 'toUHome', {
+		data: ''
+	});
+});
+
+function toTeaInfo(teaInfo) {
+	utils.openNewWindowWithData('../u-class/teachSpace.html', teaInfo)
+}
 
 function download(btn) {
 	utils.openNewWindowWithData('../utils/download.html', {
@@ -365,3 +401,27 @@ function pullupRefresh() {
 	}
 
 }
+//点击popover里cell
+mui('.mui-popover').on('tap', 'li', function(e) {
+	var name = this.querySelector(".mui-media-body").innerHTML
+	var id = this.getAttribute('id'); //省份id
+	var data = {
+		name: name,
+		id: id
+	}
+	var page = plus.webview.getWebviewById('source-home.html')
+		window.myStorage.setItem('province', data);
+
+	mui.fire(page, 'hidePop', {
+		data
+	});
+	mui('#topPopover').popover('toggle')
+
+})
+mui('body').on('shown', '.mui-popover', function(e) {
+	//console.log('shown', e.detail.id);//detail为当前popover元素
+});
+mui('body').on('hidden', '.mui-popover', function(e) {
+	var page = plus.webview.getWebviewById('source-home.html')
+	mui.fire(page, 'hidePop', {});
+});
