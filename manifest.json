@@ -273,7 +273,8 @@
 					"html/u-class/find-teacher.html",
 					"html/utils/webviewGroup.js",
 					"css/school.css",
-					"js/utils/webviewGroup.js"
+					"js/utils/webviewGroup.js",
+					"js/utils/myStorage.js"
 				],
 				"refer": [
 					"html/u-class/find-course.html"
