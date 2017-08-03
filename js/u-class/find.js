@@ -223,7 +223,7 @@ mui('body').on('hidden', '.mui-popover', function(e) {
 	mui.fire(page, 'showPop', {data:'hide'});
 });
 
-mui.back = function() {
-	var _self = plus.webview.currentWebview();
-	_self.close("auto");
-}
+//mui.back = function() {
+//	var _self = plus.webview.currentWebview();
+//	_self.close("auto");
+//}
