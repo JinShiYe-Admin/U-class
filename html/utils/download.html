@@ -145,7 +145,7 @@
 			<div class="mui-scroll">
 				<div class="download-type">正在下载{{downloading_title}}</div>
 				<ul id="downloading" class="mui-table-view">
-					<download-item v-for="(value,index) in file_array" :key="index" :infowidth="width" :value="value" :index="index"></download-item>
+					<download-item @tap-close="tapClose" @tap-button="tapButton" v-for="(value,index) in file_array" :key="index" :infowidth="width" :value="value" :index="index"></download-item>
 				</ul>
 				<div class="download-type download-delete-logs" :style="{opacity:opacity}">清除记录</div>
 				<div class="download-type">已下载{{downloaded_num}}</div>
@@ -185,79 +185,23 @@
 							<div class="download-file-size">{{value.size}}</div>\
 							<div class="download-file-speed">{{value.speed}}</div>\
 						</div>\
-						<div class="mui-icon mui-icon-closeempty" @click="clickClose(index)" :data-index="index"></div>\
-						<button type="button" class="mui-btn mui-btn-outlined" @click="clickButton(index)" :disabled="value.disabled">{{value.button}}</button>\
+						<div class="mui-icon mui-icon-closeempty" @tap="tapClose(index)" :data-index="index"></div>\
+						<button type="button" class="mui-btn mui-btn-outlined" @tap="tapButton(index)" :disabled="value.disabled">{{value.button}}</button>\
 					</li>',
 				methods: {
 					/**
 					 * 点击右侧按钮
 					 * @param {Object} index 对应的index
 					 */
-					clickButton: function(index) {
-						//console.log("clickButton:" + vm_down.file_array[index].state);
-						if(vm_down.file_array[index].state == "-1") {
-							//等待中
-							return;
-						} else if(vm_down.file_array[index].state == "-2" || vm_down.file_array[index].state == "0" || vm_down.file_array[index].state == "1" || vm_down.file_array[index].state == "2" || vm_down.file_array[index].state == "3") {
-							//-2,重新进入队列的下载任务;0,下载任务开始调度;1,下载任务开始请求;2,下载任务请求已经接收;3,下载任务接收数据;
-							vm_down.file_array[index].disabled = true;
-							vm_down.file_array[index].task.pause();
-							vm_down.file_array[index].state = "5"; //5,下载任务已暂停
-							vm_down.file_array[index].button = "继续";
-							initDownloading();
-							vm_down.file_array[index].disabled = false;
-							//继续下载
-							startDownloadingFirst();
-						} else if(vm_down.file_array[index].state == "5") {
-							//5,下载任务已暂停;
-							vm_down.file_array[index].disabled = true;
-							vm_down.file_array[index].state = "-2"; //-2,下载任务暂停后重新进入下载队列
-							vm_down.file_array[index].button = "暂停";
-							vm_down.file_array[index].disabled = false;
-							//继续下载
-							startDownloadingFirst();
-						}
+					tapButton: function(index) {
+						this.$emit('tap-button', index);
 					},
 					/**
 					 * 点击右侧删除图标
 					 * @param {Object} index 对应的index
 					 */
-					clickClose: function(index) {
-						//console.log("clickClose:" + index);
-						vm_down.deling = true;
-						mui.confirm('确认删除？', '提示', ['否', '是'], function(e) {
-							vm_down.deling = false;
-							if(e.index == 1) {
-								if(vm_down.file_array[index].state == "4") {
-									//任务已完成
-									if(vm_down.file_array[index].result == "200") {
-										mui.toast("下载任务已完成")
-									} else {
-										vm_down.file_array[index].isShow = false;
-										vm_down.downloading_num--; //调整标题
-									}
-								} else {
-									//任务未完成
-									var wd = utils.showWaiting("处理中...");
-									if(index == vm_down.downloadingFileId) {
-										//正在下载中的任务
-										vm_down.file_array[index].task.pause();
-										vm_down.file_array[index].task.abort();
-										vm_down.file_array[index].taskid = null;
-										vm_down.file_array[index].task = null;
-									}
-									vm_down.file_array[index].state = "-3"; //-3,取消下载的任务
-									vm_down.file_array[index].isShow = false;
-									vm_down.downloading_num--; //调整标题
-									wd.close();
-									if(index == vm_down.downloadingFileId) {
-										initDownloading();
-										//继续下载
-										startDownloadingFirst();
-									}
-								}
-							}
-						}, "div");
+					tapClose: function(index) {
+						this.$emit('tap-close', index);
 					}
 				}
 			});
@@ -281,6 +225,78 @@
 					downloadingFileId: null, //正在下载的文件id
 					downloadingTaskId: null, //正在下载的任务id
 					file_array: [], //需要下载的文件记录
+				},
+				methods: {
+					/**
+					 * 点击右侧删除图标
+					 * @param {Object} index 对应的index
+					 */
+					tapClose: function(index) {
+						//console.log("tapClose:" + index);
+						vm_down.deling = true;
+						mui.confirm('确认删除？', '提示', ['否', '是'], function(e) {
+							vm_down.deling = false;
+							if(e.index == 1) {
+								if(vm_down.file_array[index].state == "4") {
+									//任务已完成
+									if(vm_down.file_array[index].result == "200") {
+										mui.toast("下载任务已完成")
+									} else {
+										vm_down.file_array[index].isShow = false;
+										vm_down.downloading_num--; //调整标题
+									}
+								} else {
+									//任务未完成
+									var wd = utils.showWaiting("处理中...");
+									if(vm_down.file_array[index].task !== null) {
+										//正在下载中的任务
+										vm_down.file_array[index].task.pause();
+										vm_down.file_array[index].task.abort();
+										vm_down.file_array[index].taskid = null;
+										vm_down.file_array[index].task = null;
+									}
+									vm_down.file_array[index].state = "-3"; //-3,取消下载的任务
+									vm_down.file_array[index].isShow = false;
+									vm_down.downloading_num--; //调整标题
+									wd.close();
+									if(index == vm_down.downloadingFileId) {
+										initDownloading();
+										//继续下载
+										startDownloadingFirst();
+									}
+								}
+							}
+						}, "div");
+					},
+					/**
+					 * 点击右侧按钮
+					 * @param {Object} index 对应的index
+					 */
+					tapButton: function(index) {
+						this.$emit('tap-button', index);
+						if(vm_down.file_array[index].state == "-1") {
+							//等待中
+							return;
+						} else if(vm_down.file_array[index].state == "-2" || vm_down.file_array[index].state == "0" || vm_down.file_array[index].state == "1" || vm_down.file_array[index].state == "2" || vm_down.file_array[index].state == "3") {
+							//-2,重新进入队列的下载任务;0,下载任务开始调度;1,下载任务开始请求;2,下载任务请求已经接收;3,下载任务接收数据;
+							vm_down.file_array[index].disabled = true;
+							vm_down.file_array[index].task.pause();
+							vm_down.file_array[index].state = "5"; //5,下载任务已暂停
+							vm_down.file_array[index].button = "继续";
+							initDownloading();
+							vm_down.file_array[index].disabled = false;
+							//继续下载
+							startDownloadingFirst();
+						} else if(vm_down.file_array[index].state == "5") {
+							//5,下载任务已暂停;
+							vm_down.file_array[index].disabled = true;
+							vm_down.file_array[index].state = "-2"; //-2,下载任务暂停后重新进入下载队列
+							vm_down.file_array[index].button = "暂停";
+							vm_down.file_array[index].disabled = false;
+							//继续下载
+							startDownloadingFirst();
+						}
+					},
 				}
 			});
 			//监听下载个数
