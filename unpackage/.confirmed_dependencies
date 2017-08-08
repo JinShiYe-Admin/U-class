@@ -28,7 +28,8 @@
 			"js/u-class/find.js",
 			"css/u-class/school.css",
 			"html/utils/school.html",
-			"js/utils/webviewGroup.js"
+			"js/utils/webviewGroup.js",
+			"js/utils/myStorage.js"
 		],
 		"refer": [
 			"html/utils/school.html",

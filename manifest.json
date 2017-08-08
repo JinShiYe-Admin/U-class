@@ -255,7 +255,8 @@
 					"js/u-class/find.js",
 					"html/utils/primary.html",
 					"html/utils/school.html",
-					"js/utils/webviewGroup.js"
+					"js/utils/webviewGroup.js",
+					"js/utils/myStorage.js"
 				],
 				"refer": [
 					"html/u-class/middle.html",
