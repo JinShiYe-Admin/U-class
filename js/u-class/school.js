@@ -422,3 +422,10 @@ mui('body').on('hidden', '.mui-popover', function(e) {
 	var page = plus.webview.getWebviewById('source-home.html')
 	mui.fire(page, 'hidePop', {});
 });
+mui('body').on('tap', '.mui-popover', function(e) {
+	console.log(1111111)
+	var page = plus.webview.getWebviewById('source-home.html')
+	mui.fire(page, 'hidePop', {});
+	
+	
+});

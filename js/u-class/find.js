@@ -166,7 +166,9 @@ var urlId = 'primary2.html';
 //点击popover里cell
 mui('.mui-popover').on('tap', 'li', function(e) {
 	var page = plus.webview.getWebviewById(urlId)
-	mui.fire(page, 'showPop', {data:'hide'});
+	mui.fire(page, 'showPop', {
+		data: 'hide'
+	});
 	var name = this.querySelector(".mui-media-body").innerHTML
 	var province = document.getElementById("province")
 	province.innerHTML = name;
@@ -210,9 +212,11 @@ function updateData() {
 }
 
 function showPop() {
-	mui('#topPopover').popover('toggle')
 	var page = plus.webview.getWebviewById(urlId)
-	mui.fire(page, 'showPop', {data:'show'});
+	mui.fire(page, 'showPop', {
+		data: 'show'
+	});
+	mui('#topPopover').popover('toggle')
 
 }
 mui('body').on('shown', '.mui-popover', function(e) {
@@ -220,7 +224,9 @@ mui('body').on('shown', '.mui-popover', function(e) {
 });
 mui('body').on('hidden', '.mui-popover', function(e) {
 	var page = plus.webview.getWebviewById(urlId)
-	mui.fire(page, 'showPop', {data:'hide'});
+	mui.fire(page, 'showPop', {
+		data: 'hide'
+	});
 });
 
 //mui.back = function() {

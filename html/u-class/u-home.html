@@ -9,11 +9,13 @@
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 	</head>
 	<style type="text/css">
+		/*导航栏选项卡样式*/
+		
 		.mui-segmented-control.mui-segmented-control-inverted {
 			margin-top: -3px;
 			width: 48%;
 			color: inherit;
-			border: 1px solid cornflowerblue;
+			border: 0px solid cornflowerblue;
 			/*border-radius: 5px;*/
 			background-color: cornflowerblue;
 		}
@@ -27,11 +29,13 @@
 			color: cornflowerblue;
 			/*border: 1px solid #f3f3f3;*/
 		}
+		/*顶部图片样式*/
 		
 		.banner img {
 			width: 100%;
 			height: auto;
 		}
+		/*省份popover样式*/
 		
 		#topPopover {
 			position: fixed;
@@ -72,6 +76,7 @@
 				</li>
 			</ul>
 		</div>
+		<!--导航栏选项卡-->
 		<header class="mui-bar mui-bar-nav">
 			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left" href="#topPopover">山东</a>
 
@@ -103,14 +108,9 @@
 				mui.init();
 				var main; //当前webview
 				mui.plusReady(function() {
-					var data = {
-						name: '山东',
-						id: 0
-					}
-					window.myStorage.setItem('province', data);
 					main = plus.webview.currentWebview();
 					main.addEventListener('show', showWeb, false); //增加窗口显示的监听
-					setSubPage();
+					setSubPage();//页面初始化
 
 				});
 
@@ -118,9 +118,9 @@
 					console.log('显示游客首页')
 					var province = window.myStorage.getItem('province');
 					var currProvince = document.getElementById("province")
-					if(province.name == currProvince.innerHTML) {
+					if(province.name == currProvince.innerHTML) {//省份相同
 						return;
-					} else {
+					} else {//省份不同 刷新数据
 						currProvince.innerHTML = province.name
 						//重新获取数据
 						updateData();
@@ -131,16 +131,23 @@
 				function updateData() {
 					var data = window.myStorage.getItem('province')
 					var page = plus.webview.getWebviewById(urlId)
-					mui.fire(page, 'provinceChange', {data});
+					mui.fire(page, 'provinceChange', {
+						data
+					});
 				}
 
 				function setSubPage() {
+					var data = {
+						name: '山东',
+						id: 0
+					}
+					window.myStorage.setItem('province', data);
 					var group = new webviewGroup(main.id, {
 						items: [{
 							id: "find-teacher.html",
 							url: "find-teacher.html",
 							extras: {},
-							styles: {
+							styles: {//加上图片高度
 								top: "224px"
 							}
 						}, {
