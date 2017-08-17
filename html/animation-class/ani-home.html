@@ -128,6 +128,7 @@
 		<script src="../../js/utils/utils.js"></script>
 		<script src="../../js/utils/mui.pullToRefresh.js"></script>
 		<script src="../../js/utils/mui.pullToRefresh.material.js"></script>
+		<script src="../../js/common/publicProtocol.js"></script>
 		<script>
 			mui.init();
 
@@ -293,27 +294,38 @@
 				methods: {
 					clickClass: function(model) {
 						console.log('点击的model:' + JSON.stringify(model));
-						utils.openNewWindowWithData('classPlaying.html',model);
-//						var webview = plus.webview.create("../html/u-class/teachSpace.html", "teachSpace.html", {
-//							titleNView: {
-//								backgroundColor: '#f7f7f7', //导航栏背景色
-//								titleText: '透明渐变(native模式)', //导航栏标题
-//								titleColor: '#000000', //文字颜色
-//								type: 'transparent', //透明渐变样式
-//								autoBackButton: true, //自动绘制返回箭头
-//								splitLine: { //底部分割线
-//									color: '#cccccc'
-//								}
-//							}
-//						}, extras: {
-//							data: 'data'
-//						});
-//						var temp = plus.webview.create()
-//						webview.show("slide-in-right", 300); //直接显示
+						utils.openNewWindowWithData('classPlaying.html', model);
+						//						var webview = plus.webview.create("../html/u-class/teachSpace.html", "teachSpace.html", {
+						//							titleNView: {
+						//								backgroundColor: '#f7f7f7', //导航栏背景色
+						//								titleText: '透明渐变(native模式)', //导航栏标题
+						//								titleColor: '#000000', //文字颜色
+						//								type: 'transparent', //透明渐变样式
+						//								autoBackButton: true, //自动绘制返回箭头
+						//								splitLine: { //底部分割线
+						//									color: '#cccccc'
+						//								}
+						//							}
+						//						}, extras: {
+						//							data: 'data'
+						//						});
+						//						var temp = plus.webview.create()
+						//						webview.show("slide-in-right", 300); //直接显示
 					}
 				}
 			});
 			mui.plusReady(function() {
+				var tempData0 = {}
+				var tempData1 = {
+					cptoken: "4f679b06-4d19-44e8-9c86-7f9e56903739",
+					uuid: plus.device.uuid,
+					token: "4f679b06-4d19-44e8-9c86-7f9e56903739",
+					appid: plus.runtime.appid
+				}
+				postDataEncry('http://192.168.1.200:8080/MobileCpService/getUserData',tempData0,tempData1,1,function(data){
+					console.log('返回界面的data：'+JSON.stringify(data));
+				});
+
 				(function($) {
 					//阻尼系数
 					var deceleration = mui.os.ios ? 0.0009 : 0.0009;
