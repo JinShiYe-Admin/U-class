@@ -28,7 +28,8 @@
 			"js/u-class/find.js",
 			"css/u-class/school.css",
 			"html/utils/school.html",
-			"js/utils/webviewGroup.js"
+			"js/utils/webviewGroup.js",
+			"js/utils/myStorage.js"
 		],
 		"refer": [
 			"html/utils/school.html",
@@ -41,7 +42,8 @@
 			"css/utils/common.css",
 			"html/u-class/find-teacher.html",
 			"html/utils/webviewGroup.js",
-			"js/utils/webviewGroup.js"
+			"js/utils/webviewGroup.js",
+			"js/utils/myStorage.js"
 		],
 		"refer": [
 			"html/u-class/find-teacher.html",
@@ -58,7 +60,9 @@
 			"js/utils/mui.pullToRefresh.js",
 			"js/libs/vue/vue.min.js"
 		],
-		"refer": []
+		"refer": [
+			"html/animation-class/classPlaying.html"
+		]
 	},
 	"html/index/index.html": {
 		"resources": [
@@ -147,6 +151,12 @@
 			"css/mui.min.css",
 			"css/utils/common.css",
 			"js/libs/vue/vue.js"
+		]
+	},
+	"html/animation-class/classPlaying.html": {
+		"resources": [
+			"css/mui.min.css",
+			"images/utils/yuantiao.jpg"
 		]
 	}
 }

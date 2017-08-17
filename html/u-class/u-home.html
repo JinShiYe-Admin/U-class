@@ -9,11 +9,13 @@
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 	</head>
 	<style type="text/css">
+		/*导航栏选项卡样式*/
+		
 		.mui-segmented-control.mui-segmented-control-inverted {
 			margin-top: -3px;
 			width: 48%;
 			color: inherit;
-			border: 1px solid cornflowerblue;
+			border: 0px solid cornflowerblue;
 			/*border-radius: 5px;*/
 			background-color: cornflowerblue;
 		}
@@ -27,16 +29,57 @@
 			color: cornflowerblue;
 			/*border: 1px solid #f3f3f3;*/
 		}
+		/*顶部图片样式*/
 		
 		.banner img {
 			width: 100%;
 			height: auto;
 		}
-
+		/*省份popover样式*/
+		
+		#topPopover {
+			position: fixed;
+			top: 46px;
+			right: 6px;
+			width: 100px;
+		}
+		
+		#topPopover .mui-popover-arrow {
+			left: auto;
+			right: 6px;
+		}
+		
+		.mui-popover {
+			height: 80px;
+			width: 100;
+		}
+		
+		.mui-backdrop {
+			/*选择排序的遮罩*/
+			background-color: rgba(0, 0, 0, 0.05);
+		}
 	</style>
 
 	<body>
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<ul class="mui-table-view">
+				<li id="0" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
+				</li>
+
+				<li id="1" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
+				</li>
+				<li id="2" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
+				</li>
+			</ul>
+		</div>
+		<!--导航栏选项卡-->
 		<header class="mui-bar mui-bar-nav">
+			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left" href="#topPopover">山东</a>
+
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
@@ -58,6 +101,7 @@
 				</a>
 			</div>
 			<script src="../../js/mui.min.js"></script>
+			<script src="../../js/utils/myStorage.js"></script>
 			<script type="text/javascript" src="../../js/utils/utils.js"></script>
 			<script src="../../js/utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
 			<script type="text/javascript">
@@ -65,14 +109,45 @@
 				var main; //当前webview
 				mui.plusReady(function() {
 					main = plus.webview.currentWebview();
+					main.addEventListener('show', showWeb, false); //增加窗口显示的监听
+					setSubPage();//页面初始化
 
-					var currentId = plus.webview.currentWebview().id;
-					var group = new webviewGroup(currentId, {
+				});
+
+				function showWeb() {
+					console.log('显示游客首页')
+					var province = window.myStorage.getItem('province');
+					var currProvince = document.getElementById("province")
+					if(province.name == currProvince.innerHTML) {//省份相同
+						return;
+					} else {//省份不同 刷新数据
+						currProvince.innerHTML = province.name
+						//重新获取数据
+						updateData();
+					}
+
+				}
+
+				function updateData() {
+					var data = window.myStorage.getItem('province')
+					var page = plus.webview.getWebviewById(urlId)
+					mui.fire(page, 'provinceChange', {
+						data
+					});
+				}
+
+				function setSubPage() {
+					var data = {
+						name: '山东',
+						id: 0
+					}
+					window.myStorage.setItem('province', data);
+					var group = new webviewGroup(main.id, {
 						items: [{
 							id: "find-teacher.html",
 							url: "find-teacher.html",
 							extras: {},
-							styles: {
+							styles: {//加上图片高度
 								top: "224px"
 							}
 						}, {
@@ -91,12 +166,35 @@
 							document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
 						}
 					});
+
 					mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
 						var wid = this.getAttribute("data-wid");
 						group.switchTab(wid);
 					});
-
-				});
+				}
+				//点击popover里cell
+				mui('.mui-popover').on('tap', 'li', function(e) {
+					var name = this.querySelector(".mui-media-body").innerHTML
+					var province = document.getElementById("province")
+					mui('#topPopover').popover('toggle')
+					if(province.name == name) {
+						return;
+					}
+					var data = {
+						name: name,
+					}
+					window.myStorage.setItem('province', data);
+					province.innerHTML = name;
+					updateData()
+				})
+				var urlId = 'primary0.html';
+				window.addEventListener("toUHome", function(e) {
+					mui('#topPopover').popover('hide')
+					if(e.detail.data == '') {
+						return;
+					}
+					urlId = e.detail.data;
+				})
 			</script>
 	</body>
 

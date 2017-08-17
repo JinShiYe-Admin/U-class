@@ -8,24 +8,63 @@
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 		<link href="../../css/u-class/school.css" rel="stylesheet" />
+		<style type="text/css">
+			#topPopover {
+				position: fixed;
+				top: 45px;
+				left: 5px;
+				width: 100px;
+			}
+			
+			#topPopover .mui-popover-arrow {
+				left: 6px;
+				right: auto;
+			}
+			
+			.mui-popover {
+				height: 80px;
+				width: 100;
+			}
+			
+			.mui-backdrop {
+				/*选择排序的遮罩*/
+				background-color: rgba(0, 0, 0, 0.05);
+			}
+		</style>
 	</head>
 
 	<body>
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<ul class="mui-table-view">
+				<li id="0" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
+				</li>
+
+				<li id="1" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
+				</li>
+				<li id="2" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
+				</li>
+			</ul>
+		</div>
+
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-pull-left"></a>
+			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left province" onclick="showPop()"></a>
 			<h1 class="mui-title">资源</h1>
 		</header>
 		<div class="mui-content">
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="primary2.html">
+						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="primary2.html" data-province="">
 							<div>小学</div>
 						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="middle2.html">
+						<a class="mui-control-item" href="#item2mobile" data-wid="middle2.html" data-province="">
 							<div>初中</div>
 						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="high2.html">
+						<a class="mui-control-item" href="#item3mobile" data-wid="high2.html" data-province="">
 							<div>高中</div>
 						</a>
 
@@ -38,8 +77,10 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
+		<script src="../../js/utils/myStorage.js"></script>
 		<script type="text/javascript" src="../../js/utils/webviewGroup.js"></script>
 		<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>
+
 	</body>
 
 </html>

@@ -89,11 +89,49 @@
 			.mui-slider-indicator.mui-segmented-control {
 				background-color: #efeff4;
 			}
+			
+			#topPopover {
+				position: fixed;
+				top: 46px;
+				right: 6px;
+				width: 100px;
+			}
+			
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			
+			.mui-popover {
+				height: 80px;
+				width: 100;
+			}
+			
+			.mui-backdrop {
+				/*选择排序的遮罩*/
+				background-color: rgba(0, 0, 0, 0.05);
+			}
 		</style>
 	</head>
 
 	<body>
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<ul class="mui-table-view">
+				<li id="0" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
+				</li>
+
+				<li id="1" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
+				</li>
+				<li id="2" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
+				</li>
+			</ul>
+		</div>
 		<header class="mui-bar mui-bar-nav">
+			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left" href="#topPopover"></a>
 			<h1 class="mui-title">动画课</h1>
 		</header>
 		<div class="mui-content" id="animationData">
@@ -125,6 +163,7 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/libs/vue/vue.min.js"></script>
+		<script src="../../js/utils/myStorage.js"></script>
 		<script src="../../js/utils/utils.js"></script>
 		<script src="../../js/utils/mui.pullToRefresh.js"></script>
 		<script src="../../js/utils/mui.pullToRefresh.material.js"></script>
@@ -314,6 +353,7 @@
 					}
 				}
 			});
+			var main; //当前webview
 			mui.plusReady(function() {
 				var tempData0 = {}
 				var tempData1 = {
@@ -325,7 +365,8 @@
 				postDataEncry('http://192.168.1.200:8080/MobileCpService/getUserData',tempData0,tempData1,1,function(data){
 					console.log('返回界面的data：'+JSON.stringify(data));
 				});
-
+				main = plus.webview.currentWebview();
+				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
 				(function($) {
 					//阻尼系数
 					var deceleration = mui.os.ios ? 0.0009 : 0.0009;
@@ -363,6 +404,45 @@
 					});
 				})(mui);
 			});
+			//点击popover里cell
+			mui('.mui-popover').on('tap', 'li', function(e) {
+				var name = this.querySelector(".mui-media-body").innerHTML
+				var province = document.getElementById("province")
+				mui('#topPopover').popover('toggle')
+				if(province.name == name) {
+					return;
+				}
+				province.innerHTML = name;
+				var id = this.getAttribute('id'); //省份id
+				//重新获取数据
+				var data = {
+					name: name,
+					id: id
+				}
+				window.myStorage.setItem('province', data); //把省份存到本地
+
+			})
+
+			function showWeb() {
+				console.log('显示动画界面')
+
+				var province = window.myStorage.getItem('province');
+				var currProvince = document.getElementById("province")
+				if(currProvince == '') {
+					//初始化界面
+
+				} else if(province.name == currProvince.innerHTML) {
+					return;
+				} else {
+					currProvince.innerHTML = province.name;
+					//重新获取数据
+				}
+
+			}
+
+			window.addEventListener("toUHome", function(e) {
+				mui('#topPopover').popover('hide')
+			})
 		</script>
 	</body>
 

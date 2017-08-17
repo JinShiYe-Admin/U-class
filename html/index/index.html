@@ -91,6 +91,23 @@
 					main.append(subPage);
 				}
 			}
+			mui('body').on('tap', '.mui-bar', function() {
+				var page = plus.webview.getWebviewById('u-home.html');
+				//触发目标页面的listener事件
+				mui.fire(page, 'toUHome', {
+					data: ''
+				});
+				page = plus.webview.getWebviewById('source-home.html');
+				//触发目标页面的listener事件
+				mui.fire(page, 'toUHome', {
+					data: ''
+				});
+				page = plus.webview.getWebviewById('ani-home.html');
+				//触发目标页面的listener事件
+				mui.fire(page, 'toUHome', {
+					data: ''
+				});
+			});
 		</script>
 	</body>
 
