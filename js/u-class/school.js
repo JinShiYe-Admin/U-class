@@ -409,9 +409,7 @@ mui('.mui-popover').on('tap', 'li', function(e) {
 	var page = plus.webview.getWebviewById('source-home.html')
 	window.myStorage.setItem('province', data);
 
-	mui.fire(page, 'hidePop', {
-		data
-	});
+	mui.fire(page, 'hidePop', data);
 	mui('#topPopover').popover('toggle')
 
 })

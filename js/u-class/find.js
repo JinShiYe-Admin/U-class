@@ -206,9 +206,7 @@ function updateData() {
 	console.log('刷新数据')
 	var data = window.myStorage.getItem('province')
 	var page = plus.webview.getWebviewById(urlId)
-	mui.fire(page, 'provinceChange', {
-		data
-	});
+	mui.fire(page, 'provinceChange', data);
 }
 
 function showPop() {
