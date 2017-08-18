@@ -1,0 +1,310 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<!--<link href="../../css/utils/common.css" rel="stylesheet" />-->
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-bar .mui-pull-left .mui-icon {
+				padding-right: 5px;
+				font-size: 28px;
+			}
+			
+			.mui-bar .mui-btn {
+				font-weight: normal;
+				font-size: 17px;
+			}
+			
+			.mui-bar .mui-btn-link {
+				top: 1px;
+			}
+			
+			.mui-content img {
+				width: 100%;
+			}
+			
+			.hm-description {
+				margin: 15px;
+			}
+			
+			.hm-description>li {
+				font-size: 14px;
+				color: #8f8f94;
+			}
+			
+			.mui-bar-transparent {
+				background-color: rgba(19, 183, 246, 0);
+			}
+			
+			.mui-table-view .mui-media-object {
+				max-width: 80px;
+				max-height: 60px;
+				width: 80px;
+				height: 60px;
+			}
+			/*顶部图片样式*/
+			
+			.banner img {
+				width: 100%;
+				height: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="pullrefresh" class="mui-content  mui-scroll-wrapper" style="background-color: white;">
+			<div id="temp" class="mui-scroll">
+				<!--顶部banner图 开始-->
+				<div class="banner">
+					<a href="javascript:;">
+						<img src="https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature" />
+					</a>
+				</div>
+				<!--滑动组件-->
+				<div id="sliderSegmentedControl" class=" mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary" >
+					<a :id="'item'+item.animationID" class="mui-control-item" :class="{'mui-active':item.active}" :href="'#'+item.animationID" v-for="item in animationArray">
+						{{item.animationName}}
+					</a>
+
+				</div>
+				<!--滑动内容-->
+				<div class="mui-slider-group">
+					<div :id="item.animationID" class="mui-slider-item mui-control-content" :class="{'mui-active':item.active}" v-for="item in animationArray">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-media" v-for="(lessonData,index) in item.animationList">
+								<a href="javascript:;">
+									<img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+									<div class="mui-media-body">
+										{{lessonData.tempTitle}}
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/libs/vue/vue.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style: 'circle',
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			//			mui('.mui-scroll-wrapper').scroll();
+
+			var spaceData = new Vue({
+				el: '#pullrefresh',
+				data: {
+					item_index: 0,
+					animationArray: []
+				},
+				updated: function() {
+					console.log(666)
+					if(flag == 0) {
+						mui('.mui-segmented-control').on('tap', 'a', function() {
+							console.log(555)
+							if(this.id == 'item0') {
+								spaceData.item_index = 0;
+							} else if(this.id == 'item1') {
+								spaceData.item_index = 1;
+							} else {
+								spaceData.item_index = 2;
+							}
+						})
+					}
+					flag++;
+
+					//										var div = document.getElementById("pullrefresh");
+					//										console.log(div.innerHTML)
+				},
+				methods: {
+					clickClass: function(model) {
+						console.log('点击的model:' + JSON.stringify(model));
+					}
+				}
+			});
+			var flag = 0;
+			spaceData.animationArray = [{
+				animationName: '小学',
+				animationList: [{
+					tempTitle: '三轮车',
+					tempImg: '',
+					tempID: '0'
+				}, {
+					tempTitle: '4轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '1'
+				}, {
+					tempTitle: '5轮车',
+					tempImg: 'images/shuijiao.jpg',
+					tempID: '2'
+				}, {
+					tempTitle: '6轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '3'
+				}, {
+					tempTitle: '7轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '4'
+				}],
+				active: true,
+				animationID: '0'
+			}, {
+				animationName: '初中',
+				animationList: [{
+					tempTitle: '三轮车2',
+					tempImg: 'images/cbd.jpg',
+					tempID: '0'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '1'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/shuijiao.jpg',
+					tempID: '2'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '3'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '4'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '9'
+				}, {
+					tempTitle: '三轮车2',
+					tempImg: 'images/cbd.jpg',
+					tempID: '0'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '1'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/shuijiao.jpg',
+					tempID: '2'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '3'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '4'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '9'
+				}, {
+					tempTitle: '三轮车2',
+					tempImg: 'images/cbd.jpg',
+					tempID: '0'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '1'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/shuijiao.jpg',
+					tempID: '2'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '3'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '4'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '9'
+				}, {
+					tempTitle: '三轮车2',
+					tempImg: 'images/cbd.jpg',
+					tempID: '0'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '1'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/shuijiao.jpg',
+					tempID: '2'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '3'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '4'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '9'
+				}],
+				active: false,
+				animationID: '1'
+			}, {
+				animationName: '高中',
+				animationList: [{
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '0'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/muwu.jpg',
+					tempID: '1'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/shuijiao.jpg',
+					tempID: '2'
+				}, {
+					tempTitle: '三轮车',
+					tempImg: 'images/cbd.jpg',
+					tempID: '3'
+				}],
+				active: false,
+				animationID: '2'
+			}]
+
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+				}, 1500);
+			}
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPulldown();
+				}, 1500);
+			}
+		</script>
+	</body>
+
+</html>
