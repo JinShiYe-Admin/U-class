@@ -1,122 +1,100 @@
-//签名
-document.write('<script src="../../js/libs/crypto-js/require.js"><\/script>');
-document.write('<script src="../../js/utils/signHmacSHA1.js"><\/script>');
 //本地存储
 document.write('<script src="../../js/libs/myStorage/myStorage.js"><\/script>');
-document.write('<script src="../../js/common/storageKeyName.js"><\/script>');
+document.write('<script src="../../js/storageKeyName.js"><\/script>');
+//网络请求
+document.write('<script src="../../js/common/postData.js"><\/script>');
 document.write('<script src="../../js/libs/jquery.js"><\/script>');
 
-//url,
-//encryData,需要加密的字段
-//commonData,不需要加密的对象
-//flag,0表示不需要合并共用数据，1为添加uuid、utid、token、appid普通参数，2为uuid、appid、token
-//waitingDialog,等待框
-//callback,返回值
-function postDataEncry(url, encryData, commonData, flag, callback) {
-	if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
-		var data = {
-				RspCode: '404',
-				RspData: '',
-				RspTxt: '网络异常，请检查网络设置！'
-		}
-			callback(data);
-		return;
-	}
-	//拼接登录需要的签名
-	var signTemp = postDataEncry1(encryData, commonData, flag);
-
-	//生成签名，返回值sign则为签名
-	signHmacSHA1.sign(signTemp, storageKeyName.SIGNKEY, function(sign) {
-		//组装发送握手协议需要的data
-		//合并对象
-		var tempData = $.extend(encryData, commonData);
-		//添加签名
-		tempData.sign = sign;
-		// 等待的对话框
-		var urlArr = url.split('/');
-		console.log('传递的参数' + urlArr[urlArr.length - 1] + ':', tempData);
-		var tepTime = tempTime();
-		//发送协议
-		mui.ajax(url, {
-			data: JSON.stringify(tempData),
-			dataType: 'json',
-			type: 'post',
-			contentType: "application/json",
-			timeout: tepTime,
-			success: function(data) {
-				console.log(urlArr[urlArr.length - 1] + "接口获取的值:", data);
-				callback(data);
-			},
-			error: function(xhr, type, errorThrown) {
-				console.log("网络连接失败" + url + ":" + type + "," + errorThrown + ":", xhr);
-				var data = {
-					RspCode: '404',
-					RspData: '',
-					RspTxt: '网络连接失败，请重新尝试一下'
-				}
-				callback(data);
-			}
-		});
-	});
+//1、省份列表
+//var commonData = {}
+var postDataPro_provinceList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/province/list', commonData, callback);
 }
 
-function tempTime() {
-	switch(plus.os.name) {
-		case "Android":
-			return 30000;
-			break;
-		case "iOS":
-			return 300000;
-			break;
-		default:
-			// 其它平台
-			break;
-	}
+//2、学段列表
+//var commonData = {}
+var postDataPro_periodList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/period/list', commonData, callback);
 }
 
-//拼接参数
-function postDataEncry1(encryData, commonData, flag) {
-	//循环
-	var tempStr = '';
-	for(var tempData in encryData) {
-		//对value进行加密
-		var encryptStr = RSAEncrypt.enctype(encryData[tempData]);
-		//修改值
-		encryData[tempData] = encryptStr;
-	}
-	//判断是否需要添加共用数据
-	if(flag == 1) {
-		//获取个人信息
-		
-	} else if(flag == 2) {
-		//获取个人信息
-		var personalToken = window.myStorage.getItem(window.storageKeyName.PERSONALINFO).token;
-		var comData = {
-			uuid: plus.device.uuid,
-			token: personalToken,
-			appid: plus.runtime.appid
-		};
-		commonData = $.extend(commonData, comData);
-	} else if(flag == 3) {
-		//获取个人信息
-		var personalToken = window.myStorage.getItem(window.storageKeyName.PERSONALINFO).token;
-		var comData = {
-			token: personalToken
-		};
-		commonData = $.extend(commonData, comData);
-	}
-	//将对象转为数组
-	var arr0 = [];
-	for(var item in encryData) {
-		arr0.push(item + '=' + encryData[item]);
-	};
-	var arr1 = [];
-	for(var item in commonData) {
-		arr1.push(item + '=' + commonData[item]);
-	};
-	//合并数组
-	var signArr = arr0.concat(arr1);
-	//拼接登录需要的签名
-	var signTemp = signArr.sort().join('&');
-	return signTemp;
+//3、科目列表
+//var commonData = {
+//	periodId:'',//学段id
+//	areaId:''//省/市/区/县的id
+//}
+var postDataPro_subjectList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/subject/list', commonData, callback);
+}
+
+//4、年级列表
+//var commonData = {
+//	periodId:'',//学段id
+//	areaId:'',//省/市/区/县的id
+//	subjectId:''//科目的id
+//}
+var postDataPro_gradeList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/grade/list', commonData, callback);
+}
+
+//5、资源分类列表
+//var commonData = {
+//	areaId:''//省/市/区/县的id
+//}
+var postDataPro_rescatList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/rescat/list', commonData, callback);
+}
+
+//6、分页获取资源
+//var commonData = {
+//	pageNumber:'',//当前页数
+//	pageSize:'',//每页显示的记录数
+//	periodId:'',//学段id
+//	areaId:'',//省/市/区/县的id
+//	subjectId:'',//科目id
+//	gradeId:'',//年级id
+//	teacherId:'',//教师id
+//	orderType:'',//排序:1-按最新排,2-按最热排
+//	limit:'',//限制获取的资源数
+//	downloadFlag:''//资源是否可以下载，默认false
+//}
+var postDataPro_resList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/res/list', commonData, callback);
+}
+
+//7、资源详情
+//var commonData = {
+//	packId:'',//包/系列id 
+//	resourceId:''//资源id  (packId存在时可不传, 自动获取包/系列下面的 第一个资源)
+//}
+var postDataPro_resInfo = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/res/info', commonData, callback);
+}
+
+//8、分页获取 教师列表
+//var commonData = {
+//	pageNumber:'',//当前页数
+//	pageSize:'',//每页显示的记录数
+//	periodId:'',//学段id
+//	areaId:'',//省/市/区/县的id
+//	subjectId:''//科目id
+//}
+var postDataPro_teacherList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/teacher/list', commonData, callback);
+}
+
+//9、教师个人详情
+//var commonData = {
+//	teacherId:''//教师id
+//}
+var postDataPro_teacherInfo = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/teacher/info', commonData, callback);
 }
