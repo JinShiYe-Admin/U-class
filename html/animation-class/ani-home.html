@@ -118,14 +118,14 @@
 		<div id="topPopover" class="mui-popover">
 			<div class="mui-popover-arrow"></div>
 			<ul class="mui-table-view">
-				<li id="0" class="mui-table-view-cell mui-media ">
+				<li id="100" class="mui-table-view-cell mui-media ">
 					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
 				</li>
 
-				<li id="1" class="mui-table-view-cell mui-media ">
+				<li id="101" class="mui-table-view-cell mui-media ">
 					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
 				</li>
-				<li id="2" class="mui-table-view-cell mui-media ">
+				<li id="201" class="mui-table-view-cell mui-media ">
 					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
 				</li>
 			</ul>
@@ -202,7 +202,7 @@
 					}, {
 						animationName: '儿童常识',
 						animationList: [{
-							tempTitle: '三轮车',
+							tempTitle: '三轮车1',
 							tempImg: 'images/cbd.jpg',
 							tempID: '0'
 						}, {
@@ -330,6 +330,11 @@
 						animationID: '5'
 					}]
 				},
+				updated:function(){
+					var div = document.getElementById("animationData")
+					console.log(div)
+				}
+				,
 				methods: {
 					clickClass: function(model) {
 						console.log('点击的model:' + JSON.stringify(model));
