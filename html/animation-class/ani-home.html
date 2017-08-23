@@ -371,25 +371,31 @@
 				//					console.log('返回界面的data：'+JSON.stringify(data));
 				//				});
 
-//				var commonData = {
-//					username: 'jsy',
-//					password: 'jsy217'
-//				}
-//				postDataPro_getToken(commonData, function(data) {
-//					if(data.code == 0) {
-//						var commonData1 = {
-//							token: data.token
-//						}
-//						postDataPro_provinceList(commonData1, function(data1) {
-//
-//						});
-//					}
-//				});
+				//				var commonData = {
+				//					username: 'jsy',
+				//					password: 'jsy217'
+				//				}
+				//				postDataPro_getToken(commonData, function(data) {
+				//					if(data.code == 0) {
+				//						var commonData1 = {
+				//							token: data.token
+				//						}
+				//						postDataPro_provinceList(commonData1, function(data1) {
+				//
+				//						});
+				//					}
+				//				});
 
 				var commonData = {
-					token: "bcd4a5e26b7f4962a54a1b590bfdd54c"
+//					periodId:'1',//学段id
+//					areaId:'15',//省/市/区/县的id
+//					resourceId: '1201', //资源id
+//					pageNumber: '1', //当前页数
+//					pageSize: '10', //每页显示的记录数
+//					subjectId: '1' //科目id
+					teacherId:'270'//教师id
 				}
-				postDataPro_rescatList(commonData, function(data) {
+				postDataPro_teacherInfo(commonData, function(data) {
 
 				});
 

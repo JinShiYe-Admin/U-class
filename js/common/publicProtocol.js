@@ -69,9 +69,7 @@ var postDataPro_gradeList = function(commonData, callback) {
 }
 
 //5、获取资源的分类及子分类
-//var commonData = {
-//	areaId:''//省/市/区/县的id
-//}
+//var commonData = {}
 var postDataPro_rescatList = function(commonData, callback) {
 	//发送网络请求，data为网络返回值
 	postDataEncry(storageKeyName.MAINURL + 'api/rescat/list', commonData, 1, callback);
