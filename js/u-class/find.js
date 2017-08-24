@@ -5,7 +5,20 @@ var paraObj = {
 }
 mui.init();
 var main;
+var vm = new Vue({
+	el: '.mui-content',
+	data: {
+		provinceInfo: {},
+		periodList: [],
+		type: 0
+	},
+	updated: function() {
+		var div = document.getElementById("slider");
+		console.log(div.innerHTML)
+	}
+});
 mui.plusReady(function() {
+	getPeriodList();
 	var currentId = plus.webview.currentWebview().id;
 	if(currentId == 'source-home.html') { //
 		main = plus.webview.currentWebview();
@@ -169,10 +182,20 @@ mui('.mui-popover').on('tap', 'li', function(e) {
 	mui.fire(page, 'showPop', {
 		data: 'hide'
 	});
+
 	var name = this.querySelector(".mui-media-body").innerHTML
-	var province = document.getElementById("province")
-	province.innerHTML = name;
 	mui('#topPopover').popover('toggle')
+	var province = document.getElementById("province")
+
+	if(!province) {
+		page = plus.webview.getWebviewById("u-home.html")
+		mui.fire(page, 'showPop', {
+			data: 'hide'
+		});
+		return;
+	}
+	province.innerHTML = name;
+
 	var data = {
 		name: name,
 	}
@@ -226,6 +249,23 @@ mui('body').on('hidden', '.mui-popover', function(e) {
 		data: 'hide'
 	});
 });
+window.addEventListener("showPop", function(e) {
+	var data = e.detail.data;
+	if(data == 'show') {
+		mui('#topPopover').popover('show')
+	} else {
+		mui('#topPopover').popover('hide')
+	}
+
+})
+
+function getPeriodList() {
+	var commonData = {}
+	postDataPro_periodList(commonData, function(data) {
+		vm.type = paraObj.serviceType;
+		vm.periodList = data.data;
+	})
+}
 
 //mui.back = function() {
 //	var _self = plus.webview.currentWebview();
