@@ -129,7 +129,8 @@
 			"css/u-class/school.css",
 			"css/mui.min.css",
 			"html/utils/school.html",
-			"css/utils/common.css"
+			"css/utils/common.css",
+			"js/u-class/course-list.js"
 		],
 		"refer": [
 			"html/u-class/primary.html",
