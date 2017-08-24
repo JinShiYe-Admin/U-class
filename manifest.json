@@ -256,7 +256,8 @@
 					"html/utils/primary.html",
 					"html/utils/school.html",
 					"js/utils/webviewGroup.js",
-					"js/utils/myStorage.js"
+					"js/utils/myStorage.js",
+					"js/libs/vue/vue.min.js"
 				],
 				"refer": [
 					"html/u-class/middle.html",
@@ -275,7 +276,10 @@
 					"html/utils/webviewGroup.js",
 					"css/school.css",
 					"js/utils/webviewGroup.js",
-					"js/utils/myStorage.js"
+					"js/utils/myStorage.js",
+					"js/libs/vue/vue.min.js",
+					"js/mui.min.js",
+					"js/utils/utils.js"
 				],
 				"refer": [
 					"html/u-class/find-course.html"
@@ -303,7 +307,14 @@
 					"js/mui.min.js",
 					"fonts/mui.ttf",
 					"css/mui.min.css",
-					"js/utils/utils.js"
+					"js/utils/utils.js",
+					"js/libs/jquery.js",
+					"js/common/publicProtocol.js",
+					"js/libs/crypto-js/require.js",
+					"js/common/postData.js",
+					"js/utils/signHmacSHA1.js",
+					"js/common/storageKeyName.js",
+					"js/libs/myStorage/myStorage.js"
 				],
 				"refer": [
 					"html/sourse/source-home.html",
@@ -396,7 +407,17 @@
 					"js/u-class/school.js",
 					"css/mui.min.css",
 					"js/libs/vue/vue.min.js",
-					"images/utils/default_personalimage.png"
+					"images/utils/default_personalimage.png",
+					"js/libs/jquery.js",
+					"js/mui.min.js",
+					"js/utils/utils.js",
+					"js/common/publicProtocol.js",
+					"js/libs/crypto-js/require.js",
+					"js/common/postData.js",
+					"js/utils/signHmacSHA1.js",
+					"js/utils/myStorage.js",
+					"js/common/storageKeyName.js",
+					"js/libs/myStorage/myStorage.js"
 				],
 				"refer": [],
 				"priority": 0

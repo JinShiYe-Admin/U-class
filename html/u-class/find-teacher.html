@@ -15,19 +15,30 @@
 	</head>
 
 	<body>
+
 		<div class="mui-content">
+			<div id="topPopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<ul class="mui-table-view">
+					<li id="0" class="mui-table-view-cell mui-media ">
+						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
+					</li>
+
+					<li id="1" class="mui-table-view-cell mui-media ">
+						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
+					</li>
+					<li id="2" class="mui-table-view-cell mui-media ">
+						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
+					</li>
+				</ul>
+			</div>
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="primary0.html"  data-province="">
-							<div>小学</div>
+						<a class="mui-control-item" :class="index==0?'mui-active':''" href="#item1mobile" :data-wid="'primary'+type+'.html'" data-province="" v-for="(item,index) in periodList">
+							<div>{{item.name}}</div>
 						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="middle0.html" data-province="">
-							<div>初中</div>
-						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="high0.html" data-province="">
-							<div>高中</div>
-						</a>
+						
 					</div>
 				</div>
 			</div>
@@ -37,6 +48,8 @@
 		<script src="../../js/utils/myStorage.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
 		<script src="../../js/utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/libs/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 

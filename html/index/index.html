@@ -30,6 +30,7 @@
 		</nav>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
+		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 			//页面路径
 			var subPages = ['../u-class/u-home.html', '../sourse/source-home.html', '../animation-class/ani-home.html'];
@@ -38,6 +39,7 @@
 			var main; //当前webview
 			mui.init();
 			mui.plusReady(function() {
+				getProvinceList();
 				initListener();
 				initSubPage();
 				utils.preloadWebWithData("../utils/download.html"); //预加载下载页
@@ -108,6 +110,20 @@
 					data: ''
 				});
 			});
+
+			function getProvinceList() {
+				//1、省份列表
+				var commonData = {}
+				console.log(123)
+				postDataPro_provinceList(commonData,function(data){
+					console.log(456)
+					var info = {
+						data:data.data,
+						currentPro:data.data[0]
+					}
+					window.myStorage.setItem('provinceInfo', info);
+				})
+			}
 		</script>
 	</body>
 

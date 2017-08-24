@@ -107,14 +107,14 @@ body,
 
 #topPopover {
 	position: fixed;
-	top: 46px;
-	right: 6px;
+	top: 0px;
+	left: 5px;
 	width: 100px;
 }
 
 #topPopover .mui-popover-arrow {
-	left: auto;
-	right: 6px;
+	left: 6px;
+	right: auto;
 }
 
 .mui-popover {
