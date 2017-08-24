@@ -46,6 +46,7 @@
 			.download-type {
 				background-color: white;
 				padding: 11px 15px 4px 15px;
+				top: 10px;
 			}
 
 			.download-image {
@@ -160,7 +161,7 @@
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll">
 						<ul class="mui-table-view">
-							<li v-for="value in failArray" class="mui-table-view-cell mui-ellipsis">{{value}}</li>
+							<li  v-for="value in failArray" class="mui-table-view-cell mui-ellipsis">{{value}}</li>
 						</ul>
 					</div>
 				</div>
@@ -175,8 +176,8 @@
 			Vue.component("download-item", {
 				props: ["value", "infowidth", "index"],
 				template: '\
-					<li v-if="value.isShow" class="mui-table-view-cell">\
-						<img class="download-image" src="../../images/file/word.png" />\
+					<li v-if="value.isShow" class="mui-table-view-cell" style="height: 241px;">\
+						<img class="download-image" src="../../images/file/11.png" />\
 						<div class="download-info">\
 							<div class="download-file-name download-ellipsis" :style="{width: infowidth+\'px\'}">{{value.name}}</div>\
 							<div :id="value.taskid" v-show="value.showProgress" class="mui-progressbar">\
@@ -548,7 +549,7 @@
 				ele.className = "mui-table-view-cell";
 				ele.id = data.path;
 				ele.innerHTML = '\
-						<img class="download-image" src="../../images/file/word.png" />\
+						<img class="download-image" src="../../images/file/11.png" />\
 						<div class="download-info">\
 							<div class="download-file-name download-ellipsis" style="width: ' + vm_down.width + 'px">' + data.name + '</div>\
 							<div class="download-file-size">' + data.size + '</div>\
