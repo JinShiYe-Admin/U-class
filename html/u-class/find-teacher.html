@@ -38,9 +38,9 @@
 			<div>
 			</div>
 			<!--时期选择-->
-			<period-view></period-view>
+			<period-view v-on:periodchoice="getPeriodId"></period-view>
 			<!--老师列表-->
-			<tea-list></tea-list>
+			<tea-list v-bind:comdata="comData" v-on:requiredEnd="requireTeaListEnd"></tea-list>
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/libs/vue/vue.js"></script>
@@ -56,13 +56,27 @@
 				var findTea = new Vue({
 					el: '#find-tea',
 					data: {
-
+						comData: {
+							pageNumber: 1,
+							pageSize: 10, //每页显示的记录数
+							periodId: 0, //学段id
+							areaId: 0, //省/市/区/县的id
+							subjectId: '' //科目id
+						},
+						totalPage: 0
 					},
 					computed: {
 
 					},
 					methods: {
-
+						getPeriodId: function(period) {
+							console.log("主页获取的学段数据:" + JSON.stringify(period))
+							this.comData.periodId = period.id;
+						},
+						requireTeaListEnd: function(totalPage) {
+							console.log("主页获取的总页数:" + totalPage);
+							this.totalPage = totalPage;
+						}
 					}
 				});
 			})
