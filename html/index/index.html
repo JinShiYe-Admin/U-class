@@ -122,7 +122,14 @@
 						currentPro:data.data[0]
 					}
 					window.myStorage.setItem('provinceInfo', info);
-				})
+				});
+				//5、获取资源的分类及子分类
+				postDataPro_rescatList({}, function(data) {
+					if (data.code == 0) {
+						//将获取到的数据，保存到本地，方便别的页面调用
+						window.myStorage.setItem(window.storageKeyName.RESOURCELIST, data.data);
+					}
+				});
 			}
 		</script>
 	</body>
