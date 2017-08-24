@@ -394,7 +394,8 @@
 					"css/u-class/school.css",
 					"css/utils/common.css",
 					"html/utils/primary.html",
-					"html/utils/school.html"
+					"html/utils/school.html",
+					"js/u-class/course-list.js"
 				],
 				"refer": [
 					"html/u-class/high.html",

@@ -114,14 +114,12 @@
 			function getProvinceList() {
 				//1、省份列表
 				var commonData = {}
-				console.log(123)
 				postDataPro_provinceList(commonData,function(data){
-					console.log(456)
 					var info = {
 						data:data.data,
 						currentPro:data.data[0]
 					}
-					window.myStorage.setItem('provinceInfo', info);
+					window.myStorage.setItem(window.storageKeyName.PROVINCEINFO, info);
 				});
 				//5、获取资源的分类及子分类
 				postDataPro_rescatList({}, function(data) {

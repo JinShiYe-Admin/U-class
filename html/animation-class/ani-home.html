@@ -265,16 +265,21 @@
 			});
 
 			//6、分页获取资源列表
-			function getResourceList(model) {
+			function getAnimationList(model) {
+				//当前选择的省份
+				var provinceInfo = window.myStorage.getItem('provinceInfo');
+				console.log('provinceInfo:'+JSON.stringify(provinceInfo));
 				var commonData = {
 					pageNumber: model.pageIndex, //当前页数
 					pageSize: '20', //每页显示的记录数
 					resourceCategoryId: model.id, //资源分类Id
-					areaId: '' //省/市/区/县的id
+					areaId: provinceInfo.currentPro.id //省/市/区/县的id
 				}
-				postDataPro_resList(comData, function(data) {
+				console.log('commonData:'+JSON.stringify(commonData));
+				postDataPro_resList(commonData, function(data) {
 					
-				})
+				});
+
 			}
 
 			function showWeb() {
@@ -318,7 +323,7 @@
 						//默认请求第0个数据
 						if(animationData.animationArray.length > 0) {
 							//6、分页获取资源列表
-							getResourceList(animationData.animationArray[0]);
+							getAnimationList(animationData.animationArray[0]);
 						}
 					}
 				}
