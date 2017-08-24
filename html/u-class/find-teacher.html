@@ -11,34 +11,36 @@
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 		<link href="../../css/u-class/school.css" rel="stylesheet" />
+		<style>
+			input[type=radio]:checked+label {
+				border-bottom: 2px solid #4E8FFE;
+				color: #4E8FFE;
+			}
+			
+			label {
+				line-height: 40px;
+				padding: 10px 15px;
+				font-size: 15px;
+				text-align: center;
+			}
+			
+			input[type=radio] {
+				position: absolute;
+				left: -99999999px;
+			}
+		</style>
 
 	</head>
 
 	<body>
 		<div id="find-tea" class="mui-content">
-			<!--背景圖片控件-->
+			<!--背景图片组件-->
 			<div>
-				
 			</div>
 			<!--时期选择-->
 			<period-view></period-view>
 			<!--老师列表-->
-			<router-view></router-view>
-		</div>
-		<div id="topPopover" class="mui-popover">
-			<div class="mui-popover-arrow"></div>
-			<ul class="mui-table-view">
-				<li id="0" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
-				</li>
-
-				<li id="1" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
-				</li>
-				<li id="2" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
-				</li>
-			</ul>
+			<tea-list></tea-list>
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/libs/vue/vue.js"></script>
@@ -47,18 +49,22 @@
 		<script src="../../js/u-class/period-list.js"></script>
 		<!--tealist 组件-->
 		<script src="../../js/u-class/tea-list.js"></script>
+		<script src="../../js/common/publicProtocol.js"></script>
 		<script type="text/javascript">
-			var findTea = new Vue({
-				el: '#find-tea',
-				data: {
+			mui.init();
+			mui.plusReady(function() {
+				var findTea = new Vue({
+					el: '#find-tea',
+					data: {
 
-				},
-				computed: {
+					},
+					computed: {
 
-				},
-				methods: {
+					},
+					methods: {
 
-				}
+					}
+				});
 			})
 		</script>
 	</body>

@@ -294,7 +294,8 @@
 					"images/utils/load-img-error.png",
 					"js/utils/mui.pullToRefresh.material.js",
 					"js/utils/mui.pullToRefresh.js",
-					"js/libs/vue/vue.min.js"
+					"js/libs/vue/vue.min.js",
+					"js/utils/myStorage.js"
 				],
 				"refer": [
 					"html/animation-class/classPlaying.html"
