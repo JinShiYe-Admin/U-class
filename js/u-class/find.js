@@ -87,6 +87,7 @@ function setSubPage() {
 			url: "../utils/school.html",
 			extras: {
 				data: {
+					period: 1,
 					schoolType: 0,
 					serviceType: paraObj.serviceType,
 				}
@@ -99,6 +100,7 @@ function setSubPage() {
 			url: "../utils/school.html",
 			extras: {
 				data: {
+					period: 2,
 					schoolType: 1,
 					serviceType: paraObj.serviceType,
 				}
@@ -107,10 +109,12 @@ function setSubPage() {
 				top: paraObj.top
 			}
 		}, {
+
 			id: "high" + paraObj.serviceType + ".html",
 			url: "../utils/school.html",
 			extras: {
 				data: {
+					period: 3,
 					schoolType: 2,
 					serviceType: paraObj.serviceType,
 				}
@@ -263,7 +267,19 @@ function getPeriodList() {
 	var commonData = {}
 	postDataPro_periodList(commonData, function(data) {
 		vm.type = paraObj.serviceType;
+		for(var i = 0; i < data.data.length; i++) {
+			var model = data.data[i];
+			if(i == 0) {
+				model.type = 'primary'
+			} else if(i == 1) {
+				model.type = 'middle'
+			} else {
+				model.type = 'high'
+			}
+
+		}
 		vm.periodList = data.data;
+
 	})
 }
 

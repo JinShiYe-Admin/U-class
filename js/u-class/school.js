@@ -44,13 +44,14 @@ mui.plusReady(function() {
 
 	})
 	window.addEventListener("provinceChange", function(e) {
+		console.log(11111)
 		window.scrollTo(0, 0);
 		var data = e.detail.data;
 		console.log(JSON.stringify(data))
 		vm.pageIndex = 1;
 		data.schoolType = vm.schoolType;
 		data.serviceType = vm.serviceType
-		getData(data)
+		getData(vm)
 
 	})
 	window.addEventListener("showPop", function(e) {
@@ -98,17 +99,17 @@ function getData(model) {
 	switch(model.serviceType) {
 		case 0:
 			{
-				getTeacher(model.schoolType);
+				getTeacher(model);
 			}
 			break;
 		case 1:
 			{
-				getCourse(model.schoolType);
+				getCourse(model);
 			}
 			break;
 		case 2:
 			{
-				getSourse(model.schoolType);
+				getSourse(model);
 			}
 			break;
 		default:
@@ -116,12 +117,12 @@ function getData(model) {
 	}
 }
 
-function getTeacher(schoolType) {
+function getTeacher(model) {
 	//8、分页获取教师列表
 	var commonData = {
 		pageNumber: 1, //当前页数
 		pageSize: 20, //每页显示的记录数
-		//		periodId: '', //学段id
+		periodId: model.period, //学段id
 		//		areaId: '', //省/市/区/县的id
 		//		subjectId: '' //科目id
 	}
