@@ -111,7 +111,10 @@
 			"css/mui.min.css",
 			"css/utils/common.css",
 			"css/u-class/school.css",
-			"html/utils/school.html"
+			"html/utils/school.html",
+			"js/u-class/tea-list.js",
+			"js/libs/vue/vue-router.js",
+			"js/u-class/period-list.js"
 		],
 		"refer": [
 			"html/u-class/primary.html",

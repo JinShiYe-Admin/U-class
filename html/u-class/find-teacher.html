@@ -15,42 +15,52 @@
 	</head>
 
 	<body>
-
-		<div class="mui-content">
-			<div id="topPopover" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<ul class="mui-table-view">
-					<li id="0" class="mui-table-view-cell mui-media ">
-						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
-					</li>
-
-					<li id="1" class="mui-table-view-cell mui-media ">
-						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
-					</li>
-					<li id="2" class="mui-table-view-cell mui-media ">
-						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
-					</li>
-				</ul>
+		<div id="find-tea" class="mui-content">
+			<!--背景圖片控件-->
+			<div>
+				
 			</div>
-			<div id="slider" class="mui-slider mui-fullscreen">
-				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll">
-						<a class="mui-control-item" :class="index==0?'mui-active':''" href="#item1mobile" :data-wid="item.type+0+'.html'" data-province="" v-for="(item,index) in periodList">
-							<div>{{item.name}}</div>
-						</a>
-						
-					</div>
-				</div>
-			</div>
+			<!--时期选择-->
+			<period-view></period-view>
+			<!--老师列表-->
+			<router-view></router-view>
 		</div>
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<ul class="mui-table-view">
+				<li id="0" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
+				</li>
 
+				<li id="1" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
+				</li>
+				<li id="2" class="mui-table-view-cell mui-media ">
+					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
+				</li>
+			</ul>
+		</div>
 		<script src="../../js/mui.min.js"></script>
-		<script src="../../js/utils/myStorage.js"></script>
-		<script type="text/javascript" src="../../js/utils/utils.js"></script>
-		<script src="../../js/utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/libs/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/libs/vue/vue.js"></script>
+		<script src="../../js/libs/vue/vue-router.js"></script>
+		<!--period组件-->
+		<script src="../../js/u-class/period-list.js"></script>
+		<!--tealist 组件-->
+		<script src="../../js/u-class/tea-list.js"></script>
+		<script type="text/javascript">
+			var findTea = new Vue({
+				el: '#find-tea',
+				data: {
+
+				},
+				computed: {
+
+				},
+				methods: {
+
+				}
+			})
+		</script>
 	</body>
 
 </html>
