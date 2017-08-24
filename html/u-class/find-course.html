@@ -31,19 +31,10 @@
 				</li>
 			</ul>
 		</div>
-			<div id="slider" class="mui-slider mui-fullscreen">
-				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll">
-						<a class="mui-control-item" :class="index==0?'mui-active':''" href="#item1mobile" :data-wid="'primary'+type+'.html'" data-province="" v-for="(item,index) in periodList">
-							<div>{{item.name}}</div>
-						</a>
-					</div>
-					<button id="filter" onclick="toFilter()" type="button" style="float: right;margin-top: 5px;color: dodgerblue;border-color: transparent;">
-		           高级筛选>>
-		        </button>
-
-				</div>
-			</div>
+<!--时期选择-->
+			<period-view></period-view>
+			<!--老师列表-->
+			<router-view></router-view>
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/utils/myStorage.js"></script>
@@ -51,7 +42,12 @@
 		<script src="../../js/utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/libs/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/libs/vue/vue.js"></script>
+		<script src="../../js/libs/vue/vue-router.js"></script>
+		<!--period组件-->
+		<script src="../../js/u-class/period-list.js"></script>
+		<!--tealist 组件-->
+		<script src="../../js/u-class/course-list.js"></script>
 	</body>
 
 </html>
