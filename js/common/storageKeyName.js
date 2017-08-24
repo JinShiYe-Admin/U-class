@@ -16,7 +16,8 @@ var storageKeyName = (function(mod) {
 	switch(mod.key) {
 		case 0: //开发
 			//---开发---start---
-			mod.MAINURL = 'http://114.215.26.9:8080/ziyuanpt/'; //主url
+//			mod.MAINURL = 'http://114.215.26.9:8080/ziyuanpt/'; //主url
+			mod.MAINURL = 'http://139.129.252.49:8080/YouKe/'; //主url
 			//---开发---end---
 			//---七牛空间和接口---开发---start---
 			mod.QNPB = 'http://qn-kfpb.jiaobaowang.net/'; //公开空间域名
