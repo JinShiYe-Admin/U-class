@@ -178,7 +178,7 @@
 				},
 				updated: function() {
 					var div = document.getElementById("animationData")
-					console.log(div)
+//					console.log(div)
 				},
 				methods: {
 					clickClass: function(model) {
@@ -271,6 +271,9 @@
 					pageSize: '20', //每页显示的记录数
 					resourceCategoryId: model.id, //资源分类Id
 					areaId: '' //省/市/区/县的id
+				}
+				postDataPro_resList(comData, function(data) {
+					
 				}
 			}
 
