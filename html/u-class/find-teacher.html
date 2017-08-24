@@ -35,7 +35,7 @@
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item" :class="index==0?'mui-active':''" href="#item1mobile" :data-wid="'primary'+type+'.html'" data-province="" v-for="(item,index) in periodList">
+						<a class="mui-control-item" :class="index==0?'mui-active':''" href="#item1mobile" :data-wid="item.type+0+'.html'" data-province="" v-for="(item,index) in periodList">
 							<div>{{item.name}}</div>
 						</a>
 						
