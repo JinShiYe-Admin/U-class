@@ -108,6 +108,7 @@ var storageKeyName = (function(mod) {
 	}
 	
 	mod.TOKEN = 'token';//优课协议获取到的token
+	mod.RESOURCELIST = 'resourceList';//第5个协议获取到的资源列表，包含优课、资源、动画课
 	mod.PERSONALINFO = 'personalInfo1111'; //个人信息，登录成功后返回值
 	mod.SHAKEHAND = 'ShakeHand'; //公钥，登录时，返回的握手信息，
 	mod.AUTOLOGIN = 'autoLogin'; //登录信息
