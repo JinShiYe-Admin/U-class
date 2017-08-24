@@ -294,7 +294,8 @@
 					"images/utils/load-img-error.png",
 					"js/utils/mui.pullToRefresh.material.js",
 					"js/utils/mui.pullToRefresh.js",
-					"js/libs/vue/vue.min.js"
+					"js/libs/vue/vue.min.js",
+					"js/utils/myStorage.js"
 				],
 				"refer": [
 					"html/animation-class/classPlaying.html"
@@ -358,7 +359,10 @@
 					"css/u-class/school.css",
 					"js/u-class/find.js",
 					"html/utils/school.html",
-					"html/utils/primary.html"
+					"html/utils/primary.html",
+					"js/u-class/tea-list.js",
+					"js/libs/vue/vue-router.js",
+					"js/u-class/period-list.js"
 				],
 				"refer": [
 					"html/u-class/high.html",
@@ -468,7 +472,6 @@
 		"idle": {
 			"resources": [
 				"js/libs/vue/vue-router.min.js",
-				"js/libs/vue/vue-router.js",
 				"js/mui.js",
 				"css/mui.css"
 			]

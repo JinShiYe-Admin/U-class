@@ -62,7 +62,8 @@
 			"images/utils/load-img-error.png",
 			"js/utils/mui.pullToRefresh.material.js",
 			"js/utils/mui.pullToRefresh.js",
-			"js/libs/vue/vue.min.js"
+			"js/libs/vue/vue.min.js",
+			"js/utils/myStorage.js"
 		],
 		"refer": [
 			"html/animation-class/classPlaying.html"
@@ -111,7 +112,10 @@
 			"css/mui.min.css",
 			"css/utils/common.css",
 			"css/u-class/school.css",
-			"html/utils/school.html"
+			"html/utils/school.html",
+			"js/u-class/tea-list.js",
+			"js/libs/vue/vue-router.js",
+			"js/u-class/period-list.js"
 		],
 		"refer": [
 			"html/u-class/primary.html",
