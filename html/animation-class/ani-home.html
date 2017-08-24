@@ -360,45 +360,6 @@
 			});
 			var main; //当前webview
 			mui.plusReady(function() {
-				//				var tempData0 = {}
-				//				var tempData1 = {
-				//					cptoken: "4f679b06-4d19-44e8-9c86-7f9e56903739",
-				//					uuid: plus.device.uuid,
-				//					token: "4f679b06-4d19-44e8-9c86-7f9e56903739",
-				//					appid: plus.runtime.appid
-				//				}
-				//				postDataEncry('http://192.168.1.200:8080/MobileCpService/getUserData',tempData0,tempData1,1,function(data){
-				//					console.log('返回界面的data：'+JSON.stringify(data));
-				//				});
-
-				//				var commonData = {
-				//					username: 'jsy',
-				//					password: 'jsy217'
-				//				}
-				//				postDataPro_getToken(commonData, function(data) {
-				//					if(data.code == 0) {
-				//						var commonData1 = {
-				//							token: data.token
-				//						}
-				//						postDataPro_provinceList(commonData1, function(data1) {
-				//
-				//						});
-				//					}
-				//				});
-
-				var commonData = {
-//					periodId:'1',//学段id
-//					areaId:'15',//省/市/区/县的id
-//					resourceId: '1201', //资源id
-//					pageNumber: '1', //当前页数
-//					pageSize: '10', //每页显示的记录数
-//					subjectId: '1' //科目id
-					teacherId:'270'//教师id
-				}
-				postDataPro_teacherInfo(commonData, function(data) {
-
-				});
-
 				main = plus.webview.currentWebview();
 				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
 				(function($) {
@@ -458,20 +419,25 @@
 			})
 
 			function showWeb() {
-				console.log('显示动画界面')
-
+				console.log('显示动画界面');
+				//5、获取资源的分类及子分类
+				postDataPro_rescatList({}, function(data) {
+					if (data.code == 0) {
+						//将获取到的数据，保存到本地，方便别的页面调用
+						window.myStorage.setItem(window.storageKeyName.RESOURCELIST, data.data);
+					}
+				});
 				var province = window.myStorage.getItem('province');
 				var currProvince = document.getElementById("province")
 				if(currProvince == '') {
 					//初始化界面
-
+					
 				} else if(province.name == currProvince.innerHTML) {
 					return;
 				} else {
 					currProvince.innerHTML = province.name;
 					//重新获取数据
 				}
-
 			}
 
 			window.addEventListener("toUHome", function(e) {
