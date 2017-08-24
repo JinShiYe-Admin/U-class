@@ -138,20 +138,20 @@
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item" :class="{'mui-active':item.active}" :href="'#'+item.animationID" v-for="item in animationArray">
+						<a class="mui-control-item" :class="{'mui-active':item.active}" :href="'#'+item.id" v-for="item in animationArray">
 							{{item.name}}
 						</a>
 					</div>
 				</div>
 				<div class="mui-slider-group">
-					<div :id="item.animationID" class="mui-slider-item mui-control-content" :class="{'mui-active':item.active}" v-for="item in animationArray">
+					<div :id="item.id" class="mui-slider-item mui-control-content" :class="{'mui-active':item.active}" v-for="item in animationArray">
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view mui-grid-view" style="padding: 0px 0px 10px;">
 									<li class="mui-table-view-cell mui-media" :class="index==0?'mui-col-xs-12':'mui-col-xs-6'" v-for="(lessonData,index) in item.childList" v-on:tap="clickClass(lessonData)" style="padding: 0px 0px;margin-right: 0px;border:1px solid white;">
 										<a href="#" style="margin: 0px 0px;">
 											<img class="mui-media-object" src='../../images/utils/load-img-error.png'>
-											<div class="mui-media-body" style="text-align: left;margin-left: 10px;margin-top: 5px;margin-bottom: 5px;">{{lessonData.tempTitle}}</div>
+											<div class="mui-media-body" style="text-align: left;margin-left: 10px;margin-top: 5px;margin-bottom: 5px;">111</div>
 										</a>
 									</li>
 								</ul>
@@ -266,20 +266,20 @@
 
 			//6、分页获取资源列表
 			function getAnimationList(model) {
-				//当前选择的省份
-				var provinceInfo = window.myStorage.getItem('provinceInfo');
-				console.log('provinceInfo:'+JSON.stringify(provinceInfo));
 				var commonData = {
 					pageNumber: model.pageIndex, //当前页数
-					pageSize: '20', //每页显示的记录数
-					resourceCategoryId: model.id, //资源分类Id
-					areaId: provinceInfo.currentPro.id //省/市/区/县的id
+					pageSize: 20, //每页显示的记录数
+					resourceCategoryId: model.id //资源分类Id
 				}
-				console.log('commonData:'+JSON.stringify(commonData));
 				postDataPro_resList(commonData, function(data) {
-					
+					if (data.code == 0) {
+						if (model.pageFlag == 0) {//刷新
+							model.childList = [].concat(data.list);
+						} else{//加载更多
+							model.childList = model.childList.concat(data.list);
+						}
+					}
 				});
-
 			}
 
 			function showWeb() {
