@@ -7,7 +7,7 @@ Vue.component("tea-list", {
 		'<a>' +
 		'<img/>' +
 		'<div></div>' +
-		'<input v-bind:type="button"/>'
+		'<input v-bind:type="button"/>'+
 	'</a>' +
 	'</li>' +
 	'</ul>',
