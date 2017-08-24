@@ -98,7 +98,13 @@
 				var vm = new Vue({
 					el: '#provinceInfo',
 					data: {
-						provinceInfo: {}
+						provinceInfo: {
+							data:[],
+							currentPro:{
+								name:''
+							}
+							
+						}
 					},
 					updated: function() {
 
@@ -109,6 +115,7 @@
 				mui.plusReady(function() {
 					var provinceInfo = window.myStorage.getItem('provinceInfo');
 					vm.provinceInfo = provinceInfo
+					console.log('vm.provinceInfo='+vm.provinceInfo.currentPro.name)
 					main = plus.webview.currentWebview();
 					main.addEventListener('show', showWeb, false); //增加窗口显示的监听
 					setSubPage(); //页面初始化
@@ -147,7 +154,7 @@
 							}
 						}, {
 							id: "find-course.html",
-							url: "find-cours.html",
+							url: "find-course.html",
 							extras: {},
 							styles: {
 								top: "44px"
