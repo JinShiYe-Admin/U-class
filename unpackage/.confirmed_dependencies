@@ -42,7 +42,8 @@
 			"js/common/postData.js",
 			"js/utils/signHmacSHA1.js",
 			"js/common/storageKeyName.js",
-			"js/libs/myStorage/myStorage.js"
+			"js/libs/myStorage/myStorage.js",
+			"images/utils/img-teacher-bg2.png"
 		],
 		"refer": [
 			"html/utils/school.html",
@@ -139,7 +140,8 @@
 			"html/u-class/primary.html",
 			"html/u-class/high.html",
 			"html/u-class/middle.html",
-			"html/utils/school.html"
+			"html/utils/school.html",
+			"html/u-class/teachSpace.html"
 		]
 	},
 	"html/u-class/find-course.html": {
@@ -212,6 +214,12 @@
 		]
 	},
 	"html/animation-class/classPlaying.html": {
+		"resources": [
+			"css/mui.min.css",
+			"images/utils/yuantiao.jpg"
+		]
+	},
+	"html/u-class/teachSpace.html": {
 		"resources": [
 			"css/mui.min.css",
 			"images/utils/yuantiao.jpg"

@@ -4,7 +4,7 @@
 Vue.component("tea-list", {
 	props: ['comdata'],
 	template: '<ul v-bind:class="[\'mui-table-view\']">' +
-		'<li v-for="(item,index) of listData" v-bind:class="[\'mui-table-view-cell\',\'cell-container\']">' +
+		'<li v-on:tap="clickcell(item)" v-for="(item,index) of listData" v-bind:class="[\'mui-table-view-cell\',\'cell-container\']">' +
 		'<img v-bind:class="[\'tea-headImg\']" v-bind:src="item.img_url"/>' +
 		'<div v-bind:class="[\'tea-info\']">' +
 		'<p>{{item.name}}</p>' +
@@ -52,7 +52,14 @@ Vue.component("tea-list", {
 				}
 				com.$emit('requiredEnd',com.totalPage);
 			});
+		},
+		clickcell:function(model){
+			utils.openNewWindowWithData('teachSpace.html', model)
 		}
 
 	}
+})
+window.addEventListener("showPop", function(e) {
+	mui('#topPopover').popover('toggle')
+
 })

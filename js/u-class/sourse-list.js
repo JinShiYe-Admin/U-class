@@ -11,7 +11,7 @@ Vue.component("source-list", {
 	template: '<ul class="mui-table-view mui-table-view-chevron">' +
 		'<li class="mui-table-view-cell mui-media" v-for="item in listData">' +
 		'<a href="javascript:;">' +
-		'<img class="mui-media-object mui-pull-left" style="width: 40px;height: 40px;" :src="item.img_url">' +
+		'<img class="mui-media-object mui-pull-left" style="width: 40px;height: 40px;" src="../../images/utils/img-teacher-bg2.png">' +
 		'<div class="mui-media-body">' +
 		'{{item.name}}' +
 		'<p style="font-size: 12px;">{{item.create_time}}</p>' +
@@ -79,19 +79,19 @@ function pulldownRefresh() {
  */
 function pullupRefresh() {
 
-	var pageIndex = findsource.comData.pageNumber++;
-	if(pageIndex * 10 >= findsource.total) {
-		setTimeout(function() {
-			mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
-
-		}, 1000);
-	} else {
-		setTimeout(function() {
-			data.listData = data.listData.concat(data.listData)
-			mui('#pullrefresh').pullRefresh().endPullup(false); //参数为true代表没有更多数据了。
-
-		}, 1000);
-	}
+//	var pageIndex = findsource.comData.pageNumber++;
+//	if(pageIndex * 10 >= findsource.total) {
+//		setTimeout(function() {
+//			mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+//
+//		}, 1000);
+//	} else {
+//		setTimeout(function() {
+////			data.listData = data.listData.concat(data.listData)
+//			mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+//
+//		}, 1000);
+//	}
 
 }
 window.addEventListener("filterChange", function(e) {
@@ -100,3 +100,12 @@ window.addEventListener("filterChange", function(e) {
 	console.log(JSON.stringify(data))
 
 })
+function download(btn) {
+	console.log(123)
+	utils.showWebAndFireWinListen('../utils/download.html', 'addDownLoad', {
+		url: "https://www.baidu.com/img/bd_logo.png",
+		name: "bd_logo.png",
+		size: "123456"
+
+	})
+}
