@@ -10,7 +10,7 @@
 
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link href="../../css/utils/common.css" rel="stylesheet" />
-		<link href="../../css/u-class/school.css" rel="stylesheet" />
+		<link href="../../css/u-class/tea-list.css" rel="stylesheet" />
 		<style>
 			input[type=radio]:checked+label {
 				border-bottom: 2px solid #4E8FFE;
@@ -28,6 +28,10 @@
 				position: absolute;
 				left: -99999999px;
 			}
+			
+			.mui-content {
+				margin-bottom: 50px;
+			}
 		</style>
 
 	</head>
@@ -40,9 +44,9 @@
 			<!--时期选择-->
 			<period-view v-on:periodchoice="getPeriodId"></period-view>
 			<!--老师列表-->
-			<tea-list v-bind:comdata="comData" v-on:requiredEnd="requireTeaListEnd"></tea-list>
+			<tea-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></tea-list>
 		</div>
-		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.js"></script>
 		<script src="../../js/libs/vue/vue.js"></script>
 		<script src="../../js/libs/vue/vue-router.js"></script>
 		<!--period组件-->
@@ -51,6 +55,7 @@
 		<script src="../../js/u-class/tea-list.js"></script>
 		<script src="../../js/common/publicProtocol.js"></script>
 		<script type="text/javascript">
+			var findTea;
 			mui.init();
 			mui.plusReady(function() {
 				var findTea = new Vue({
@@ -64,6 +69,9 @@
 							subjectId: '' //科目id
 						},
 						totalPage: 0
+					},
+					created: function() {
+
 					},
 					computed: {
 

@@ -279,11 +279,10 @@
 					"js/utils/myStorage.js",
 					"js/libs/vue/vue.min.js",
 					"js/mui.min.js",
-					"js/utils/utils.js"
-				],
-				"refer": [
+					"js/utils/utils.js",
 					"html/u-class/find-course.html"
 				],
+				"refer": [],
 				"priority": 0
 			},
 			"html/animation-class/ani-home.html": {
@@ -362,7 +361,9 @@
 					"html/utils/primary.html",
 					"js/u-class/tea-list.js",
 					"js/libs/vue/vue-router.js",
-					"js/u-class/period-list.js"
+					"js/u-class/period-list.js",
+					"css/u-class/tea-list.css",
+					"js/mui.js"
 				],
 				"refer": [
 					"html/u-class/high.html",
@@ -473,7 +474,6 @@
 		"idle": {
 			"resources": [
 				"js/libs/vue/vue-router.min.js",
-				"js/mui.js",
 				"css/mui.css"
 			]
 		}
