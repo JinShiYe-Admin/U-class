@@ -30,7 +30,19 @@
 			"html/utils/school.html",
 			"js/utils/webviewGroup.js",
 			"js/utils/myStorage.js",
-			"js/libs/vue/vue.min.js"
+			"js/libs/vue/vue.min.js",
+			"css/u-class/tea-list.css",
+			"js/libs/vue/vue.js",
+			"js/libs/vue/vue-router.js",
+			"js/u-class/period-list.js",
+			"js/mui.js",
+			"js/u-class/sourse-list.js",
+			"js/libs/jquery.js",
+			"js/libs/crypto-js/require.js",
+			"js/common/postData.js",
+			"js/utils/signHmacSHA1.js",
+			"js/common/storageKeyName.js",
+			"js/libs/myStorage/myStorage.js"
 		],
 		"refer": [
 			"html/utils/school.html",
@@ -97,7 +109,9 @@
 		"resources": [
 			"js/libs/vue/vue.js",
 			"css/mui.min.css",
-			"css/utils/common.css"
+			"css/utils/common.css",
+			"js/mui.min.js",
+			"js/utils/utils.js"
 		]
 	},
 	"html/u-class/primary.html": {
@@ -118,7 +132,8 @@
 			"js/libs/vue/vue-router.js",
 			"js/u-class/period-list.js",
 			"css/u-class/tea-list.css",
-			"js/mui.js"
+			"js/mui.js",
+			"css/u-class/period-list.css"
 		],
 		"refer": [
 			"html/u-class/primary.html",
@@ -134,7 +149,20 @@
 			"css/mui.min.css",
 			"html/utils/school.html",
 			"css/utils/common.css",
-			"js/u-class/course-list.js"
+			"js/u-class/course-list.js",
+			"css/u-class/tea-list.css",
+			"js/libs/vue/vue.js",
+			"js/libs/crypto-js/require.js",
+			"js/libs/myStorage/myStorage.js",
+			"js/libs/vue/vue-router.js",
+			"js/libs/jquery.js",
+			"js/common/publicProtocol.js",
+			"js/u-class/period-list.js",
+			"js/common/postData.js",
+			"js/utils/signHmacSHA1.js",
+			"js/mui.js",
+			"js/common/storageKeyName.js",
+			"js/utils/utils.js"
 		],
 		"refer": [
 			"html/u-class/primary.html",
@@ -179,7 +207,8 @@
 			"images/file/word.png",
 			"css/mui.min.css",
 			"css/utils/common.css",
-			"js/libs/vue/vue.js"
+			"js/libs/vue/vue.js",
+			"images/file/11.png"
 		]
 	},
 	"html/animation-class/classPlaying.html": {

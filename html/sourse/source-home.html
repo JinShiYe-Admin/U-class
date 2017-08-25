@@ -37,21 +37,26 @@
 			<h1 class="mui-title">资源</h1>
 		</header>
 
-		<div id="find-sourse" class="mui-content  mui-scroll-wrapper">
-			<div id="topPopover" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<ul class="mui-table-view">
-					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
-						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
-					</li>
+		<div id="find-sourse" class="mui-content">
+			<period-view v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
 
-				</ul>
-			</div>
-			<div class="mui-scroll">
+			<div id="pullrefresh" class=" mui-scroll-wrapper">
+
+				<div id="topPopover" class="mui-popover">
+					<div class="mui-popover-arrow"></div>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
+							<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
+						</li>
+
+					</ul>
+				</div>
 				<!--时期选择-->
-				<period-view v-on:periodchoice="getPeriodId"></period-view>
-				<!--老师列表-->
-				<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
+				<div class="mui-scroll">
+
+					<!--老师列表-->
+					<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
+				</div>
 			</div>
 		</div>
 		<script src="../../js/mui.js"></script>
@@ -62,6 +67,7 @@
 		<!--tealist 组件-->
 		<script src="../../js/u-class/sourse-list.js"></script>
 		<script src="../../js/common/publicProtocol.js"></script>
+		<script src="../../js/utils/utils.js"></script>
 		<script type="text/javascript">
 			var findsource;
 			mui.init({
@@ -70,7 +76,7 @@
 					backbutton: false //关闭back按键监听
 				},
 				pullRefresh: {
-					container: '#find-sourse',
+					container: '#pullrefresh',
 					down: {
 						style: 'circle',
 						offset: '0px',
@@ -104,7 +110,8 @@
 						},
 						provinces: provinceInfo.data,
 						currentPro: provinceInfo.currentPro,
-						totalPage: 0
+						totalPage: 0,
+						moreSlect: true
 					},
 					created: function() {
 
@@ -131,6 +138,14 @@
 							provinceInfo.currentPro = proModel;
 							window.myStorage.setItem('province', provinceInfo);
 
+						},
+						gotoSuperChoice: function() {
+							var currentId = plus.webview.currentWebview().id;
+							utils.openNewWindowWithData('../utils/filter.html', {
+								type: 0,
+								webId: currentId,
+								winId: 'filterChange'
+							})
 						}
 					}
 				});

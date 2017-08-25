@@ -70,7 +70,7 @@ function pulldownRefresh() {
 	findsource.pageIndex = 1;
 	setTimeout(function() {
 //		getData(data);
-		mui('#find-sourse').pullRefresh().endPulldown();
+		mui('#pullrefresh').pullRefresh().endPulldown();
 
 	}, 1000);
 }
@@ -82,15 +82,21 @@ function pullupRefresh() {
 	var pageIndex = findsource.comData.pageNumber++;
 	if(pageIndex * 10 >= findsource.total) {
 		setTimeout(function() {
-			mui('#find-sourse').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+			mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
 
 		}, 1000);
 	} else {
 		setTimeout(function() {
 			data.listData = data.listData.concat(data.listData)
-			mui('#find-sourse').pullRefresh().endPullup(false); //参数为true代表没有更多数据了。
+			mui('#pullrefresh').pullRefresh().endPullup(false); //参数为true代表没有更多数据了。
 
 		}, 1000);
 	}
 
 }
+window.addEventListener("filterChange", function(e) {
+	window.scrollTo(0, 0);
+	var data = e.detail.data;
+	console.log(JSON.stringify(data))
+
+})

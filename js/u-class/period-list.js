@@ -14,7 +14,7 @@ Vue.component('period-view', {
 		'{{period.name}}</a>' +
 		'</template>' +
 		'</div>' +
-		'<p v-if="moreSlect" v-bind:style="{float:\'right\'}">高级筛选>></p></div>',
+		'<p v-if="moreSlect" v-on:tap="gotoSuperChoice()" v-bind:style="{float:\'right\'}">高级筛选>></p></div>',
 	data: function() {
 		return {
 			periodList: []
@@ -50,7 +50,8 @@ Vue.component('period-view', {
 		 * 跳转到高级筛选界面
 		 */
 		gotoSuperChoice: function() {
-
+			console.log("高级筛选")
+			this.$emit("gotosuperchoice");
 		}
 	}
 })
