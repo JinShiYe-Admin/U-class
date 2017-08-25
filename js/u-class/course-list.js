@@ -48,4 +48,9 @@ Vue.component("course-list", {
 
 	}
 })
+window.addEventListener("showPop", function(e) {
+	mui('#topPopover').popover('toggle')
+
+})
+
 
