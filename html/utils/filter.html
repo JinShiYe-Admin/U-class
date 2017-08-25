@@ -28,6 +28,7 @@
 			}
 
 			.title-text-pull-right {
+				top: 20px;
 				color: #5DC3FD;
 			}
 
@@ -63,6 +64,10 @@
 			.filter-title:first-child {
 				padding-top: 20px;
 			}
+			.mui-bar .mui-bar-nav{
+				background: #FAFAFA;
+				
+			}
 		</style>
 	</head>
 
@@ -87,10 +92,10 @@
 				props: ["value", "index"],
 				template: '\
 				<div>\
-					<div class="filter-title">{{value.type+":"}}</div>\
+					<div style="color: #333333;" class="filter-title">{{value.type+":"}}</div>\
 					<div class="mui-row" >\
 						<div class="mui-col-xs-4 mui-col-sm-4" v-for="(item_value,item_index) in value.item_array">\
-							<li class="mui-table-view-cell mui-ellipsis" @tap="tapItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item}}</li>\
+							<li style="color: #333333;" class="mui-table-view-cell mui-ellipsis" @tap="tapItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item}}</li>\
 						</div>\
 					</div>\
 				</div>',
@@ -136,6 +141,7 @@
 				el: "#commit",
 				methods: {
 					/**
+					 * 点击确定按钮
 					 * 点击确定按钮
 					 */
 					commitData: function() {
