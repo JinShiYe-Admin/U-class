@@ -2,7 +2,7 @@
  * 老師列表組件
  */
 Vue.component("tea-list", {
-	props: ['pageIndex', 'totalPage'],
+	props: ['comdata'],
 	template: '<ul v-bind:class="[\'mui-table-view\']">' +
 		'<li v-for="(item,index) of listData" v-bind:class="[\'mui-table-view-cell\']">' +
 		'<a>' +
@@ -14,19 +14,16 @@ Vue.component("tea-list", {
 		'</ul>',
 	data: function() {
 		return {
-			listData: [],
-			periodId: this.$route.params.periodId,
-			areaId: this.$route.params.areaId
+			listData: []
 		}
 	},
 	created: function() {
-		console.log("当前数据的periodId" + this.$route.params.periodId);
-		console.log("当前老师列表的areaId" + this.$route.params.areaId);
+		console.log("参数数据:" + JSON.stringify(this.comdata));
 	},
 	watch: {
-		'$route' (to, from) {
-			console.log("当前数据的periodId" + this.$route.params.periodId);
-			console.log("当前老师列表的areaId" + this.$route.params.areaId);
+		comData: function(newVal, oldVal) {
+			console.log("获取的新值:" + JSON.stringify(newVal));
+			console.log("获取的旧值:" + JSON.stringify(oldVal));
 		}
 	},
 	computed: {
@@ -35,14 +32,8 @@ Vue.component("tea-list", {
 	methods: {
 		getListData: function() {
 			var com = this;
-			var comData = {
-				pageNumber: com.pageIndex, //当前页数
-				pageSize: 10, //每页显示的记录数
-				periodId: com.periodId, //学段id
-				areaId: com.areaId, //省/市/区/县的id
-				subjectId: '' //科目id
-			}
-			postDataPro_teacherList(comData, function(data) {
+			this.comData.pageSize = 10;
+			postDataPro_teacherList(this.comData, function(data) {
 				if(comData.pageNumber === 1) {
 					com.listData = data.data
 				} else {

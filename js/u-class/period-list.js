@@ -4,35 +4,14 @@
 Vue.component('period-view', {
 	template: '<div>' +
 		'<template v-for="(period,index) of periodList">' +
-		'<input type="radio" name="periods" v-bind:id="period.id" v-bind:checked="index===0"/>' +
+		'<input type="radio" name="periods" v-bind:id="period.id" v-bind:checked="index===0" v-on:change="checkListener(period,$event)"/>' +
 		'<label v-bind:for="period.id"><span>{{period.name}}</span></label>' +
 		'</template>' +
 		'<p v-if="" v-bind:style="{float:\'right\',display:\'inline-block\'}">高级筛选>></p>' +
 		'</div>',
 	data: function() {
 		return {
-			periodList: [{
-					"sequence": 0,
-					"name": "小学",
-					"is_del": false,
-					"id": 1,
-					"status": 1
-				},
-				{
-					"sequence": 0,
-					"name": "初中",
-					"is_del": false,
-					"id": 2,
-					"status": 1
-				},
-				{
-					"sequence": 0,
-					"name": "高中",
-					"is_del": false,
-					"id": 3,
-					"status": 1
-				}
-			],
+			periodList: []
 		}
 	},
 	created: function() {
@@ -50,14 +29,17 @@ Vue.component('period-view', {
 			postDataPro_periodList({}, function(response) {
 				if(response.code == 0) {
 					com.periodList = response.data;
+					com.$emit("periodchoice", com.periodList[0]);
 				}
 			})
 		},
 		/**
 		 * 不同学段选择
 		 */
-		checkListener: function() {
-
+		checkListener: function(period, event) {
+			if(event.target.checked) {
+				this.$emit("periodchoice", period);
+			}
 		},
 		/**
 		 * 跳转到高级筛选界面
