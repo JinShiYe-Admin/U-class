@@ -83,12 +83,6 @@
 			</div>
 		</header>
 		<div class="mui-content">
-			<!--顶部banner图 开始-->
-			<!--<div class="banner">
-				<a href="javascript:;">
-					<img src="https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature" />
-				</a>
-			</div>-->
 			<script src="../../js/mui.min.js"></script>
 			<script src="../../js/utils/myStorage.js"></script>
 			<script type="text/javascript" src="../../js/utils/utils.js"></script>
@@ -99,11 +93,11 @@
 					el: '#provinceInfo',
 					data: {
 						provinceInfo: {
-							data:[],
-							currentPro:{
-								name:''
+							data: [],
+							currentPro: {
+								name: ''
 							}
-							
+
 						}
 					},
 					updated: function() {
@@ -115,7 +109,7 @@
 				mui.plusReady(function() {
 					var provinceInfo = window.myStorage.getItem('provinceInfo');
 					vm.provinceInfo = provinceInfo
-					console.log('vm.provinceInfo='+vm.provinceInfo.currentPro.name)
+					console.log('vm.provinceInfo=' + vm.provinceInfo.currentPro.name)
 					main = plus.webview.currentWebview();
 					main.addEventListener('show', showWeb, false); //增加窗口显示的监听
 					setSubPage(); //页面初始化
@@ -124,16 +118,16 @@
 
 				function showWeb() {
 					console.log('显示游客首页')
-//					var provinceInfo = window.myStorage.getItem('provinceInfo');
-//					var province = provinceInfo.currentPro;
-//					var currProvince = document.getElementById("province")
-//					if(province.name == currProvince.innerHTML) { //省份相同
-//						return;
-//					} else { //省份不同 刷新数据
-//						currProvince.innerHTML = province.name
-//						//重新获取数据
-//						updateData();
-//					}
+					//					var provinceInfo = window.myStorage.getItem('provinceInfo');
+					//					var province = provinceInfo.currentPro;
+					//					var currProvince = document.getElementById("province")
+					//					if(province.name == currProvince.innerHTML) { //省份相同
+					//						return;
+					//					} else { //省份不同 刷新数据
+					//						currProvince.innerHTML = province.name
+					//						//重新获取数据
+					//						updateData();
+					//					}
 
 				}
 
@@ -184,10 +178,6 @@
 				})
 
 				function showPop() {
-					var page = plus.webview.getWebviewById(urlId)
-					mui.fire(page, 'showPop', {
-						data: 'show'
-					});
 					page = plus.webview.getWebviewById("find-teacher.html")
 					mui.fire(page, 'showPop', {
 						data: 'show'
@@ -210,12 +200,9 @@
 				});
 				window.addEventListener("showPop", function(e) {
 					var data = e.detail.data;
-					if(data == 'show') {
-						mui('#topPopover').popover('show')
-					} else {
-						mui('#topPopover').popover('hide')
-					}
-
+					var province = document.getElementById("province")
+					province.innerHTML = data.name;
+					mui('#topPopover').popover('toggle')
 				})
 			</script>
 	</body>

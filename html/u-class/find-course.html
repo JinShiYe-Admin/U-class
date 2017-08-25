@@ -11,43 +11,107 @@
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 		<link href="../../css/u-class/school.css" rel="stylesheet" />
-
+		<style>
+			input[type=radio]:checked+label {
+				border-bottom: 2px solid #4E8FFE;
+				color: #4E8FFE;
+			}
+			
+			label {
+				line-height: 40px;
+				padding: 10px 15px;
+				font-size: 15px;
+				text-align: center;
+			}
+			
+			input[type=radio] {
+				position: absolute;
+				left: -99999999px;
+			}
+		</style>
 	</head>
 
 	<body>
-		<div class="mui-content">
+		<div id="find-course" class="mui-content">
 			<div id="topPopover" class="mui-popover">
-			<div class="mui-popover-arrow"></div>
-			<ul class="mui-table-view">
-				<li id="0" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
-				</li>
+				<div class="mui-popover-arrow"></div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" v-for="(item,index) in comData.provinces" v-on:tap="clickPop(item)">
+						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
+					</li>
 
-				<li id="1" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
-				</li>
-				<li id="2" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
-				</li>
-			</ul>
-		</div>
-<!--时期选择-->
-			<period-view></period-view>
+				</ul>
+			</div>
+			<!--时期选择-->
+			<period-view v-on:periodchoice="getPeriodId"></period-view>
 			<!--老师列表-->
-			<router-view></router-view>
+			<tea-list v-bind:comdata="comData" v-on:requiredEnd="requireTeaListEnd"></tea-list>
+		</div>
+		<!--时期选择-->
+		<!--<period-view></period-view>
+			<!--老师列表-->
+		<!--<router-view></router-view>-->
 		</div>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/libs/vue/vue.js"></script>
+		<script src="../../js/libs/vue/vue-router.js"></script>
 		<script src="../../js/utils/myStorage.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
 		<script src="../../js/utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/libs/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/libs/vue/vue.js"></script>
-		<script src="../../js/libs/vue/vue-router.js"></script>
 		<!--period组件-->
 		<script src="../../js/u-class/period-list.js"></script>
 		<!--tealist 组件-->
 		<script src="../../js/u-class/course-list.js"></script>
+
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				var provinceInfo = window.myStorage.getItem('provinceInfo');
+				console.log(JSON.stringify(provinceInfo))
+				var vm = new Vue({
+					el: '#find-course',
+					data: {
+						comData: {
+							provinces: provinceInfo.data,
+							currentPro: provinceInfo.currentPro,
+							pageNumber: 1,
+							pageSize: 10, //每页显示的记录数
+							periodId: 0, //学段id
+							subjectId: '' //科目id
+						},
+						totalPage: 0
+					},
+					computed: {
+
+					},
+					methods: {
+						getPeriodId: function(period) {
+							console.log("主页获取的学段数据:" + JSON.stringify(period))
+							this.comData.periodId = period.id;
+						},
+						requireTeaListEnd: function(totalPage) {
+							console.log("主页获取的总页数:" + totalPage);
+							this.totalPage = totalPage;
+						},
+						clickPop: function(proModel) {
+
+							mui('#topPopover').popover('toggle')
+							page = plus.webview.getWebviewById("u-home.html")
+							mui.fire(page, 'showPop', {
+								data: proModel
+							});
+							provinceInfo.currentPro = proModel;
+							window.myStorage.setItem('province', provinceInfo);
+							//									updateData();
+
+						}
+					}
+				})
+			})
+		</script>
+
 	</body>
 
 </html>
