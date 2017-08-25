@@ -47,7 +47,8 @@
 			"js/utils/myStorage.js",
 			"js/libs/vue/vue.min.js",
 			"js/mui.min.js",
-			"js/utils/utils.js"
+			"js/utils/utils.js",
+			"html/u-class/find-course.html"
 		],
 		"refer": [
 			"html/u-class/find-teacher.html",
@@ -115,7 +116,9 @@
 			"html/utils/school.html",
 			"js/u-class/tea-list.js",
 			"js/libs/vue/vue-router.js",
-			"js/u-class/period-list.js"
+			"js/u-class/period-list.js",
+			"css/u-class/tea-list.css",
+			"js/mui.js"
 		],
 		"refer": [
 			"html/u-class/primary.html",

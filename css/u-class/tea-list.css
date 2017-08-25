@@ -1,0 +1,25 @@
+.cell-container {
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: row;
+}
+
+.tea-headImg {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+}
+
+.tea-info {
+	width: 50%;
+	flex-grow: 1;
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+}
+
+.tea-subject {
+	width: 70px;
+	height: 40px;
+	text-align: center;
+}
