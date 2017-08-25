@@ -5,7 +5,20 @@ var paraObj = {
 }
 mui.init();
 var main;
+var vm = new Vue({
+	el: '.mui-content',
+	data: {
+		provinceInfo: {},
+		periodList: [],
+		type: 0
+	},
+	updated: function() {
+		var div = document.getElementById("slider");
+		console.log(div.innerHTML)
+	}
+});
 mui.plusReady(function() {
+	getPeriodList();
 	var currentId = plus.webview.currentWebview().id;
 	if(currentId == 'source-home.html') { //
 		main = plus.webview.currentWebview();
@@ -74,6 +87,7 @@ function setSubPage() {
 			url: "../utils/school.html",
 			extras: {
 				data: {
+					period: 1,
 					schoolType: 0,
 					serviceType: paraObj.serviceType,
 				}
@@ -86,6 +100,7 @@ function setSubPage() {
 			url: "../utils/school.html",
 			extras: {
 				data: {
+					period: 2,
 					schoolType: 1,
 					serviceType: paraObj.serviceType,
 				}
@@ -94,10 +109,12 @@ function setSubPage() {
 				top: paraObj.top
 			}
 		}, {
+
 			id: "high" + paraObj.serviceType + ".html",
 			url: "../utils/school.html",
 			extras: {
 				data: {
+					period: 3,
 					schoolType: 2,
 					serviceType: paraObj.serviceType,
 				}
@@ -169,10 +186,20 @@ mui('.mui-popover').on('tap', 'li', function(e) {
 	mui.fire(page, 'showPop', {
 		data: 'hide'
 	});
+
 	var name = this.querySelector(".mui-media-body").innerHTML
-	var province = document.getElementById("province")
-	province.innerHTML = name;
 	mui('#topPopover').popover('toggle')
+	var province = document.getElementById("province")
+
+	if(!province) {
+		page = plus.webview.getWebviewById("u-home.html")
+		mui.fire(page, 'showPop', {
+			data: 'hide'
+		});
+		return;
+	}
+	province.innerHTML = name;
+
 	var data = {
 		name: name,
 	}
@@ -226,6 +253,35 @@ mui('body').on('hidden', '.mui-popover', function(e) {
 		data: 'hide'
 	});
 });
+window.addEventListener("showPop", function(e) {
+	var data = e.detail.data;
+	if(data == 'show') {
+		mui('#topPopover').popover('show')
+	} else {
+		mui('#topPopover').popover('hide')
+	}
+
+})
+
+function getPeriodList() {
+	var commonData = {}
+	postDataPro_periodList(commonData, function(data) {
+		vm.type = paraObj.serviceType;
+		for(var i = 0; i < data.data.length; i++) {
+			var model = data.data[i];
+			if(i == 0) {
+				model.type = 'primary'
+			} else if(i == 1) {
+				model.type = 'middle'
+			} else {
+				model.type = 'high'
+			}
+
+		}
+		vm.periodList = data.data;
+
+	})
+}
 
 //mui.back = function() {
 //	var _self = plus.webview.currentWebview();

@@ -11,33 +11,76 @@
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 		<link href="../../css/u-class/school.css" rel="stylesheet" />
+		<style>
+			input[type=radio]:checked+label {
+				border-bottom: 2px solid #4E8FFE;
+				color: #4E8FFE;
+			}
+			
+			label {
+				line-height: 40px;
+				padding: 10px 15px;
+				font-size: 15px;
+				text-align: center;
+			}
+			
+			input[type=radio] {
+				position: absolute;
+				left: -99999999px;
+			}
+		</style>
 
 	</head>
 
 	<body>
-		<div class="mui-content">
-			<div id="slider" class="mui-slider mui-fullscreen">
-				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="primary0.html"  data-province="">
-							<div>小学</div>
-						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="middle0.html" data-province="">
-							<div>初中</div>
-						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="high0.html" data-province="">
-							<div>高中</div>
-						</a>
-					</div>
-				</div>
+		<div id="find-tea" class="mui-content">
+			<!--背景图片组件-->
+			<div>
 			</div>
+			<!--时期选择-->
+			<period-view v-on:periodchoice="getPeriodId"></period-view>
+			<!--老师列表-->
+			<tea-list v-bind:comdata="comData" v-on:requiredEnd="requireTeaListEnd"></tea-list>
 		</div>
-
 		<script src="../../js/mui.min.js"></script>
-		<script src="../../js/utils/myStorage.js"></script>
-		<script type="text/javascript" src="../../js/utils/utils.js"></script>
-		<script src="../../js/utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/libs/vue/vue.js"></script>
+		<script src="../../js/libs/vue/vue-router.js"></script>
+		<!--period组件-->
+		<script src="../../js/u-class/period-list.js"></script>
+		<!--tealist 组件-->
+		<script src="../../js/u-class/tea-list.js"></script>
+		<script src="../../js/common/publicProtocol.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				var findTea = new Vue({
+					el: '#find-tea',
+					data: {
+						comData: {
+							pageNumber: 1,
+							pageSize: 10, //每页显示的记录数
+							periodId: 0, //学段id
+							areaId: 0, //省/市/区/县的id
+							subjectId: '' //科目id
+						},
+						totalPage: 0
+					},
+					computed: {
+
+					},
+					methods: {
+						getPeriodId: function(period) {
+							console.log("主页获取的学段数据:" + JSON.stringify(period))
+							this.comData.periodId = period.id;
+						},
+						requireTeaListEnd: function(totalPage) {
+							console.log("主页获取的总页数:" + totalPage);
+							this.totalPage = totalPage;
+						}
+					}
+				});
+			})
+		</script>
 	</body>
 
 </html>

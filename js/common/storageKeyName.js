@@ -16,7 +16,8 @@ var storageKeyName = (function(mod) {
 	switch(mod.key) {
 		case 0: //开发
 			//---开发---start---
-			mod.MAINURL = 'http://114.215.26.9:8080/ziyuanpt/'; //主url
+//			mod.MAINURL = 'http://114.215.26.9:8080/ziyuanpt/'; //主url
+			mod.MAINURL = 'http://139.129.252.49:8080/YouKe/'; //主url
 			//---开发---end---
 			//---七牛空间和接口---开发---start---
 			mod.QNPB = 'http://qn-kfpb.jiaobaowang.net/'; //公开空间域名
@@ -106,7 +107,10 @@ var storageKeyName = (function(mod) {
 		default:
 			break;
 	}
-
+	
+	mod.TOKEN = 'token';//优课协议获取到的token
+	mod.PROVINCEINFO =  'provinceInfo'
+	mod.RESOURCELIST = 'resourceList';//第5个协议获取到的资源列表，包含优课、资源、动画课
 	mod.PERSONALINFO = 'personalInfo1111'; //个人信息，登录成功后返回值
 	mod.SHAKEHAND = 'ShakeHand'; //公钥，登录时，返回的握手信息，
 	mod.AUTOLOGIN = 'autoLogin'; //登录信息

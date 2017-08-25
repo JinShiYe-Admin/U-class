@@ -138,20 +138,20 @@
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item" :class="{'mui-active':item.active}" :href="'#'+item.animationID" v-for="item in animationArray">
-							{{item.animationName}}
+						<a class="mui-control-item" :class="{'mui-active':item.active}" :href="'#'+item.id" v-for="item in animationArray">
+							{{item.name}}
 						</a>
 					</div>
 				</div>
 				<div class="mui-slider-group">
-					<div :id="item.animationID" class="mui-slider-item mui-control-content" :class="{'mui-active':item.active}" v-for="item in animationArray">
+					<div :id="item.id" class="mui-slider-item mui-control-content" :class="{'mui-active':item.active}" v-for="item in animationArray">
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
 								<ul class="mui-table-view mui-grid-view" style="padding: 0px 0px 10px;">
-									<li class="mui-table-view-cell mui-media" :class="index==0?'mui-col-xs-12':'mui-col-xs-6'" v-for="(lessonData,index) in item.animationList" v-on:tap="clickClass(lessonData)" style="padding: 0px 0px;margin-right: 0px;border:1px solid white;">
+									<li class="mui-table-view-cell mui-media" :class="index==0?'mui-col-xs-12':'mui-col-xs-6'" v-for="(lessonData,index) in item.childList" v-on:tap="clickClass(lessonData)" style="padding: 0px 0px;margin-right: 0px;border:1px solid white;">
 										<a href="#" style="margin: 0px 0px;">
 											<img class="mui-media-object" src='../../images/utils/load-img-error.png'>
-											<div class="mui-media-body" style="text-align: left;margin-left: 10px;margin-top: 5px;margin-bottom: 5px;">{{lessonData.tempTitle}}</div>
+											<div class="mui-media-body" style="text-align: left;margin-left: 10px;margin-top: 5px;margin-bottom: 5px;">{{lessonData.name}}</div>
 										</a>
 									</li>
 								</ul>
@@ -174,171 +174,16 @@
 			var animationData = new Vue({
 				el: '#animationData',
 				data: {
-					animationArray: [{
-						animationName: '全部',
-						animationList: [{
-							tempTitle: '三轮车',
-							tempImg: '',
-							tempID: '0'
-						}, {
-							tempTitle: '4轮车',
-							tempImg: 'images/muwu.jpg',
-							tempID: '1'
-						}, {
-							tempTitle: '5轮车',
-							tempImg: 'images/shuijiao.jpg',
-							tempID: '2'
-						}, {
-							tempTitle: '6轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '3'
-						}, {
-							tempTitle: '7轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '4'
-						}],
-						active: true,
-						animationID: '0'
-					}, {
-						animationName: '儿童常识',
-						animationList: [{
-							tempTitle: '三轮车1',
-							tempImg: 'images/cbd.jpg',
-							tempID: '0'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/muwu.jpg',
-							tempID: '1'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/shuijiao.jpg',
-							tempID: '2'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '3'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/muwu.jpg',
-							tempID: '4'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/shuijiao.jpg',
-							tempID: '5'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '6'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/muwu.jpg',
-							tempID: '7'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/shuijiao.jpg',
-							tempID: '8'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '9'
-						}],
-						active: false,
-						animationID: '1'
-					}, {
-						animationName: '儿童古诗',
-						animationList: [{
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '0'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/muwu.jpg',
-							tempID: '1'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/shuijiao.jpg',
-							tempID: '2'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '3'
-						}],
-						active: false,
-						animationID: '2'
-					}, {
-						animationName: '儿童故事',
-						animationList: [{
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '0'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/muwu.jpg',
-							tempID: '1'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/shuijiao.jpg',
-							tempID: '2'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '3'
-						}],
-						active: false,
-						animationID: '3'
-					}, {
-						animationName: '少年常识',
-						animationList: [{
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '0'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/muwu.jpg',
-							tempID: '1'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/shuijiao.jpg',
-							tempID: '2'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '3'
-						}],
-						active: false,
-						animationID: '4'
-					}, {
-						animationName: '少年古诗',
-						animationList: [{
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '0'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/muwu.jpg',
-							tempID: '1'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/shuijiao.jpg',
-							tempID: '2'
-						}, {
-							tempTitle: '三轮车',
-							tempImg: 'images/cbd.jpg',
-							tempID: '3'
-						}],
-						active: false,
-						animationID: '5'
-					}]
+					animationArray: []
 				},
-				updated:function(){
+				updated: function() {
 					var div = document.getElementById("animationData")
 					console.log(div)
-				}
-				,
+				},
 				methods: {
 					clickClass: function(model) {
 						console.log('点击的model:' + JSON.stringify(model));
-//						utils.openNewWindowWithData('classPlaying.html', model);
+						//						utils.openNewWindowWithData('classPlaying.html', model);
 						utils.openNewWindowWithData('../../html/u-class/testAAA.html', model);
 						//						var webview = plus.webview.create("../html/u-class/teachSpace.html", "teachSpace.html", {
 						//							titleNView: {
@@ -361,18 +206,38 @@
 			});
 			var main; //当前webview
 			mui.plusReady(function() {
-//				var tempData0 = {}
-//				var tempData1 = {
-//					cptoken: "4f679b06-4d19-44e8-9c86-7f9e56903739",
-//					uuid: plus.device.uuid,
-//					token: "4f679b06-4d19-44e8-9c86-7f9e56903739",
-//					appid: plus.runtime.appid
-//				}
-//				postDataEncry('http://192.168.1.200:8080/MobileCpService/getUserData',tempData0,tempData1,1,function(data){
-//					console.log('返回界面的data：'+JSON.stringify(data));
-//				});
-				
-				
+				//初始化界面，将本地保存的资源列表，给本页面vue赋值
+					var tempList = window.myStorage.getItem(window.storageKeyName.RESOURCELIST);
+					if(tempList.length >= 2) {
+						var tempArr = tempList[1].childList;
+						var tempModel = {
+							sequence: tempList[1].sequence,
+							name: "全部",
+							pid: tempList[1].pid,
+							childList: [],
+							id: tempList[1].id
+						}
+						//插入全部
+						tempArr.splice(0, 0, tempModel);
+						//给默认值
+						for(var i = 0; i < tempArr.length; i++) {
+							var tempModel1 = tempArr[i];
+							tempModel1.active = false;
+							if(i == 0) {
+								tempModel1.active = true;
+							}
+							tempModel1.pageIndex = 1; //获取第几页数据
+							tempModel1.pageFlag = 0; //0刷新，1加载更多
+						}
+						console.log('tempArr:' + JSON.stringify(tempArr));
+						//给vue赋值
+						animationData.animationArray = [].concat(tempArr);
+						//默认请求第0个数据
+						if(animationData.animationArray.length > 0) {
+							//6、分页获取资源列表
+							getAnimationList(animationData.animationArray[0]);
+						}
+					}
 				main = plus.webview.currentWebview();
 				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
 				(function($) {
@@ -429,23 +294,46 @@
 				}
 				window.myStorage.setItem('province', data); //把省份存到本地
 
-			})
+			});
+			
+			//6、分页获取资源列表
+			function getAnimationList(model) {
+				var commonData = {
+					pageNumber: model.pageIndex, //当前页数
+					pageSize: 20, //每页显示的记录数
+					resourceCategoryId: model.id //资源分类Id
+				}
+				postDataPro_resList(commonData, function(data) {
+					if (data.code == 0) {
+						if (model.pageFlag == 0) {//刷新
+							model.childList = [].concat(data.list);
+						} else{//加载更多
+							model.childList = model.childList.concat(data.list);
+						}
+					}
+				});
+			}
 
 			function showWeb() {
-				console.log('显示动画界面')
-
+				console.log('显示动画界面');
+				//5、获取资源的分类及子分类
+				postDataPro_rescatList({}, function(data) {
+					if (data.code == 0) {
+						//将获取到的数据，保存到本地，方便别的页面调用
+						window.myStorage.setItem(window.storageKeyName.RESOURCELIST, data.data);
+					}
+				});
 				var province = window.myStorage.getItem('province');
 				var currProvince = document.getElementById("province")
 				if(currProvince == '') {
 					//初始化界面
-
+					
 				} else if(province.name == currProvince.innerHTML) {
 					return;
 				} else {
 					currProvince.innerHTML = province.name;
 					//重新获取数据
 				}
-
 			}
 
 			window.addEventListener("toUHome", function(e) {

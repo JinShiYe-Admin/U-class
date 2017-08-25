@@ -22,12 +22,14 @@ var vm = new Vue({
 		bottom: '250px',
 		pageIndex: 1,
 		total: 0,
-		serviceType: '',
-		schoolType: '',
+		serviceType: 0,
+		schoolType: 0,
+		provinceInfo: {},
 		items: []
 	},
 	updated: function() {
-
+//		var div = document.getElementById("pullrefresh");
+//		console.log('11111111'+div.innerHTML);
 	}
 });
 mui.plusReady(function() {
@@ -42,13 +44,14 @@ mui.plusReady(function() {
 
 	})
 	window.addEventListener("provinceChange", function(e) {
+		console.log(11111)
 		window.scrollTo(0, 0);
 		var data = e.detail.data;
 		console.log(JSON.stringify(data))
 		vm.pageIndex = 1;
 		data.schoolType = vm.schoolType;
 		data.serviceType = vm.serviceType
-		getData(data)
+		getData(vm)
 
 	})
 	window.addEventListener("showPop", function(e) {
@@ -96,17 +99,17 @@ function getData(model) {
 	switch(model.serviceType) {
 		case 0:
 			{
-				getTeacher(model.schoolType);
+				getTeacher(model);
 			}
 			break;
 		case 1:
 			{
-				getCourse(model.schoolType);
+				getCourse(model);
 			}
 			break;
 		case 2:
 			{
-				getSourse(model.schoolType);
+				getSourse(model);
 			}
 			break;
 		default:
@@ -114,72 +117,24 @@ function getData(model) {
 	}
 }
 
-function getTeacher(schoolType) {
-	var data = [{
-			id: 1,
-			name: '陈世新',
-			school: '大营小学',
-			type: '科学'
-		},
-		{
-			id: 2,
-			name: '李连军',
-			school: '大营小学',
-			type: '数学'
-		},
-		{
-			id: 3,
-			name: '王春霞',
-			school: '大营小学',
-			type: '美术'
-		}, {
-			id: 4,
-			name: '陈世新',
-			school: '大营小学',
-			type: '科学'
-		},
-		{
-			id: 5,
-			name: '李连军',
-			school: '大营小学',
-			type: '数学'
-		},
-		{
-			id: 6,
-			name: '王春霞',
-			school: '大营小学',
-			type: '美术'
-		}, {
-			id: 7,
-			name: '陈世新',
-			school: '大营小学',
-			type: '科学'
-		},
-		{
-			id: 8,
-			name: '李连军',
-			school: '大营小学',
-			type: '数学'
-		},
-		{
-			id: 9,
-			name: '王春霞1',
-			school: '大营小学',
-			type: '美术'
-		},
-		{
-			id: 10,
-			name: '王春霞2',
-			school: '大营小学',
-			type: '美术'
-		}
-	]
-	vm.total = 55;
-	if(vm.pageIndex == 1) {
-		vm.items = data;
-	} else {
-		vm.items = vm.items.concat(data);
+function getTeacher(model) {
+	//8、分页获取教师列表
+	var commonData = {
+		pageNumber: 1, //当前页数
+		pageSize: 20, //每页显示的记录数
+		periodId: model.period, //学段id
+		//		areaId: '', //省/市/区/县的id
+		//		subjectId: '' //科目id
 	}
+	postDataPro_teacherList(commonData, function(data) {
+		vm.total = data.totalRow;
+		if(vm.pageIndex == 1) {
+			vm.items = data.data.list;
+		} else {
+			vm.items = vm.items.concat(data);
+		}
+
+	})
 
 }
 
@@ -424,6 +379,5 @@ mui('body').on('tap', '.mui-popover', function(e) {
 	console.log(1111111)
 	var page = plus.webview.getWebviewById('source-home.html')
 	mui.fire(page, 'hidePop', {});
-	
-	
+
 });

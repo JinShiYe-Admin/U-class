@@ -39,14 +39,14 @@
 		
 		#topPopover {
 			position: fixed;
-			top: 46px;
-			right: 6px;
+			top: 45px;
+			left: 5px;
 			width: 100px;
 		}
 		
 		#topPopover .mui-popover-arrow {
-			left: auto;
-			right: 6px;
+			left: 6px;
+			right: auto;
 		}
 		
 		.mui-popover {
@@ -61,25 +61,9 @@
 	</style>
 
 	<body>
-		<div id="topPopover" class="mui-popover">
-			<div class="mui-popover-arrow"></div>
-			<ul class="mui-table-view">
-				<li id="0" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
-				</li>
-
-				<li id="1" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
-				</li>
-				<li id="2" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
-				</li>
-			</ul>
-		</div>
 		<!--导航栏选项卡-->
-		<header class="mui-bar mui-bar-nav">
-			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left" href="#topPopover">山东</a>
-
+		<header class="mui-bar mui-bar-nav" id="provinceInfo">
+			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left" onclick="showPop()">{{provinceInfo.currentPro.name}}</a>
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
@@ -92,68 +76,88 @@
 					</div>
 				</div>
 			</div>
+			<div id="topPopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<ul class="mui-table-view">
+				</ul>
+			</div>
 		</header>
 		<div class="mui-content">
 			<!--顶部banner图 开始-->
-			<div class="banner">
+			<!--<div class="banner">
 				<a href="javascript:;">
 					<img src="https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature" />
 				</a>
-			</div>
+			</div>-->
 			<script src="../../js/mui.min.js"></script>
 			<script src="../../js/utils/myStorage.js"></script>
 			<script type="text/javascript" src="../../js/utils/utils.js"></script>
 			<script src="../../js/utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+			<script src="../../js/libs/vue/vue.min.js"></script>
 			<script type="text/javascript">
+				var vm = new Vue({
+					el: '#provinceInfo',
+					data: {
+						provinceInfo: {
+							data:[],
+							currentPro:{
+								name:''
+							}
+							
+						}
+					},
+					updated: function() {
+
+					}
+				})
 				mui.init();
 				var main; //当前webview
 				mui.plusReady(function() {
+					var provinceInfo = window.myStorage.getItem('provinceInfo');
+					vm.provinceInfo = provinceInfo
+					console.log('vm.provinceInfo='+vm.provinceInfo.currentPro.name)
 					main = plus.webview.currentWebview();
 					main.addEventListener('show', showWeb, false); //增加窗口显示的监听
-					setSubPage();//页面初始化
+					setSubPage(); //页面初始化
 
 				});
 
 				function showWeb() {
 					console.log('显示游客首页')
-					var province = window.myStorage.getItem('province');
-					var currProvince = document.getElementById("province")
-					if(province.name == currProvince.innerHTML) {//省份相同
-						return;
-					} else {//省份不同 刷新数据
-						currProvince.innerHTML = province.name
-						//重新获取数据
-						updateData();
-					}
+//					var provinceInfo = window.myStorage.getItem('provinceInfo');
+//					var province = provinceInfo.currentPro;
+//					var currProvince = document.getElementById("province")
+//					if(province.name == currProvince.innerHTML) { //省份相同
+//						return;
+//					} else { //省份不同 刷新数据
+//						currProvince.innerHTML = province.name
+//						//重新获取数据
+//						updateData();
+//					}
 
 				}
 
 				function updateData() {
-					var data = window.myStorage.getItem('province')
+					var data = window.myStorage.getItem('provinceInfo')
 					var page = plus.webview.getWebviewById(urlId)
 					mui.fire(page, 'provinceChange', data);
 				}
 
 				function setSubPage() {
-					var data = {
-						name: '山东',
-						id: 0
-					}
-					window.myStorage.setItem('province', data);
 					var group = new webviewGroup(main.id, {
 						items: [{
 							id: "find-teacher.html",
 							url: "find-teacher.html",
 							extras: {},
-							styles: {//加上图片高度
-								top: "224px"
+							styles: { //加上图片高度
+								top: "44px"
 							}
 						}, {
 							id: "find-course.html",
 							url: "find-course.html",
 							extras: {},
 							styles: {
-								top: "45px"
+								top: "44px"
 							}
 						}],
 						onChange: function(obj) {
@@ -170,21 +174,6 @@
 						group.switchTab(wid);
 					});
 				}
-				//点击popover里cell
-				mui('.mui-popover').on('tap', 'li', function(e) {
-					var name = this.querySelector(".mui-media-body").innerHTML
-					var province = document.getElementById("province")
-					mui('#topPopover').popover('toggle')
-					if(province.name == name) {
-						return;
-					}
-					var data = {
-						name: name,
-					}
-					window.myStorage.setItem('province', data);
-					province.innerHTML = name;
-					updateData()
-				})
 				var urlId = 'primary0.html';
 				window.addEventListener("toUHome", function(e) {
 					mui('#topPopover').popover('hide')
@@ -192,6 +181,41 @@
 						return;
 					}
 					urlId = e.detail.data;
+				})
+
+				function showPop() {
+					var page = plus.webview.getWebviewById(urlId)
+					mui.fire(page, 'showPop', {
+						data: 'show'
+					});
+					page = plus.webview.getWebviewById("find-teacher.html")
+					mui.fire(page, 'showPop', {
+						data: 'show'
+					});
+					page = plus.webview.getWebviewById("find-course.html")
+					mui.fire(page, 'showPop', {
+						data: 'show'
+					});
+					mui('#topPopover').popover('toggle')
+
+				}
+				mui('body').on('shown', '.mui-popover', function(e) {
+					//console.log('shown', e.detail.id);//detail为当前popover元素
+				});
+				mui('body').on('hidden', '.mui-popover', function(e) {
+					var page = plus.webview.getWebviewById(urlId)
+					mui.fire(page, 'showPop', {
+						data: 'hide'
+					});
+				});
+				window.addEventListener("showPop", function(e) {
+					var data = e.detail.data;
+					if(data == 'show') {
+						mui('#topPopover').popover('show')
+					} else {
+						mui('#topPopover').popover('hide')
+					}
+
 				})
 			</script>
 	</body>
