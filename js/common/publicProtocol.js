@@ -57,7 +57,18 @@ var postDataPro_subjectList = function(commonData, callback) {
 	postDataEncry(storageKeyName.MAINURL + 'api/subject/list', commonData, 1, callback);
 }
 
-//4、获取年级列表
+//4、获取教版列表
+//var commonData = {
+//	resourceCategoryId:'',//资源分类Id
+//	periodId:'',//学段id
+//	subjectId:''//科目id
+//}
+var postDataPro_bookVersionList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/bookVersion/list', commonData, 1, callback);
+}
+
+//5、获取年级列表
 //var commonData = {
 //	periodId:'',//学段id
 //	areaId:'',//省/市/区/县的id
@@ -68,14 +79,14 @@ var postDataPro_gradeList = function(commonData, callback) {
 	postDataEncry(storageKeyName.MAINURL + 'api/grade/list', commonData, 1, callback);
 }
 
-//5、获取资源的分类及子分类
+//6、获取资源的分类及子分类
 //var commonData = {}
 var postDataPro_rescatList = function(commonData, callback) {
 	//发送网络请求，data为网络返回值
 	postDataEncry(storageKeyName.MAINURL + 'api/rescat/list', commonData, 1, callback);
 }
 
-//6、分页获取资源列表
+//7、分页获取资源列表
 //var commonData = {
 //	pageNumber:'',//当前页数
 //	pageSize:'',//每页显示的记录数
@@ -92,7 +103,7 @@ var postDataPro_resList = function(commonData, callback) {
 	postDataEncry(storageKeyName.MAINURL + 'api/res/list', commonData, 1, callback);
 }
 
-//7、获取需要播放的资源
+//8、获取需要播放的资源
 //var commonData = {
 //	resourceId:''//资源id
 //}
@@ -101,20 +112,20 @@ var postDataPro_resInfo = function(commonData, callback) {
 	postDataEncry(storageKeyName.MAINURL + 'api/res/info', commonData, 1, callback);
 }
 
-//8、分页获取教师列表
+//9、分页获取教师列表
 //var commonData = {
 //	pageNumber:'',//当前页数
 //	pageSize:'',//每页显示的记录数
 //	periodId:'',//学段id
 //	areaId:'',//省/市/区/县的id
-//	subjectId:''//科目id
+//	schoolId:''//学校id
 //}
 var postDataPro_teacherList = function(commonData, callback) {
 	//发送网络请求，data为网络返回值
 	postDataEncry(storageKeyName.MAINURL + 'api/teacher/list', commonData, 1, callback);
 }
 
-//9、获取某个教师的信息
+//10、获取某个教师的信息
 //var commonData = {
 //	teacherId:''//教师id
 //}
