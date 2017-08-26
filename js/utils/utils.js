@@ -73,13 +73,13 @@ var utils = (function(mod) {
 		}, mod.openWebTime);
 
 		var tarPageId = mod.getWebUrlId(tarPagePath);
-		var targetPage = plus.webview.getWebviewById(tarPageId);
-		if(targetPage) {
-			targetPage.show('slide-in-right', mod.showWebTime);
-		} else {
+//		var targetPage = plus.webview.getWebviewById(tarPageId);
+//		if(targetPage) {
+//			targetPage.show('slide-in-right', mod.showWebTime);
+//		} else {
 			mui.openWindow({
 				url: tarPagePath,
-				id: tarPageId,
+				id: tarPageId+Math.random(),
 				extras: {
 					data: data
 				},
@@ -92,7 +92,7 @@ var utils = (function(mod) {
 				},
 				styles: mod.getWebStyle(tarPagePath)
 			})
-		}
+//		}
 	}
 
 	/**
