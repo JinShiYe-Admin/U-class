@@ -49,6 +49,7 @@ Vue.component("source-list", {
 						com.totalPage = response.data.totalPage
 					} else {
 						com.listData = com.listData.concat(response.data);
+						console.log('列表条数：'+com.listData.length)
 						com.totalPage = response.data.totalPage
 					}
 				} else {
@@ -78,7 +79,7 @@ function pulldownRefresh() {
  * 上拉加载具体业务实现
  */
 function pullupRefresh() {
-
+findsource.comData.pageNumber++;
 //	var pageIndex = findsource.comData.pageNumber++;
 //	if(pageIndex * 10 >= findsource.total) {
 //		setTimeout(function() {
