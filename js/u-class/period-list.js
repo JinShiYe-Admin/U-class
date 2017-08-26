@@ -2,13 +2,19 @@
  * period組件
  */
 Vue.component('period-view', {
-	template: '<div>' +
+	props: {
+		moreSlect: {
+			type: Boolean,
+			default: false
+		}
+	},
+	template: '<div v-bind:style="{background:\'white\',height:\'40px\'}"><div v-bind:class="[\'mui-segmented-control\',\'mui-segmented-control-inverted\']">' +
 		'<template v-for="(period,index) of periodList">' +
-		'<input type="radio" name="periods" v-bind:id="period.id" v-bind:checked="index===0" v-on:change="checkListener(period,$event)"/>' +
-		'<label v-bind:for="period.id"><span>{{period.name}}</span></label>' +
+		'<a v-bind:class="[\'mui-control-item\', {\'mui-active\':index==0}]"  v-on:tap="checkListener(period,$event)">' +
+		'{{period.name}}</a>' +
 		'</template>' +
-		'<p v-if="" v-bind:style="{float:\'right\',display:\'inline-block\'}">高级筛选>></p>' +
-		'</div>',
+		'</div>' +
+		'<p v-if="moreSlect" v-on:tap="gotoSuperChoice()" v-bind:style="{float:\'right\'}">高级筛选>></p></div>',
 	data: function() {
 		return {
 			periodList: []
@@ -37,15 +43,15 @@ Vue.component('period-view', {
 		 * 不同学段选择
 		 */
 		checkListener: function(period, event) {
-			if(event.target.checked) {
-				this.$emit("periodchoice", period);
-			}
+			console.log("监听》》》》》")
+			this.$emit("periodchoice", period);
 		},
 		/**
 		 * 跳转到高级筛选界面
 		 */
 		gotoSuperChoice: function() {
-
+			console.log("高级筛选")
+			this.$emit("gotosuperchoice");
 		}
 	}
 })

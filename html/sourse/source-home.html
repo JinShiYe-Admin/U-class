@@ -1,88 +1,162 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 
 	<head>
-		<meta charset="UTF-8">
-		<title>资源首页</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 		<link href="../../css/u-class/school.css" rel="stylesheet" />
-		<style type="text/css">
-			#topPopover {
-				position: fixed;
-				top: 45px;
-				left: 5px;
-				width: 100px;
+		<link href="../../css/u-class/tea-list.css" rel="stylesheet" />
+		<style>
+			.mui-content {
+				margin-bottom: 50px;
 			}
 			
-			#topPopover .mui-popover-arrow {
-				left: 6px;
-				right: auto;
+			.mui-segmented-control {
+				height: 40px;
+				max-width: 70%;
+				display: inline-block;
 			}
 			
-			.mui-popover {
-				height: 80px;
-				width: 100;
-			}
-			
-			.mui-backdrop {
-				/*选择排序的遮罩*/
-				background-color: rgba(0, 0, 0, 0.05);
+			.mui-segmented-control .mui-control-item {
+				display: inline-block;
+				width: 60px;
 			}
 		</style>
+
 	</head>
 
 	<body>
-
 		<header class="mui-bar mui-bar-nav">
 			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left province" onclick="showPop()"></a>
 			<h1 class="mui-title">资源</h1>
 		</header>
-		<div class="mui-content">
-			<div id="topPopover" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<ul class="mui-table-view">
-					<li id="0" class="mui-table-view-cell mui-media ">
-						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
-					</li>
 
-					<li id="1" class="mui-table-view-cell mui-media ">
-						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
-					</li>
-					<li id="2" class="mui-table-view-cell mui-media ">
-						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
-					</li>
-				</ul>
-			</div>
-			<div id="slider" class="mui-slider mui-fullscreen">
-				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="primary2.html" data-province="">
-							<div>小学</div>
-						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="middle2.html" data-province="">
-							<div>初中</div>
-						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="high2.html" data-province="">
-							<div>高中</div>
-						</a>
+		<div id="find-sourse" class="mui-content">
+			<period-view v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
 
-					</div>
-					<button id="filter" onclick="toFilter()" type="button" style="float: right;margin-top: 5px;color: dodgerblue;border-color: transparent;">
-		           高级筛选>>
-		        </button>
+			<div id="pullrefresh" class=" mui-scroll-wrapper">
+
+				<!--<div id="topPopover" class="mui-popover">
+					<div class="mui-popover-arrow"></div>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
+							<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
+						</li>
+
+					</ul>
+				</div>-->
+				<!--时期选择-->
+				<div class="mui-scroll">
+
+					<!--老师列表-->
+					<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
 				</div>
 			</div>
 		</div>
-		<script src="../../js/mui.min.js"></script>
-		<script type="text/javascript" src="../../js/utils/utils.js"></script>
-		<script src="../../js/utils/myStorage.js"></script>
-		<script type="text/javascript" src="../../js/utils/webviewGroup.js"></script>
-		<script src="../../js/libs/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../js/u-class/find.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/libs/vue/vue.js"></script>
+		<script src="../../js/libs/vue/vue-router.js"></script>
+		<!--period组件-->
+		<script src="../../js/u-class/period-list.js"></script>
+		<!--tealist 组件-->
+		<script src="../../js/u-class/sourse-list.js"></script>
+		<script src="../../js/common/publicProtocol.js"></script>
+		<script src="../../js/utils/utils.js"></script>
+		<script type="text/javascript">
+			var findsource;
+			mui.init({
+				swipeBack: false,
+				keyEventBind: {
+					backbutton: false //关闭back按键监听
+				},
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style: 'circle',
+						offset: '0px',
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
 
+			function showWeb() {
+
+				main = plus.webview.currentWebview();
+				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
+				var provinceInfo = window.myStorage.getItem('provinceInfo');
+				findsource = new Vue({
+					el: '#find-sourse',
+					data: {
+						comData: {
+							pageNumber: 1, //当前页数
+							pageSize: 10, //每页显示的记录数
+							resourceCategoryId: 8, //资源分类Id
+							periodId: 0, //学段id
+							//							areaId: 15, //省/市/区/县的id
+							subjectId: 0, //科目id
+							gradeId: 0, //年级id
+							//							teacherId: '', //教师id
+							//							orderType: '', //排序:1-按最新排,2-按最热排
+						},
+						provinces: provinceInfo.data,
+						currentPro: provinceInfo.currentPro,
+						totalPage: 0,
+						moreSlect: true
+					},
+					created: function() {
+
+					},
+					computed: {
+
+					},
+					methods: {
+						getPeriodId: function(period) {
+							console.log("主页获取的学段数据:" + JSON.stringify(period))
+							this.comData.periodId = period.id;
+						},
+						requireTeaListEnd: function(totalPage) {
+							console.log("主页获取的总页数:" + totalPage);
+							this.totalPage = totalPage;
+						},
+						clickPop: function(proModel) {
+
+							mui('#topPopover').popover('toggle')
+							page = plus.webview.getWebviewById("u-home.html")
+							mui.fire(page, 'showPop', {
+								data: proModel
+							});
+							provinceInfo.currentPro = proModel;
+							window.myStorage.setItem('province', provinceInfo);
+
+						},
+						gotoSuperChoice: function() {
+							var currentId = plus.webview.currentWebview().id;
+							utils.openNewWindowWithData('../utils/filter.html', {
+								type: 0,
+								webId: currentId,
+								winId: 'filterChange'
+							})
+						}
+					}
+				});
+
+			}
+			var main;
+			mui.plusReady(function() {
+				main = plus.webview.currentWebview();
+				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
+			})
+		</script>
 	</body>
 
 </html>

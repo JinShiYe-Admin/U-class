@@ -11,24 +11,9 @@
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link href="../../css/utils/common.css" rel="stylesheet" />
 		<link href="../../css/u-class/tea-list.css" rel="stylesheet" />
+		<link href="../../css/u-class/period-list.css" rel="stylesheet" />
+		<link href="../../css/u-class/school.css" rel="stylesheet" />
 		<style>
-			input[type=radio]:checked+label {
-				border-bottom: 2px solid #4E8FFE;
-				color: #4E8FFE;
-			}
-			
-			label {
-				line-height: 40px;
-				padding: 10px 15px;
-				font-size: 15px;
-				text-align: center;
-			}
-			
-			input[type=radio] {
-				position: absolute;
-				left: -99999999px;
-			}
-			
 			.mui-content {
 				margin-bottom: 50px;
 			}
@@ -38,6 +23,15 @@
 
 	<body>
 		<div id="find-tea" class="mui-content">
+			<div id="topPopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
+						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
+					</li>
+
+				</ul>
+			</div>
 			<!--背景图片组件-->
 			<div>
 			</div>
@@ -54,10 +48,13 @@
 		<!--tealist 组件-->
 		<script src="../../js/u-class/tea-list.js"></script>
 		<script src="../../js/common/publicProtocol.js"></script>
+			<script src="../../js/utils/utils.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var findTea;
 			mui.init();
+
 			mui.plusReady(function() {
+				var provinceInfo = window.myStorage.getItem('provinceInfo');
 				var findTea = new Vue({
 					el: '#find-tea',
 					data: {
@@ -68,6 +65,7 @@
 							areaId: 0, //省/市/区/县的id
 							subjectId: '' //科目id
 						},
+						provinces: provinceInfo.data,
 						totalPage: 0
 					},
 					created: function() {
@@ -84,6 +82,17 @@
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);
 							this.totalPage = totalPage;
+						},
+						clickPop: function(proModel) {
+
+							mui('#topPopover').popover('toggle')
+							page = plus.webview.getWebviewById("u-home.html")
+							mui.fire(page, 'showPop', {
+								data: proModel
+							});
+							provinceInfo.currentPro = proModel;
+							window.myStorage.setItem('province', provinceInfo);
+
 						}
 					}
 				});
