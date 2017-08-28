@@ -46,7 +46,7 @@ Vue.component("course-list", {
 						com.listData = response.data.list;
 						com.totalPage = response.data.totalPage
 					} else {
-						com.listData = com.listData.concat(response.data);
+						com.listData = com.listData.concat(response.data.list);
 						com.totalPage = response.data.totalPage
 					}
 				} else {
@@ -58,6 +58,19 @@ Vue.component("course-list", {
 
 	}
 })
+function pulldownRefresh() {
+	findCourse.comData.pageNumber = 1;
+	mui('#pullrefresh').pullRefresh().endPulldown();
+
+}
+/**
+ * 上拉加载具体业务实现
+ */
+function pullupRefresh() {
+	findCourse.comData.pageNumber++
+	this.endPullupToRefresh(false); //参数为true代表没有更多数据了。
+
+}
 
 window.addEventListener("showPop", function(e) {
 	mui('#topPopover').popover('toggle')

@@ -1,7 +1,7 @@
 var data = {
-			listData: [],
-			totalPage: 0
-		
+	listData: [],
+	totalPage: 0
+
 }
 /**
  * 资源列表組件
@@ -48,8 +48,8 @@ Vue.component("source-list", {
 						com.listData = response.data.list;
 						com.totalPage = response.data.totalPage
 					} else {
-						com.listData = com.listData.concat(response.data);
-						console.log('列表条数：'+com.listData.length)
+						com.listData = com.listData.concat(response.data.list);
+						console.log('列表条数：' + com.listData.length)
 						com.totalPage = response.data.totalPage
 					}
 				} else {
@@ -66,33 +66,18 @@ window.addEventListener("showPop", function(e) {
 	mui('#topPopover').popover('toggle')
 
 })
-function pulldownRefresh() {
-//	mui('#pullrefresh').pullRefresh().refresh(true);
-	findsource.pageIndex = 1;
-	setTimeout(function() {
-//		getData(data);
-		mui('#pullrefresh').pullRefresh().endPulldown();
 
-	}, 1000);
+function pulldownRefresh() {
+	findsource.comData.pageNumber = 1;
+	mui('#pullrefresh').pullRefresh().endPulldown();
+
 }
 /**
  * 上拉加载具体业务实现
  */
 function pullupRefresh() {
-findsource.comData.pageNumber++;
-//	var pageIndex = findsource.comData.pageNumber++;
-//	if(pageIndex * 10 >= findsource.total) {
-//		setTimeout(function() {
-//			mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
-//
-//		}, 1000);
-//	} else {
-//		setTimeout(function() {
-////			data.listData = data.listData.concat(data.listData)
-//			mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
-//
-//		}, 1000);
-//	}
+	findsource.comData.pageNumber++;
+	this.endPullupToRefresh(false); //参数为true代表没有更多数据了。
 
 }
 window.addEventListener("filterChange", function(e) {
@@ -101,6 +86,7 @@ window.addEventListener("filterChange", function(e) {
 	console.log(JSON.stringify(data))
 
 })
+
 function download(btn) {
 	console.log(123)
 	utils.showWebAndFireWinListen('../utils/download.html', 'addDownLoad', {

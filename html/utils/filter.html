@@ -13,6 +13,10 @@
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="../../css/utils/common.css" />
 		<style>
+			.mui-bar-nav {
+				box-shadow: 0 1px 1px #e6e6e6;
+			}
+
 			header:last-of-type {
 				/*背景颜色*/
 				background: #FAFAFA;
@@ -28,14 +32,17 @@
 			}
 
 			.title-text-pull-right {
-				top: 20px;
-				color: #5DC3FD;
+				color: #36b9fe;
 			}
 
 			body,
 			.mui-content {
 				background-color: white;
 				word-break: break-all;
+			}
+
+			.mui-table-view {
+				padding: 0 5px;
 			}
 
 			.mui-table-view:before,
@@ -48,6 +55,8 @@
 				text-align: center;
 				border-radius: 7px;
 				margin: 5px;
+				color: #333333;
+				font-size: 15px;
 			}
 
 			.mui-table-view-cell:active,
@@ -58,15 +67,13 @@
 			}
 
 			.filter-title {
-				padding: 15px 5px 5px 10px;
+				padding: 15px 5px 5px 5px;
+				color: #333333;
+				font-size: 17px;
 			}
 
 			.filter-title:first-child {
 				padding-top: 20px;
-			}
-			.mui-bar .mui-bar-nav{
-				background: #FAFAFA;
-				
 			}
 		</style>
 	</head>
@@ -85,17 +92,17 @@
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
 		<script type="text/javascript" src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/libs/vue/vue.js"></script>
-
+		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript ">
 			//筛选组件
 			Vue.component("filter-item", {
 				props: ["value", "index"],
 				template: '\
 				<div>\
-					<div style="color: #333333;" class="filter-title">{{value.type+":"}}</div>\
+					<div class="filter-title">{{value.value+":"}}</div>\
 					<div class="mui-row" >\
 						<div class="mui-col-xs-4 mui-col-sm-4" v-for="(item_value,item_index) in value.item_array">\
-							<li style="color: #333333;" class="mui-table-view-cell mui-ellipsis" @tap="tapItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item}}</li>\
+							<li class="mui-table-view-cell mui-ellipsis" @tap="tapItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item.name}}</li>\
 						</div>\
 					</div>\
 				</div>',
@@ -114,7 +121,22 @@
 			var vm_filter = new Vue({
 				el: "#filter",
 				data: {
-					filter_array: []
+					filter_array: [{
+						key: "subjectId",
+						value: "科目", //类型名称
+						selectNum: null, //被选中的选项的index
+						item_array: [] //类型的选项数组
+					}, {
+						key: "bookVersionId",
+						value: "教版",
+						selectNum: null,
+						item_array: []
+					}, {
+						key: "gradeId",
+						value: "年级",
+						selectNum: null,
+						item_array: []
+					}]
 				},
 				methods: {
 					/**
@@ -123,16 +145,25 @@
 					 * @param {Object} item_index 筛选类型的选项
 					 */
 					itemChange: function(index, item_index) {
-						console.log("itemChange:" + index + ' ' + item_index);
+						console.log("点击的筛选类型:" + index + ' 点击的筛选项:' + item_index);
 						if(vm_filter.filter_array[index].selectNum === item_index) { //点击同一个
+							if(index == 0) { //科目必须选择一个
+								return false;
+							}
 							vm_filter.filter_array[index].item_array[item_index].isSelect = !vm_filter.filter_array[index].item_array[item_index].isSelect;
+							vm_filter.filter_array[index].selectNum = null;
 						} else {
 							if(vm_filter.filter_array[index].selectNum !== null) {
+								//将上一个设置为未选
 								vm_filter.filter_array[index].item_array[vm_filter.filter_array[index].selectNum].isSelect = false;
 							}
 							vm_filter.filter_array[index].item_array[item_index].isSelect = true;
+							vm_filter.filter_array[index].selectNum = item_index;
+							if(index == 0) { //切换科目
+								var wd = utils.showWaiting();
+								getbookVersionList(vm_filter.filter_array[index].item_array[item_index].item.id, wd);
+							}
 						}
-						vm_filter.filter_array[index].selectNum = item_index;
 					}
 				},
 			});
@@ -149,12 +180,13 @@
 						for(var i in vm_filter.filter_array) {
 							if(vm_filter.filter_array[i].selectNum !== null) {
 								commitData.push({
-									type: vm_filter.filter_array[i].type,
+									key: vm_filter.filter_array[i].key,
+									value: vm_filter.filter_array[i].value,
 									item: vm_filter.filter_array[i].item_array[vm_filter.filter_array[i].selectNum].item
 								});
 							}
 						}
-						//console.log("commitData:" + JSON.stringify(commitData));
+						console.log("选取的数据:", commitData);
 						utils.fireWinListen(main.data.webId, main.data.winId, commitData)
 						mui.back();
 					}
@@ -163,55 +195,123 @@
 			var main; //当前webview
 			mui.init();
 			mui.plusReady(function() {
-				initData();
+				utils.closeWaiting();
+				var wd = utils.showWaiting();
+				utils.muiInitScrollY();
+				main = plus.webview.currentWebview();
+				/*main.data = {
+					areaId: 15, //Number 省/市/区/县的id
+					periodId: 2, //Number 学段id
+					resourceCategoryId: 8, //Number 资源分类Id
+					webId: "source-home.html", //筛选确定之后触发监听事件的webview的id
+					winId: "filterChange" //筛选确定之后触发监听事件的id
+				}*/
+				console.log(main.id + ":", main.data);
+				getSubjectList(wd);
+
 			});
 
-			function initData() {
-				main = plus.webview.currentWebview();
-				utils.muiInitScrollY();
-				//console.log(main.id + " " + JSON.stringify(main.data));
-				//				main.data={
-				//					"type": 0,//0,找课程;1,找资源;
-				//					"webId": "webId",//筛选确定之后触发监听事件的webview的id
-				//					"winId": "winId"//筛选确定之后触发监听事件的id
-				//				}
-				show_data(main.data.type);
+			/**
+			 * 获取科目列表
+			 */
+			function getSubjectList(wd) {
+				var commonData = {
+					periodId: main.data.periodId, //学段id
+					areaId: main.data.areaId //省/市/区/县的id
+				}
+				postDataPro_subjectList(commonData, function(data) {
+					if(data.code == 0) {
+						//创建类型
+						var subject = vm_filter.filter_array[0];
+						subject.selectNum = null;
+						//往类型里加选项
+						for(var i = 0; i < data.data.length; i++) {
+							console.log("科目列表[" + i + "]:", data.data[i]);
+							var item_data = {
+								item: data.data[i], //选项名称
+								isSelect: false //是否选中
+							};
+							if(i == 0) {
+								item_data.isSelect = true;
+								subject.selectNum = 0;
+							}
+							subject.item_array.push(item_data);
+						}
+						if(data.data.length > 0) {
+							getbookVersionList(data.data[0].id, wd);
+						} else {
+							wd.close();
+						}
+					} else {
+						wd.close();
+						mui.toast("科目查询失败");
+					}
+				});
 			}
 
 			/**
-			 * 假数据
+			 * 获取教版
+			 * @param {Object} subjectId 科目id
+			 * @param {Object} wd
 			 */
-			function show_data(showType) {
-				var data = [{
-					type: "科目",
-					item: ["全部", "语文", "数学", "英语", "体育", "音乐", "美术", "信息技术", "科学", "品德与社会"]
-				}, {
-					type: "教版",
-					item: ["人教版"]
-				}, {
-					type: "年级",
-					item: ["全部", "一年级", "二年级", "三年级", "四年级", "五年级", "六年级"]
-				}]
-				if(showType) {
-					delete data[1];
+			function getbookVersionList(subjectId, wd) {
+				var commonData = {
+					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
+					periodId: main.data.periodId, //学段id
+					subjectId: subjectId //科目id
 				}
-
-				for(var i in data) {
-					//创建类型
-					var temp = {
-						type: data[i].type, //类型名称
-						selectNum: null, //被选中的选项的index
-						item_array: [] //类型的选项数组
+				postDataPro_bookVersionList(commonData, function(data) {
+					if(data.code == 0) {
+						//创建类型
+						var bookVersion = vm_filter.filter_array[1];
+						bookVersion.selectNum = null;
+						bookVersion.item_array = [];
+						//往类型里加选项
+						for(var i = 0; i < data.data.length; i++) {
+							console.log("教版列表[" + i + "]:", data.data[i]);
+							var item_data = {
+								item: data.data[i], //选项名称
+								isSelect: false //是否选中
+							};
+							bookVersion.item_array.push(item_data);
+						}
+					} else {
+						mui.toast("教版查询失败");
 					}
-					//往类型里加选项
-					for(var j in data[i].item) {
-						temp.item_array.push({
-							item: data[i].item[j], //选项名称
-							isSelect: false //是否选中
-						});
-					}
-					vm_filter.filter_array.push(temp)
+					getGradeList(subjectId, wd)
+				});
+			}
+			/**
+			 * 获取年级
+			 * @param {Object} subjectId 科目id
+			 * @param {Object} wd
+			 */
+			function getGradeList(subjectId, wd) {
+				var commonData = {
+					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
+					periodId: main.data.periodId, //学段id
+					subjectId: subjectId //科目id
 				}
+				postDataPro_gradeList(commonData, function(data) {
+					if(data.code == 0) {
+						//创建类型
+						var grade = vm_filter.filter_array[2];
+						grade.selectNum = null;
+						grade.item_array = [];
+						//往类型里加选项
+						for(var i = 0; i < data.data.length; i++) {
+							console.log("年级列表[" + i + "]:", data.data[i]);
+							var item_data = {
+								item: data.data[i], //选项名称
+								isSelect: false //是否选中
+							};
+							grade.item_array.push(item_data);
+						}
+					} else {
+						mui.toast("年级查询失败");
+					}
+					wd.close();
+				});
 			}
 		</script>
 	</body>

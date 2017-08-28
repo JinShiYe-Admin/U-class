@@ -341,12 +341,8 @@
 
 				var province = window.myStorage.getItem(window.storageKeyName.PROVINCEINFO);
 				var currProvince = document.getElementById("province")
-				if(currProvince == '') {
-
-				} else if(province.name == currProvince.innerHTML) {
-					return;
-				} else {
-					currProvince.innerHTML = province.name;
+				if(currProvince.innerHTML == '') {
+					currProvince.innerHTML = province.currentPro.name;
 					//重新获取数据
 					//初始化界面，将本地保存的资源列表，给本页面vue赋值
 					var tempList = window.myStorage.getItem(window.storageKeyName.RESOURCELIST);
@@ -382,6 +378,11 @@
 							classIndex = 0;
 						}
 					}
+				} else if(province.currentPro.name == currProvince.innerHTML) {
+					return;
+				} else {
+					currProvince.innerHTML = province.currentPro.name;
+
 				}
 			}
 
