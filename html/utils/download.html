@@ -25,12 +25,17 @@
 			.mui-table-view-cell:after {
 				left: 10px;
 				right: 10px;
+				color: #dedede;
 			}
 
 			.mui-progressbar {
 				width: auto;
 				background-color: #E8E8E8;
 				margin: 5px 0;
+			}
+
+			.mui-progressbar span {
+				background: #4f8efe;
 			}
 
 			.mui-content .mui-table-view-cell {
@@ -47,6 +52,7 @@
 				background-color: white;
 				padding: 11px 15px 4px 15px;
 				top: 10px;
+				color: #353535;
 			}
 
 			.download-image {
@@ -78,13 +84,13 @@
 				margin-top: -1px;
 				border-radius: 20px;
 				padding: 8px 15px 6px 15px;
-				border-color: #35B8FE;
+				border-color: #37B8FE;
 				background-color: #EEF9FF;
-				color: #35B8FE;
+				color: #37B8FE;
 			}
 
 			.mui-btn.mui-btn-outlined:active {
-				background-color: #35B8FE;
+				background-color: #37B8FE;
 			}
 
 			.download-ellipsis {
@@ -94,6 +100,7 @@
 				-webkit-line-clamp: 1;
 				-webkit-box-orient: vertical;
 				word-wrap: break-word;
+				color: #353535;
 			}
 
 			.download-info {
@@ -103,7 +110,7 @@
 
 			.download-delete-logs {
 				float: right;
-				color: #35B8FE;
+				color: #37B8FE;
 				opacity: 0.5;
 			}
 
@@ -135,6 +142,18 @@
 				background-color: white;
 			}
 		</style>
+		<script>
+			//动态设置样式
+			(function() {
+				var wsWidth = window.screen.width;
+				var download_ellipsis = wsWidth - (30 + 40 + 100 + 15); //文件名称的宽度
+				var style = document.createElement("style");
+				style.type = "text/css";
+				var sstr_0 = ".download-ellipsis{width: " + download_ellipsis + "px;}";
+				style.innerHTML = sstr_0;
+				document.getElementsByTagName('head').item(0).appendChild(style);
+			})();
+		</script>
 	</head>
 
 	<body>
@@ -146,7 +165,7 @@
 			<div class="mui-scroll">
 				<div class="download-type">正在下载{{downloading_title}}</div>
 				<ul id="downloading" class="mui-table-view">
-					<download-item @tap-close="tapClose" @tap-button="tapButton" v-for="(value,index) in file_array" :key="index" :infowidth="width" :value="value" :index="index"></download-item>
+					<download-item @tap-close="tapClose" @tap-button="tapButton" v-for="(value,index) in file_array" :key="index" :value="value" :index="index"></download-item>
 				</ul>
 				<div class="download-type download-delete-logs" :style="{opacity:opacity}">清除记录</div>
 				<div class="download-type">已下载{{downloaded_num}}</div>
@@ -161,7 +180,7 @@
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll">
 						<ul class="mui-table-view">
-							<li  v-for="value in failArray" class="mui-table-view-cell mui-ellipsis">{{value}}</li>
+							<li v-for="value in failArray" class="mui-table-view-cell mui-ellipsis">{{value}}</li>
 						</ul>
 					</div>
 				</div>
@@ -174,12 +193,12 @@
 		<script type="text/javascript" src="../../js/utils/fileutil.js"></script>
 		<script type="text/javascript">
 			Vue.component("download-item", {
-				props: ["value", "infowidth", "index"],
+				props: ["value", "index"],
 				template: '\
-					<li v-if="value.isShow" class="mui-table-view-cell" style="height: 241px;">\
+					<li v-if="value.isShow" class="mui-table-view-cell">\
 						<img class="download-image" src="../../images/file/11.png" />\
 						<div class="download-info">\
-							<div class="download-file-name download-ellipsis" :style="{width: infowidth+\'px\'}">{{value.name}}</div>\
+							<div class="download-file-name download-ellipsis">{{value.name}}</div>\
 							<div :id="value.taskid" v-show="value.showProgress" class="mui-progressbar">\
 								<span></span>\
 							</div>\
@@ -215,7 +234,6 @@
 			var vm_down = new Vue({
 				el: "#content",
 				data: {
-					width: 0,
 					deling: false, //是否正在删除
 					downloading_num: 0, //正在下载的数量
 					downloading_title: "", //正在下载列表的标题
@@ -333,11 +351,13 @@
 					}
 				}
 			});
+
 			mui.init({
 				gestureConfig: {
 					doubletap: true, //打开双击
 				}
 			});
+			
 			mui.plusReady(function() {
 				initData();
 				initListener();
@@ -357,14 +377,13 @@
 				ul_downloaded = document.getElementById("downloaded");
 				div_downloaded_title = document.getElementById("downloaded_title");
 				div_delete_logs = document.getElementById("delete_logs");
-				vm_down.width = plus.screen.resolutionWidth - (30 + 40 + 100 + 15);
 				createDownloadFolder();
 			}
 
 			function initListener() {
 				//增加下载记录
 				window.addEventListener('addDownLoad', function(e) {
-					//console.log("addDownLoad:" + JSON.stringify(e.detail.data));
+					console.log("addDownLoad:" + JSON.stringify(e.detail.data));
 					var size = fileutil.convertFileSize(e.detail.data.size);
 					var data = {
 						url: e.detail.data.url, //文件路径
@@ -551,7 +570,7 @@
 				ele.innerHTML = '\
 						<img class="download-image" src="../../images/file/11.png" />\
 						<div class="download-info">\
-							<div class="download-file-name download-ellipsis" style="width: ' + vm_down.width + 'px">' + data.name + '</div>\
+							<div class="download-file-name download-ellipsis">' + data.name + '</div>\
 							<div class="download-file-size">' + data.size + '</div>\
 						</div>\
 						<div class="mui-icon mui-icon-closeempty"></div>\
