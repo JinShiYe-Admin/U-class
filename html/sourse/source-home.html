@@ -38,7 +38,6 @@
 		</header>
 
 		<div id="find-sourse" class="mui-content">
-			<period-view v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
 
 			<div id="pullrefresh" class=" mui-scroll-wrapper">
 
@@ -53,6 +52,7 @@
 				</div>-->
 				<!--时期选择-->
 				<div class="mui-scroll">
+					<period-view v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
 
 					<!--老师列表-->
 					<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
@@ -123,6 +123,7 @@
 						getPeriodId: function(period) {
 							console.log("主页获取的学段数据:" + JSON.stringify(period))
 							this.comData.periodId = period.id;
+							this.comData.pageNumber = 1;
 						},
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);

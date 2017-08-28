@@ -17,30 +17,52 @@
 			.mui-content {
 				margin-bottom: 50px;
 			}
+			
+			.banner img {
+				width: 100%;
+				height: auto;
+			}
+			
+			.banner {
+				height: 180px;
+				overflow: hidden;
+				position: relative;
+				background-position: center;
+				background-color: #ccc;
+			}
 		</style>
 
 	</head>
 
 	<body>
 		<div id="find-tea" class="mui-content">
-			<div id="topPopover" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<ul class="mui-table-view">
-					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
-						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
-					</li>
+			<div id="pullrefresh" class=" mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--<div id="topPopover" class="mui-popover">
+						<div class="mui-popover-arrow"></div>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
+								<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
+							</li>
 
-				</ul>
+						</ul>
+					</div>-->
+					<!--背景图片组件-->
+					<!--顶部banner图 开始-->
+					<div class="banner">
+						<a href="javascript:;">
+							<img src="https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature" />
+						</a>
+					</div>
+
+					<!--时期选择-->
+					<period-view v-on:periodchoice="getPeriodId"></period-view>
+					<!--老师列表-->
+					<tea-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></tea-list>
+				</div>
 			</div>
-			<!--背景图片组件-->
-			<div>
-			</div>
-			<!--时期选择-->
-			<period-view v-on:periodchoice="getPeriodId"></period-view>
-			<!--老师列表-->
-			<tea-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></tea-list>
 		</div>
-		<script src="../../js/mui.js"></script>
+		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/libs/vue/vue.js"></script>
 		<script src="../../js/libs/vue/vue-router.js"></script>
 		<!--period组件-->
@@ -48,14 +70,30 @@
 		<!--tealist 组件-->
 		<script src="../../js/u-class/tea-list.js"></script>
 		<script src="../../js/common/publicProtocol.js"></script>
-			<script src="../../js/utils/utils.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/utils/utils.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
+			mui.init({
+				swipeBack: false,
+				keyEventBind: {
+					backbutton: false //关闭back按键监听
+				},
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style: 'circle',
+						offset: '0px',
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
 			var findTea;
-			mui.init();
-
 			mui.plusReady(function() {
 				var provinceInfo = window.myStorage.getItem('provinceInfo');
-				var findTea = new Vue({
+				findTea = new Vue({
 					el: '#find-tea',
 					data: {
 						comData: {
@@ -78,6 +116,7 @@
 						getPeriodId: function(period) {
 							console.log("主页获取的学段数据:" + JSON.stringify(period))
 							this.comData.periodId = period.id;
+							this.comData.pageNumber = 1;
 						},
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);
