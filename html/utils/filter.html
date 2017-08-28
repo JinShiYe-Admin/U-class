@@ -13,6 +13,10 @@
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="../../css/utils/common.css" />
 		<style>
+			.mui-bar-nav {
+				box-shadow: 0 1px 1px #e6e6e6;
+			}
+
 			header:last-of-type {
 				/*背景颜色*/
 				background: #FAFAFA;
@@ -28,14 +32,17 @@
 			}
 
 			.title-text-pull-right {
-				top: 20px;
-				color: #5DC3FD;
+				color: #36b9fe;
 			}
 
 			body,
 			.mui-content {
 				background-color: white;
 				word-break: break-all;
+			}
+
+			.mui-table-view {
+				padding: 0 5px;
 			}
 
 			.mui-table-view:before,
@@ -48,6 +55,8 @@
 				text-align: center;
 				border-radius: 7px;
 				margin: 5px;
+				color: #333333;
+				font-size: 15px;
 			}
 
 			.mui-table-view-cell:active,
@@ -58,15 +67,13 @@
 			}
 
 			.filter-title {
-				padding: 15px 5px 5px 10px;
+				padding: 15px 5px 5px 5px;
+				color: #333333;
+				font-size: 17px;
 			}
 
 			.filter-title:first-child {
 				padding-top: 20px;
-			}
-			.mui-bar .mui-bar-nav{
-				background: #FAFAFA;
-				
 			}
 		</style>
 	</head>
@@ -85,17 +92,17 @@
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
 		<script type="text/javascript" src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/libs/vue/vue.js"></script>
-
+		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript ">
 			//筛选组件
 			Vue.component("filter-item", {
 				props: ["value", "index"],
 				template: '\
 				<div>\
-					<div style="color: #333333;" class="filter-title">{{value.type+":"}}</div>\
+					<div class="filter-title">{{value.type+":"}}</div>\
 					<div class="mui-row" >\
 						<div class="mui-col-xs-4 mui-col-sm-4" v-for="(item_value,item_index) in value.item_array">\
-							<li style="color: #333333;" class="mui-table-view-cell mui-ellipsis" @tap="tapItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item}}</li>\
+							<li class="mui-table-view-cell mui-ellipsis" @tap="tapItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item}}</li>\
 						</div>\
 					</div>\
 				</div>',
@@ -169,33 +176,33 @@
 			function initData() {
 				main = plus.webview.currentWebview();
 				utils.muiInitScrollY();
-				//console.log(main.id + " " + JSON.stringify(main.data));
-				//				main.data={
-				//					"type": 0,//0,找课程;1,找资源;
-				//					"webId": "webId",//筛选确定之后触发监听事件的webview的id
-				//					"winId": "winId"//筛选确定之后触发监听事件的id
-				//				}
-				show_data(main.data.type);
+				console.log(main.id + " " + JSON.stringify(main.data));
+				//main.data = {
+				//	"areaId": 0, //Number 省/市/区/县的id
+				//	"resId": 0, //Number 资源分类Id
+				//	"webId": "webId", //筛选确定之后触发监听事件的webview的id
+				//	"winId": "winId" //筛选确定之后触发监听事件的id
+				//}
+				show_data();
 			}
 
 			/**
 			 * 假数据
 			 */
-			function show_data(showType) {
+			function show_data() {
 				var data = [{
-					type: "科目",
-					item: ["全部", "语文", "数学", "英语", "体育", "音乐", "美术", "信息技术", "科学", "品德与社会"]
+					type: "学段",
+					item: ["全部"]
 				}, {
-					type: "教版",
-					item: ["人教版"]
+					type: "科目",
+					item: ["全部"]
 				}, {
 					type: "年级",
-					item: ["全部", "一年级", "二年级", "三年级", "四年级", "五年级", "六年级"]
+					item: ["全部"]
+				}, {
+					type: "教版",
+					item: ["全部"]
 				}]
-				if(showType) {
-					delete data[1];
-				}
-
 				for(var i in data) {
 					//创建类型
 					var temp = {
