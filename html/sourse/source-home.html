@@ -27,35 +27,60 @@
 				display: inline-block;
 				width: 60px;
 			}
+			/*省份popover样式*/
+			
+			#topPopover {
+				position: fixed;
+				top: 45px;
+				left: 5px;
+				width: 100px;
+			}
+			
+			#topPopover .mui-popover-arrow {
+				left: 6px;
+				right: auto;
+			}
+			
+			.mui-popover {
+				height: 80px;
+				width: 100;
+			}
+			
+			.mui-backdrop {
+				/*选择排序的遮罩*/
+				background-color: rgba(0, 0, 0, 0.05);
+			}
 		</style>
 
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav">
-			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left province" onclick="showPop()"></a>
-			<h1 class="mui-title">资源</h1>
-		</header>
+		<div id="find-sourse">
+			<header class="mui-bar mui-bar-nav">
+				<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left province" onclick="showPop()">{{currentPro}}</a>
+				<h1 class="mui-title">资源</h1>
+			</header>
 
-		<div id="find-sourse" class="mui-content">
+			<div class="mui-content">
 
-			<div id="pullrefresh" class=" mui-scroll-wrapper">
+				<div id="pullrefresh" class=" mui-scroll-wrapper">
 
-				<!--<div id="topPopover" class="mui-popover">
-					<div class="mui-popover-arrow"></div>
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
-							<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
-						</li>
+					<div id="topPopover" class="mui-popover">
+						<div class="mui-popover-arrow"></div>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinceInfo" v-on:tap="clickPop(index)">
+								<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
+							</li>
 
-					</ul>
-				</div>-->
-				<!--时期选择-->
-				<div class="mui-scroll">
-					<period-view v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
+						</ul>
+					</div>
+					<!--时期选择-->
+					<div class="mui-scroll">
+						<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
 
-					<!--老师列表-->
-					<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
+						<!--老师列表-->
+						<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -89,11 +114,22 @@
 				}
 			});
 
-			function showWeb() {
+			function getProvinceList() {
+				//1、省份列表
+				var commonData = {
+					resourceCategoryId: 14
+				}
+				postDataPro_provinceList(commonData, function(data) {
+					if(data.code == 0) {
+						findsource.provinceInfo = data.data;
+					}
 
+				});
+			}
+
+			function showWeb() {
+				getProvinceList();
 				main = plus.webview.currentWebview();
-				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
-				var provinceInfo = window.myStorage.getItem('provinceInfo');
 				findsource = new Vue({
 					el: '#find-sourse',
 					data: {
@@ -108,16 +144,22 @@
 							//							teacherId: '', //教师id
 							//							orderType: '', //排序:1-按最新排,2-按最热排
 						},
-						provinces: provinceInfo.data,
-						currentPro: provinceInfo.currentPro,
+						provinceInfo: [{}],
+						tempIndex: 0,
 						totalPage: 0,
 						moreSlect: true
 					},
 					created: function() {
 
 					},
+					updated: function() {
+						//						var div = document.getElementById("find-sourse");
+						//						console.log(div.innerHTML)
+					},
 					computed: {
-
+						currentPro: function() {
+							return this.provinceInfo[this.tempIndex].name
+						}
 					},
 					methods: {
 						getPeriodId: function(period) {
@@ -129,24 +171,23 @@
 							console.log("主页获取的总页数:" + totalPage);
 							this.totalPage = totalPage;
 						},
-						clickPop: function(proModel) {
-
+						clickPop: function(index) {
 							mui('#topPopover').popover('toggle')
-							page = plus.webview.getWebviewById("u-home.html")
-							mui.fire(page, 'showPop', {
-								data: proModel
-							});
-							provinceInfo.currentPro = proModel;
-							window.myStorage.setItem('province', provinceInfo);
+							findsource.tempIndex = index;
 
 						},
 						gotoSuperChoice: function() {
 							var currentId = plus.webview.currentWebview().id;
-							utils.openNewWindowWithData('../utils/filter.html', {
-								type: 0,
+							var areaId = this.provinceInfo[this.tempIndex].id
+							var data = {
+								areaId: areaId,
+								periodId: this.comData.periodId,
+								resourceCategoryId: 8,
 								webId: currentId,
 								winId: 'filterChange'
-							})
+							}
+							console.log('高级筛选参数：' + JSON.stringify(data));
+							utils.openNewWindowWithData('../utils/filter.html', data)
 						}
 					}
 				});
@@ -157,6 +198,12 @@
 				main = plus.webview.currentWebview();
 				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
 			})
+
+			function showPop() {
+
+				mui('#topPopover').popover('toggle')
+
+			}
 		</script>
 	</body>
 

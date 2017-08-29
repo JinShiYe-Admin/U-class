@@ -80,6 +80,7 @@ function pullupRefresh() {
 
 }
 window.addEventListener("showPop", function(e) {
+	console.log(555555)
 	mui('#topPopover').popover('toggle')
 
 })

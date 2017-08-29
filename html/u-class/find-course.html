@@ -45,7 +45,7 @@
 						</ul>
 					</div>
 					<!--时期选择-->
-					<period-view v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
+					<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
 					<!--老师列表-->
 					<course-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></course-list>
 				</div>
@@ -128,12 +128,20 @@
 
 						},
 						gotoSuperChoice: function() {
+							
 							var currentId = plus.webview.currentWebview().id;
-							utils.openNewWindowWithData('../utils/filter.html', {
-								type: 1,
+							var areaId = this.currentPro.id
+							var data = {
+								areaId: areaId,
+								periodId: this.comData.periodId,
+								resourceCategoryId: 14,
 								webId: currentId,
 								winId: 'filterChange'
-							})
+							}
+							console.log('高级筛选参数：'+JSON.stringify(data));
+
+							utils.openNewWindowWithData('../utils/filter.html', data)
+
 						}
 					}
 				});

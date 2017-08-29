@@ -6,6 +6,10 @@ Vue.component('period-view', {
 		moreSlect: {
 			type: Boolean,
 			default: false
+		},
+		resourceCategoryId: {
+			type: Number,
+			default: 14
 		}
 	},
 	template: '<div v-bind:style="{background:\'white\',height:\'40px\'}"><div v-bind:class="[\'mui-segmented-control\',\'mui-segmented-control-inverted\']">' +
@@ -32,7 +36,10 @@ Vue.component('period-view', {
 		 */
 		getPeriods: function() {
 			var com = this;
-			postDataPro_periodList({}, function(response) {
+			var commonData = {
+				resourceCategoryId: this.resourceCategoryId
+			}
+			postDataPro_periodList(commonData, function(response) {
 				if(response.code == 0) {
 					com.periodList = response.data;
 					com.$emit("periodchoice", com.periodList[0]);

@@ -63,7 +63,7 @@
 	<body>
 		<!--导航栏选项卡-->
 		<header class="mui-bar mui-bar-nav" id="provinceInfo">
-			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left" onclick="showPop()">{{provinceInfo.currentPro.name}}</a>
+			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left" onclick="showPop()">{{currentPro}}</a>
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
@@ -88,46 +88,36 @@
 			<script type="text/javascript" src="../../js/utils/utils.js"></script>
 			<script src="../../js/utils/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
 			<script src="../../js/libs/vue/vue.min.js"></script>
+			<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
 			<script type="text/javascript">
 				var vm = new Vue({
 					el: '#provinceInfo',
 					data: {
-						provinceInfo: {
-							data: [],
-							currentPro: {
-								name: ''
-							}
-
+						provinceInfo: [{}],
+						tempIndex: 0
+					},
+					computed: {
+						currentPro: function() {
+							return this.provinceInfo[this.tempIndex].name
 						}
 					},
 					updated: function() {
-
 					}
 				})
 				mui.init();
 				var main; //当前webview
 				mui.plusReady(function() {
-					var provinceInfo = window.myStorage.getItem('provinceInfo');
-					vm.provinceInfo = provinceInfo
-					console.log('vm.provinceInfo=' + vm.provinceInfo.currentPro.name)
+					getProvinceList();
 					main = plus.webview.currentWebview();
 					main.addEventListener('show', showWeb, false); //增加窗口显示的监听
-					setSubPage(); //页面初始化
+					//					setSubPage(); //页面初始化
 
 				});
 
 				function showWeb() {
 					console.log('显示游客首页')
-					//					var provinceInfo = window.myStorage.getItem('provinceInfo');
-					//					var province = provinceInfo.currentPro;
-					//					var currProvince = document.getElementById("province")
-					//					if(province.name == currProvince.innerHTML) { //省份相同
-					//						return;
-					//					} else { //省份不同 刷新数据
-					//						currProvince.innerHTML = province.name
-					//						//重新获取数据
-					//						updateData();
-					//					}
+					//重新获取数据
+					updateData();
 
 				}
 
@@ -166,23 +156,20 @@
 					mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
 						var wid = this.getAttribute("data-wid");
 						group.switchTab(wid);
+						tempWid = wid
 					});
 				}
-				var urlId = 'primary0.html';
+				var tempWid = 'find-teacher.html';
 				window.addEventListener("toUHome", function(e) {
 					mui('#topPopover').popover('hide')
 					if(e.detail.data == '') {
 						return;
 					}
-					urlId = e.detail.data;
+					tempWid = e.detail.data;
 				})
 
 				function showPop() {
-					page = plus.webview.getWebviewById("find-teacher.html")
-					mui.fire(page, 'showPop', {
-						data: 'show'
-					});
-					page = plus.webview.getWebviewById("find-course.html")
+					page = plus.webview.getWebviewById(tempWid)
 					mui.fire(page, 'showPop', {
 						data: 'show'
 					});
@@ -193,7 +180,7 @@
 					//console.log('shown', e.detail.id);//detail为当前popover元素
 				});
 				mui('body').on('hidden', '.mui-popover', function(e) {
-					var page = plus.webview.getWebviewById(urlId)
+					var page = plus.webview.getWebviewById(tempWid)
 					mui.fire(page, 'showPop', {
 						data: 'hide'
 					});
@@ -204,6 +191,26 @@
 					province.innerHTML = data.name;
 					mui('#topPopover').popover('toggle')
 				})
+
+				function getProvinceList() {
+					//1、省份列表
+					var commonData = {
+						resourceCategoryId: 14
+					}
+					postDataPro_provinceList(commonData, function(data) {
+						if(data.code == 0) {
+							vm.provinceInfo = data.data;
+							var info = {
+								data: data.data,
+								currentPro: data.data[0]
+							}
+							window.myStorage.setItem(window.storageKeyName.PROVINCEINFO, info);
+							setSubPage();
+
+						}
+
+					});
+				}
 			</script>
 	</body>
 

@@ -35,30 +35,33 @@
 	</head>
 
 	<body>
-		<div id="find-tea" class="mui-content">
-			<div id="pullrefresh" class=" mui-scroll-wrapper">
-				<div class="mui-scroll">
-					<div id="topPopover" class="mui-popover">
-						<div class="mui-popover-arrow"></div>
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
-								<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
-							</li>
+		<div id="find-tea">
+			<div id="topPopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
+						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
+					</li>
 
-						</ul>
-					</div>
-					<!--背景图片组件-->
-					<!--顶部banner图 开始-->
-					<div class="banner">
-						<a href="javascript:;">
-							<img src="https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature" />
-						</a>
-					</div>
+				</ul>
+			</div>
+			<div class="mui-content">
+				<div id="pullrefresh" class=" mui-scroll-wrapper">
+					<div class="mui-scroll">
 
-					<!--时期选择-->
-					<period-view v-on:periodchoice="getPeriodId"></period-view>
-					<!--老师列表-->
-					<tea-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></tea-list>
+						<!--背景图片组件-->
+						<!--顶部banner图 开始-->
+						<div class="banner">
+							<a href="javascript:;">
+								<img src="https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature" />
+							</a>
+						</div>
+
+						<!--时期选择-->
+						<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-on:periodchoice="getPeriodId"></period-view>
+						<!--老师列表-->
+						<tea-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></tea-list>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -101,7 +104,8 @@
 							pageSize: 10, //每页显示的记录数
 							periodId: 0, //学段id
 							areaId: 0, //省/市/区/县的id
-							subjectId: '' //科目id
+							subjectId: '', //科目id
+							resourceCategoryId: 14
 						},
 						provinces: provinceInfo.data,
 						totalPage: 0
