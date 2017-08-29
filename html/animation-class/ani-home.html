@@ -223,9 +223,22 @@
 			mui.plusReady(function() {
 				main = plus.webview.currentWebview();
 				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
-				//				document.getElementById('slider').addEventListener('slider', function(e) {
-				//					console.log('11111');
-				//				});
+				//				mui('.mui-content').on('slider','.mui-slider',function(){
+				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+					console.log('11111');
+					classIndex = event.detail.slideNumber; //将点击的栏目索引
+					console.log('000');
+					var tempModel = animationData.animationArray[classIndex];
+					//如果切换的当前课程目录下数据为空，则发送协议获取
+					if(tempModel.childList.length == 0) {
+						console.log('000');
+						getAnimationList(tempModel, null);
+					}
+				});
+
+				//								document.getElementById('slider').addEventListener('slider', function(e) {
+				//									console.log('11111');
+				//								});
 				//				var slider = mui('#slider').slider();
 				//				slider.stopped = true; //关闭滑动切换
 				(function($) {

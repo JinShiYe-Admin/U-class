@@ -34,14 +34,19 @@ var postDataPro_getToken = function(commonData, callback) {
 }
 
 //1、获取省份列表
-//var commonData = {}
+//var commonData = {
+//	resourceCategoryId:''//资源分类Id(默认优课)
+//}
 var postDataPro_provinceList = function(commonData, callback) {
 	//发送网络请求，data为网络返回值
 	postDataEncry(storageKeyName.MAINURL + 'api/province/list', commonData, 1, callback);
 }
 
 //2、获取学段列表
-//var commonData = {}
+//var commonData = {
+//	resourceCategoryId:''//资源分类Id
+//}
+}
 var postDataPro_periodList = function(commonData, callback) {
 	//发送网络请求，data为网络返回值
 	postDataEncry(storageKeyName.MAINURL + 'api/period/list', commonData, 1, callback);
@@ -49,6 +54,7 @@ var postDataPro_periodList = function(commonData, callback) {
 
 //3、获取科目列表
 //var commonData = {
+//	resourceCategoryId:'',//资源分类Id
 //	periodId:'',//学段id
 //	areaId:''//省/市/区/县的id
 //}
@@ -70,9 +76,23 @@ var postDataPro_bookVersionList = function(commonData, callback) {
 
 //5、获取年级列表
 //var commonData = {
+//	resourceCategoryId:'',//资源分类Id
 //	periodId:'',//学段id
 //	areaId:'',//省/市/区/县的id
 //	subjectId:''//科目的id
+//}
+var postDataPro_gradeList = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry(storageKeyName.MAINURL + 'api/grade/list', commonData, 1, callback);
+}
+
+//5.1、获取年级列表
+//var commonData = {
+//	resourceCategoryId:'',//资源分类Id
+//	periodId:'',//学段id
+//	areaId:'',//省/市/区/县的id
+//	subjectId:'',//科目的id
+//	bookVersionId:''//教版id
 //}
 var postDataPro_gradeList = function(commonData, callback) {
 	//发送网络请求，data为网络返回值
@@ -93,6 +113,9 @@ var postDataPro_rescatList = function(commonData, callback) {
 //  resourceCategoryId:'',//资源分类Id
 //	periodId:'',//学段id
 //	areaId:'',//省/市/区/县的id
+//	schoolId:'',//学校id
+//	bookVersionId:'',//教版id
+//	bookTypeId:'',//上下册id
 //	subjectId:'',//科目id
 //	gradeId:'',//年级id
 //	teacherId:'',//教师id
