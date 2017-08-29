@@ -98,11 +98,11 @@
 			Vue.component("filter-item", {
 				props: ["value", "index"],
 				template: '\
-				<div>\
+				<div v-if="value.isShow">\
 					<div class="filter-title">{{value.value+":"}}</div>\
 					<div class="mui-row" >\
 						<div class="mui-col-xs-4 mui-col-sm-4" v-for="(item_value,item_index) in value.item_array">\
-							<li class="mui-table-view-cell mui-ellipsis" @tap="tapItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item.name}}</li>\
+							<li class="mui-table-view-cell mui-ellipsis" @tap="tapItem(index,item_index)" :class="{\'filter-select\':item_value.isSelect}">{{item_value.item.name}}{{item_value.item.book_type_name}}</li>\
 						</div>\
 					</div>\
 				</div>',
@@ -122,16 +122,19 @@
 				el: "#filter",
 				data: {
 					filter_array: [{
-						key: "subjectId",
+						isShow: true, //是否显示
+						key: "subjectId", //类型id
 						value: "科目", //类型名称
 						selectNum: null, //被选中的选项的index
 						item_array: [] //类型的选项数组
 					}, {
+						isShow: false, //是否显示
 						key: "bookVersionId",
 						value: "教版",
 						selectNum: null,
 						item_array: []
 					}, {
+						isShow: true, //是否显示
 						key: "gradeId",
 						value: "年级",
 						selectNum: null,
@@ -145,14 +148,8 @@
 					 * @param {Object} item_index 筛选类型的选项
 					 */
 					itemChange: function(index, item_index) {
-						console.log("点击的筛选类型:" + index + ' 点击的筛选项:' + item_index);
-						if(vm_filter.filter_array[index].selectNum === item_index) { //点击同一个
-							if(index == 0) { //科目必须选择一个
-								return false;
-							}
-							vm_filter.filter_array[index].item_array[item_index].isSelect = !vm_filter.filter_array[index].item_array[item_index].isSelect;
-							vm_filter.filter_array[index].selectNum = null;
-						} else {
+						console.log("筛选类型:" + index + ' 筛选项:' + item_index);
+						if(vm_filter.filter_array[index].selectNum !== item_index) { //不是点击同一个
 							if(vm_filter.filter_array[index].selectNum !== null) {
 								//将上一个设置为未选
 								vm_filter.filter_array[index].item_array[vm_filter.filter_array[index].selectNum].isSelect = false;
@@ -193,42 +190,56 @@
 				}
 			})
 			var main; //当前webview
+			var waiting; //等待框
 			mui.init();
 			mui.plusReady(function() {
 				utils.closeWaiting();
-				var wd = utils.showWaiting();
+				waiting = utils.showWaiting();
 				utils.muiInitScrollY();
 				main = plus.webview.currentWebview();
 				main.data = {
-					areaId: 15, //Number 省/市/区/县的id
-					periodId: 2, //Number 学段id
-					resourceCategoryId: 8, //Number 资源分类Id
+					areaId: 15, //Number 省/市/区/县的id(15,山东省;17,湖北省;21,海南省)
+					periodId: 2, //Number 学段id(1,小学;2,初中;3,高中)
+					resourceCategoryId: 14, //Number 资源分类Id(8,备课资源(找资源);12,动漫课堂;14,优课(找课程))
 					webId: "source-home.html", //筛选确定之后触发监听事件的webview的id
 					winId: "filterChange" //筛选确定之后触发监听事件的id
 				}
+				if(main.data.resourceCategoryId == 8) { //找资源显示教版
+					vm_filter.filter_array[1].isShow = true;
+				}
 				console.log(main.id + ":", main.data);
-				getSubjectList(wd);
-
+				getSubjectList();
 			});
 
 			/**
 			 * 获取科目列表
 			 */
-			function getSubjectList(wd) {
+			function getSubjectList() {
 				var commonData = {
+					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
 					periodId: main.data.periodId, //学段id
 					areaId: main.data.areaId //省/市/区/县的id
 				}
 				postDataPro_subjectList(commonData, function(data) {
 					if(data.code == 0) {
-						//创建类型
+						if(main.data.resourceCategoryId == 14) { //找课程有"全部"选项
+							var all = {
+								"sequence": 0,
+								"name": "全部",
+								"is_del": false,
+								"id": -1, //-1代表全部
+								"status": 1
+							}
+							data.data.unshift(all);
+						}
+
 						var subject = vm_filter.filter_array[0];
 						subject.selectNum = null;
-						//往类型里加选项
+						//往科目类型里加选项
 						for(var i = 0; i < data.data.length; i++) {
 							console.log("科目列表[" + i + "]:", data.data[i]);
 							var item_data = {
-								item: data.data[i], //选项名称
+								item: data.data[i], //选项的数据
 								isSelect: false //是否选中
 							};
 							if(i == 0) {
@@ -237,13 +248,17 @@
 							}
 							subject.item_array.push(item_data);
 						}
-						if(data.data.length > 0) {
-							getbookVersionList(data.data[0].id, wd);
+						if(data.data.length > 0) { //有科目
+							if(main.data.resourceCategoryId == 8) { //找资源查教版
+								getbookVersionList(data.data[0].id);
+							} else {
+								getGradeList(data.data[0].id);
+							}
 						} else {
-							wd.close();
+							waiting.close();
 						}
 					} else {
-						wd.close();
+						waiting.close();
 						mui.toast("科目查询失败");
 					}
 				});
@@ -273,45 +288,77 @@
 								item: data.data[i], //选项名称
 								isSelect: false //是否选中
 							};
+							if(i == 0) {
+								item_data.isSelect = true;
+								bookVersion.selectNum = 0;
+							}
 							bookVersion.item_array.push(item_data);
 						}
 					} else {
 						mui.toast("教版查询失败");
 					}
-					getGradeList(subjectId, wd)
+					if(data.code == 0 && data.data.length > 0) { //有教版
+						getGradeListWithBookType(subjectId, data.data[0].id);
+					} else {
+						getGradeListWithBookType(subjectId);
+					}
 				});
 			}
+
 			/**
-			 * 获取年级
+			 * 获取年级(找课程使用)
 			 * @param {Object} subjectId 科目id
-			 * @param {Object} wd
 			 */
-			function getGradeList(subjectId, wd) {
+			function getGradeList(subjectId) {
 				var commonData = {
+					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
+					areaId: main.data.areaId, //省/市/区/县的id
+					periodId: main.data.periodId //学段id
+				}
+				if(subjectId !== -1) { //不是查全部
+					commonData.subjectId = subjectId;
+				}
+				postDataPro_gradeList(commonData, disposeGradeData);
+			}
+
+			/**
+			 * 获取年级(找资源使用含上下册信息)
+			 * @param {Object} subjectId 科目id
+			 * @param {Object} bookVersionId 教版id
+			 */
+			function getGradeListWithBookType(subjectId, bookVersionId) {
+				var commonData = {
+					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
 					areaId: main.data.areaId, //省/市/区/县的id
 					periodId: main.data.periodId, //学段id
-					subjectId: subjectId //科目id
+					subjectId: subjectId, //科目id
+					bookVersionId: bookVersionId //教版id
 				}
-				postDataPro_gradeList(commonData, function(data) {
-					if(data.code == 0) {
-						//创建类型
-						var grade = vm_filter.filter_array[2];
-						grade.selectNum = null;
-						grade.item_array = [];
-						//往类型里加选项
-						for(var i = 0; i < data.data.length; i++) {
-							console.log("年级列表[" + i + "]:", data.data[i]);
-							var item_data = {
-								item: data.data[i], //选项名称
-								isSelect: false //是否选中
-							};
-							grade.item_array.push(item_data);
-						}
-					} else {
-						mui.toast("年级查询失败");
+				postDataPro_gradeList(commonData, disposeGradeData);
+			}
+
+			/**
+			 * 处理获取的年级数据
+			 * @param {Object} data
+			 */
+			function disposeGradeData(data) {
+				if(data.code == 0) {
+					var grade = vm_filter.filter_array[2];
+					grade.selectNum = null;
+					grade.item_array = [];
+					//往年级类型里加选项
+					for(var i = 0; i < data.data.length; i++) {
+						console.log("年级列表[" + i + "]:", data.data[i]);
+						var item_data = {
+							item: data.data[i], //选项名称
+							isSelect: false //是否选中
+						};
+						grade.item_array.push(item_data);
 					}
-					wd.close();
-				});
+				} else {
+					mui.toast("年级查询失败");
+				}
+				waiting.close();
 			}
 		</script>
 	</body>
