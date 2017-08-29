@@ -157,8 +157,12 @@
 							vm_filter.filter_array[index].item_array[item_index].isSelect = true;
 							vm_filter.filter_array[index].selectNum = item_index;
 							if(index == 0) { //切换科目
-								var wd = utils.showWaiting();
-								getbookVersionList(vm_filter.filter_array[index].item_array[item_index].item.id, wd);
+								waiting = utils.showWaiting();
+								if(main.data.resourceCategoryId == 14) { //找课程
+									getGradeList(vm_filter.filter_array[index].item_array[item_index].item.id);
+								} else {
+									getbookVersionList(vm_filter.filter_array[index].item_array[item_index].item.id);
+								}
 							}
 						}
 					}
@@ -185,7 +189,7 @@
 						}
 						console.log("选取的数据:", commitData);
 						utils.fireWinListen(main.data.webId, main.data.winId, commitData)
-						mui.back();
+						//mui.back();
 					}
 				}
 			})
@@ -200,7 +204,7 @@
 				main.data = {
 					areaId: 15, //Number 省/市/区/县的id(15,山东省;17,湖北省;21,海南省)
 					periodId: 2, //Number 学段id(1,小学;2,初中;3,高中)
-					resourceCategoryId: 14, //Number 资源分类Id(8,备课资源(找资源);12,动漫课堂;14,优课(找课程))
+					resourceCategoryId: 8, //Number 资源分类Id(8,备课资源(找资源);12,动漫课堂;14,优课(找课程))
 					webId: "source-home.html", //筛选确定之后触发监听事件的webview的id
 					winId: "filterChange" //筛选确定之后触发监听事件的id
 				}
@@ -248,18 +252,19 @@
 							}
 							subject.item_array.push(item_data);
 						}
-						if(data.data.length > 0) { //有科目
-							if(main.data.resourceCategoryId == 8) { //找资源查教版
-								getbookVersionList(data.data[0].id);
-							} else {
-								getGradeList(data.data[0].id);
-							}
+
+					} else {
+						mui.toast("科目查询失败");
+					}
+					if(data.code == 0 && data.data.length > 0) { //有科目
+						if(main.data.resourceCategoryId == 8) { //找资源查教版
+							getbookVersionList(data.data[0].id);
 						} else {
-							waiting.close();
+							getGradeList(data.data[0].id);
 						}
 					} else {
 						waiting.close();
-						mui.toast("科目查询失败");
+						waiting = null;
 					}
 				});
 			}
@@ -267,9 +272,8 @@
 			/**
 			 * 获取教版
 			 * @param {Object} subjectId 科目id
-			 * @param {Object} wd
 			 */
-			function getbookVersionList(subjectId, wd) {
+			function getbookVersionList(subjectId) {
 				var commonData = {
 					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
 					periodId: main.data.periodId, //学段id
@@ -332,9 +336,11 @@
 					areaId: main.data.areaId, //省/市/区/县的id
 					periodId: main.data.periodId, //学段id
 					subjectId: subjectId, //科目id
-					bookVersionId: bookVersionId //教版id
 				}
-				postDataPro_gradeList(commonData, disposeGradeData);
+				if(bookVersionId !== undefined) { //有教版
+					commonData.bookVersionId = bookVersionId;
+				}
+				postDataPro_gradeistWithBookType(commonData, disposeGradeData);
 			}
 
 			/**
@@ -343,6 +349,17 @@
 			 */
 			function disposeGradeData(data) {
 				if(data.code == 0) {
+					if(main.data.resourceCategoryId == 14) { //找课程有"全部"选项
+						var all = {
+							"sequence": 0,
+							"name": "全部",
+							"is_del": false,
+							"id": -1,
+							"type": 0,
+							"status": 1
+						}
+						data.data.unshift(all);
+					}
 					var grade = vm_filter.filter_array[2];
 					grade.selectNum = null;
 					grade.item_array = [];
@@ -353,12 +370,17 @@
 							item: data.data[i], //选项名称
 							isSelect: false //是否选中
 						};
+						if(i == 0) {
+							item_data.isSelect = true;
+							grade.selectNum = 0;
+						}
 						grade.item_array.push(item_data);
 					}
 				} else {
 					mui.toast("年级查询失败");
 				}
 				waiting.close();
+				waiting = null;
 			}
 		</script>
 	</body>
