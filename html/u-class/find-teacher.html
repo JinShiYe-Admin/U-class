@@ -38,7 +38,7 @@
 		<div id="find-tea" class="mui-content">
 			<div id="pullrefresh" class=" mui-scroll-wrapper">
 				<div class="mui-scroll">
-					<!--<div id="topPopover" class="mui-popover">
+					<div id="topPopover" class="mui-popover">
 						<div class="mui-popover-arrow"></div>
 						<ul class="mui-table-view">
 							<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
@@ -46,7 +46,7 @@
 							</li>
 
 						</ul>
-					</div>-->
+					</div>
 					<!--背景图片组件-->
 					<!--顶部banner图 开始-->
 					<div class="banner">
@@ -125,12 +125,12 @@
 						clickPop: function(proModel) {
 
 							mui('#topPopover').popover('toggle')
-							page = plus.webview.getWebviewById("u-home.html")
+							var page = plus.webview.getWebviewById("u-home.html")
 							mui.fire(page, 'showPop', {
 								data: proModel
 							});
 							provinceInfo.currentPro = proModel;
-							window.myStorage.setItem('province', provinceInfo);
+							window.myStorage.setItem('provinceInfo', provinceInfo);
 
 						}
 					}

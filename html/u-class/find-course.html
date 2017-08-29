@@ -38,7 +38,7 @@
 					<div id="topPopover" class="mui-popover">
 						<div class="mui-popover-arrow"></div>
 						<ul class="mui-table-view">
-							<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
+							<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:click="clickPop(item)">
 								<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
 							</li>
 
@@ -120,15 +120,11 @@
 							this.totalPage = totalPage;
 						},
 						clickPop: function(proModel) {
-
 							mui('#topPopover').popover('toggle')
-							page = plus.webview.getWebviewById("u-home.html")
-							mui.fire(page, 'showPop', {
-								data: proModel
-							});
+							var page = plus.webview.getWebviewById("u-home.html")
+							mui.fire(page, 'showPop');
 							provinceInfo.currentPro = proModel;
-							window.myStorage.setItem('province', provinceInfo);
-							//									updateData();
+							window.myStorage.setItem('provinceInfo', provinceInfo);
 
 						},
 						gotoSuperChoice: function() {
