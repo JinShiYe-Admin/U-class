@@ -123,7 +123,7 @@
 
 				function updateData() {
 					var data = window.myStorage.getItem('provinceInfo')
-					var page = plus.webview.getWebviewById(urlId)
+					var page = plus.webview.getWebviewById(tempWid)
 					mui.fire(page, 'provinceChange', data);
 				}
 
