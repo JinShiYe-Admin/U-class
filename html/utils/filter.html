@@ -177,14 +177,21 @@
 					 * 点击确定按钮
 					 */
 					commitData: function() {
+						if(vm_filter.filter_array[0].item_array.length == 0 && vm_filter.filter_array[1].item_array.length == 0 && vm_filter.filter_array[2].item_array.length == 0) {
+							//都为空则返回
+							mui.back();
+							return false;
+						}
 						var commitData = [];
 						for(var i in vm_filter.filter_array) {
 							if(vm_filter.filter_array[i].selectNum !== null) {
-								commitData.push({
-									key: vm_filter.filter_array[i].key,
-									value: vm_filter.filter_array[i].value,
-									item: vm_filter.filter_array[i].item_array[vm_filter.filter_array[i].selectNum].item
-								});
+								if(vm_filter.filter_array[i].item_array[vm_filter.filter_array[i].selectNum].item.id != -1) {
+									commitData.push({
+										key: vm_filter.filter_array[i].key,
+										value: vm_filter.filter_array[i].value,
+										item: vm_filter.filter_array[i].item_array[vm_filter.filter_array[i].selectNum].item
+									});
+								}
 							}
 						}
 						console.log("选取的数据:", commitData);
@@ -201,13 +208,13 @@
 				waiting = utils.showWaiting();
 				utils.muiInitScrollY();
 				main = plus.webview.currentWebview();
-				main.data = {
-					areaId: 15, //Number 省/市/区/县的id(15,山东省;17,湖北省;21,海南省)
-					periodId: 2, //Number 学段id(1,小学;2,初中;3,高中)
-					resourceCategoryId: 8, //Number 资源分类Id(8,备课资源(找资源);12,动漫课堂;14,优课(找课程))
-					webId: "source-home.html", //筛选确定之后触发监听事件的webview的id
-					winId: "filterChange" //筛选确定之后触发监听事件的id
-				}
+				//main.data = {
+				//	areaId: 15, //Number 省/市/区/县的id(15,山东省;17,湖北省;21,海南省)
+				//	periodId: 2, //Number 学段id(1,小学;2,初中;3,高中)
+				//	resourceCategoryId: 14, //Number 资源分类Id(8,备课资源(找资源);12,动漫课堂;14,优课(找课程))
+				//	webId: "source-home.html", //筛选确定之后触发监听事件的webview的id
+				//	winId: "filterChange" //筛选确定之后触发监听事件的id
+				//}
 				if(main.data.resourceCategoryId == 8) { //找资源显示教版
 					vm_filter.filter_array[1].isShow = true;
 				}
@@ -221,8 +228,10 @@
 			function getSubjectList() {
 				var commonData = {
 					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
-					periodId: main.data.periodId, //学段id
-					areaId: main.data.areaId //省/市/区/县的id
+					periodId: main.data.periodId //学段id
+				}
+				if(main.data.resourceCategoryId == 14) { //找课程区分省份
+					commonData.areaId = main.data.areaId //省/市/区/县的id
 				}
 				postDataPro_subjectList(commonData, function(data) {
 					if(data.code == 0) {
@@ -300,11 +309,7 @@
 					} else {
 						mui.toast("教版查询失败");
 					}
-					if(data.code == 0 && data.data.length > 0) { //有教版
-						getGradeListWithBookType(subjectId, data.data[0].id);
-					} else {
-						getGradeListWithBookType(subjectId);
-					}
+					getGradeListWithBookType(subjectId);
 				});
 			}
 
@@ -332,8 +337,7 @@
 			function getGradeListWithBookType(subjectId, bookVersionId) {
 				var commonData = {
 					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
-					areaId: main.data.areaId, //省/市/区/县的id
-					periodId: main.data.periodId, //学段id
+					//periodId: main.data.periodId, //学段id
 					subjectId: subjectId, //科目id
 				}
 				if(bookVersionId !== undefined) { //有教版
