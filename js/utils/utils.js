@@ -73,13 +73,13 @@ var utils = (function(mod) {
 		}, mod.openWebTime);
 
 		var tarPageId = mod.getWebUrlId(tarPagePath);
-//		var targetPage = plus.webview.getWebviewById(tarPageId);
-//		if(targetPage) {
-//			targetPage.show('slide-in-right', mod.showWebTime);
-//		} else {
+		var targetPage = plus.webview.getWebviewById(tarPageId);
+		if(targetPage) {
+			targetPage.show('slide-in-right', mod.showWebTime);
+		} else {
 			mui.openWindow({
 				url: tarPagePath,
-				id: tarPageId+Math.random(),
+				id: tarPageId + Math.random(),
 				extras: {
 					data: data
 				},
@@ -92,7 +92,35 @@ var utils = (function(mod) {
 				},
 				styles: mod.getWebStyle(tarPagePath)
 			})
-//		}
+		}
+	}
+
+	//不管之前有没有打开此界面，都重新打开新界面
+	mod.openNewWindowWithDataNew = function(tarPagePath, data) {
+		if(mod.openWeb) {
+			return false;
+		}
+		mod.openWeb = true;
+		setTimeout(function() {
+			mod.openWeb = false;
+		}, mod.openWebTime);
+
+		var tarPageId = mod.getWebUrlId(tarPagePath) + Math.random();
+		mui.openWindow({
+			url: tarPagePath,
+			id: tarPageId,
+			extras: {
+				data: data
+			},
+			show: {
+				anishow: 'slide-in-right',
+				duration: mod.showWebTime
+			},
+			waiting: {
+				title: '正在加载...'
+			},
+			styles: mod.getWebStyle(tarPagePath)
+		})
 	}
 
 	/**

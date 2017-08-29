@@ -85,7 +85,7 @@ var postDataPro_gradeList = function(commonData, callback) {
 	postDataEncry(storageKeyName.MAINURL + 'api/grade/list', commonData, 1, callback);
 }
 
-//5.1、获取年级列表
+//5.1、年级列表(含上下册信息)
 //var commonData = {
 //	resourceCategoryId:'',//资源分类Id
 //	periodId:'',//学段id
