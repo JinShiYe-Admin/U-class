@@ -216,6 +216,7 @@
 			 */
 			function getSubjectList(wd) {
 				var commonData = {
+					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
 					periodId: main.data.periodId, //学段id
 					areaId: main.data.areaId //省/市/区/县的id
 				}
@@ -275,22 +276,32 @@
 							};
 							bookVersion.item_array.push(item_data);
 						}
+						if(data.data.length > 0) {
+							getGradeList(subjectId, wd, data.data[0].id);
+						} else {
+							getGradeList(subjectId, wd);
+						}
 					} else {
 						mui.toast("教版查询失败");
+						getGradeList(subjectId, wd);
 					}
-					getGradeList(subjectId, wd)
 				});
 			}
 			/**
 			 * 获取年级
 			 * @param {Object} subjectId 科目id
 			 * @param {Object} wd
+			 * @param {Object} bookVersionId 教版id
 			 */
-			function getGradeList(subjectId, wd) {
+			function getGradeList(subjectId, wd, bookVersionId) {
 				var commonData = {
+					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
 					areaId: main.data.areaId, //省/市/区/县的id
 					periodId: main.data.periodId, //学段id
 					subjectId: subjectId //科目id
+				}
+				if(bookVersionId != undefined) {
+					commonData.bookVersionId = bookVersionId;
 				}
 				postDataPro_gradeList(commonData, function(data) {
 					if(data.code == 0) {
