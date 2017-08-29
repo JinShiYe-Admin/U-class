@@ -92,17 +92,17 @@
 		<script src="../../js/common/publicProtocol.js"></script>
 		<script type="text/javascript">
 			mui.init({
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						style: 'circle',
-						callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
-				}
+//				pullRefresh: {
+//					container: '#pullrefresh',
+//					down: {
+//						style: 'circle',
+//						callback: pulldownRefresh
+//					},
+//					up: {
+//						contentrefresh: '正在加载...',
+//						callback: pullupRefresh
+//					}
+//				}
 			});
 			var spaceData = new Vue({
 				el: '#pullrefresh',
@@ -139,7 +139,7 @@
 			function getTeacherSpaceList() {
 				var commonData = {
 					pageNumber: spaceData.teacherModel.pageIndex, //当前页数
-					pageSize: 20, //每页显示的记录数
+					pageSize: 999, //每页显示的记录数
 					resourceCategoryId: spaceData.teacherModel.resourceCategoryId, //资源分类Id
 					teacherId: spaceData.teacherModel.id //教师id
 				}
@@ -147,10 +147,10 @@
 					if(data.code == 0) {
 						if(spaceData.teacherModel.pageFlag == 0) { //刷新
 							spaceData.teacherModel.spaceArray = data.data.list;
-							mui('#pullrefresh').pullRefresh().endPulldown();
+//							mui('#pullrefresh').pullRefresh().endPulldown();
 						} else { //加载更多
 							spaceData.teacherModel.spaceArray = spaceData.teacherModel.spaceArray.concat(data.data.list);
-							mui('#pullrefresh').pullRefresh().endPullup();
+//							mui('#pullrefresh').pullRefresh().endPullup();
 						}
 						spaceData.teacherModel.pageIndex++;
 						//						console.log('animationData.animationArray:' + JSON.stringify(animationData.animationArray));
@@ -158,20 +158,20 @@
 				});
 			}
 
-			function pullupRefresh() {
-				spaceData.teacherModel.pageFlag = 1;
-				//7、分页获取资源列表
-				getTeacherSpaceList();
-			}
+//			function pullupRefresh() {
+//				spaceData.teacherModel.pageFlag = 1;
+//				//7、分页获取资源列表
+//				getTeacherSpaceList();
+//			}
 			/**
 			 * 下拉刷新具体业务实现
 			 */
-			function pulldownRefresh() {
-				spaceData.teacherModel.pageFlag = 0;
-				spaceData.teacherModel.pageIndex = 1;
-				//7、分页获取资源列表
-				getTeacherSpaceList();
-			}
+//			function pulldownRefresh() {
+//				spaceData.teacherModel.pageFlag = 0;
+//				spaceData.teacherModel.pageIndex = 1;
+//				//7、分页获取资源列表
+//				getTeacherSpaceList();
+//			}
 		</script>
 	</body>
 

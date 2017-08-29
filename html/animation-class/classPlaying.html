@@ -85,7 +85,7 @@
 				<p></p>
 				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">相关视频</p>
 				<ul class="mui-table-view mui-table-view-chevron" v-for="item in sumModel.spaceArray">
-					<li class="mui-table-view-cell mui-media">
+					<li class="mui-table-view-cell mui-media" @click="clickTeacherSpace()">
 						<a class="mui-navigate-right">
 							<img class="mui-media-object mui-pull-left" :src="item.img_url">
 							<div class="mui-media-body">
@@ -122,7 +122,9 @@
 			var spaceData = new Vue({
 				el: '#pullrefresh',
 				data: {
-					sumModel: {},
+					sumModel: {
+						currentModel:{}
+					},
 					styleObject: {
 						backgroundImage: '', //视频的背景图，切换视频时需要更改这个参数---@赵
 						height: parseInt(window.screen.width * 190 / 360) + "px"
@@ -134,6 +136,9 @@
 					 */
 					vPlaying: function() {
 						this.styleObject.backgroundImage = "";
+					},
+					clickTeacherSpace:function(){
+						utils.openNewWindowWithData('classPlaying.html', spaceData.sumModel);
 					}
 				}
 			});

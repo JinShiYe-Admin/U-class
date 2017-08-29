@@ -199,13 +199,13 @@
 				var wd = utils.showWaiting();
 				utils.muiInitScrollY();
 				main = plus.webview.currentWebview();
-				/*main.data = {
+				main.data = {
 					areaId: 15, //Number 省/市/区/县的id
 					periodId: 2, //Number 学段id
 					resourceCategoryId: 8, //Number 资源分类Id
 					webId: "source-home.html", //筛选确定之后触发监听事件的webview的id
 					winId: "filterChange" //筛选确定之后触发监听事件的id
-				}*/
+				}
 				console.log(main.id + ":", main.data);
 				getSubjectList(wd);
 
@@ -288,7 +288,7 @@
 			 */
 			function getGradeList(subjectId, wd) {
 				var commonData = {
-					resourceCategoryId: main.data.resourceCategoryId, //资源分类Id
+					areaId: main.data.areaId, //省/市/区/县的id
 					periodId: main.data.periodId, //学段id
 					subjectId: subjectId //科目id
 				}
