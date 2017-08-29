@@ -58,9 +58,31 @@ Vue.component("course-list", {
 
 	}
 })
+function addpullRefresh() {
+	var pullRefresh = mui('.mui-scroll-wrapper .mui-scroll').pullToRefresh({
+		down: {
+			callback: function() {
+				console.log('down');
+				setTimeout(function() {
+					findCourse.comData.pageNumber = 1;
+					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+				}, 1000);
+			}
+		},
+		up: {
+			callback: function() {
+				console.log('up');
+				setTimeout(function() {
+					findCourse.comData.pageNumber++
+						pullRefresh.endPullUpToRefresh();
+				}, 1000);
+			}
+		}
+	});
+}
 function pulldownRefresh() {
+//		this.endPullDownToRefresh();
 	findCourse.comData.pageNumber = 1;
-	mui('#pullrefresh').pullRefresh().endPulldown();
 
 }
 /**
@@ -80,5 +102,6 @@ window.addEventListener("filterChange", function(e) {
 	window.scrollTo(0, 0);
 	var data = e.detail.data;
 	console.log(JSON.stringify(data))
+	
 
 })

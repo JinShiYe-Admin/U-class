@@ -57,7 +57,6 @@
 	<body>
 		<div id="find-sourse">
 			<header class="mui-bar mui-bar-nav">
-				<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left province" onclick="showPop()">{{currentPro}}</a>
 				<h1 class="mui-title">资源</h1>
 			</header>
 
@@ -65,15 +64,6 @@
 
 				<div id="pullrefresh" class=" mui-scroll-wrapper">
 
-					<div id="topPopover" class="mui-popover">
-						<div class="mui-popover-arrow"></div>
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinceInfo" v-on:tap="clickPop(index)">
-								<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
-							</li>
-
-						</ul>
-					</div>
 					<!--时期选择-->
 					<div class="mui-scroll">
 						<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
@@ -114,21 +104,7 @@
 				}
 			});
 
-			function getProvinceList() {
-				//1、省份列表
-				var commonData = {
-					resourceCategoryId: 14
-				}
-				postDataPro_provinceList(commonData, function(data) {
-					if(data.code == 0) {
-						findsource.provinceInfo = data.data;
-					}
-
-				});
-			}
-
 			function showWeb() {
-				getProvinceList();
 				main = plus.webview.currentWebview();
 				findsource = new Vue({
 					el: '#find-sourse',

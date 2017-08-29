@@ -43,7 +43,12 @@
 			"js/utils/signHmacSHA1.js",
 			"js/common/storageKeyName.js",
 			"js/libs/myStorage/myStorage.js",
-			"images/utils/img-teacher-bg2.png"
+			"images/utils/img-teacher-bg2.png",
+			"js/utils/utils.js",
+			"fonts/mui.ttf",
+			"js/common/publicProtocol.js",
+			"js/utils/mui.pullToRefresh.material.js",
+			"js/utils/mui.pullToRefresh.js"
 		],
 		"refer": [
 			"html/utils/school.html",
@@ -61,7 +66,15 @@
 			"js/libs/vue/vue.min.js",
 			"js/mui.min.js",
 			"js/utils/utils.js",
-			"html/u-class/find-course.html"
+			"html/u-class/find-course.html",
+			"js/libs/jquery.js",
+			"js/common/publicProtocol.js",
+			"fonts/mui.ttf",
+			"js/libs/crypto-js/require.js",
+			"js/common/postData.js",
+			"js/utils/signHmacSHA1.js",
+			"js/common/storageKeyName.js",
+			"js/libs/myStorage/myStorage.js"
 		],
 		"refer": [
 			"html/u-class/find-teacher.html",
@@ -77,7 +90,8 @@
 			"js/utils/mui.pullToRefresh.material.js",
 			"js/utils/mui.pullToRefresh.js",
 			"js/libs/vue/vue.min.js",
-			"js/utils/myStorage.js"
+			"js/utils/myStorage.js",
+			"js/mui.min.js"
 		],
 		"refer": [
 			"html/animation-class/classPlaying.html"
@@ -112,7 +126,14 @@
 			"css/mui.min.css",
 			"css/utils/common.css",
 			"js/mui.min.js",
-			"js/utils/utils.js"
+			"js/utils/utils.js",
+			"js/libs/jquery.js",
+			"js/common/publicProtocol.js",
+			"js/libs/crypto-js/require.js",
+			"js/common/postData.js",
+			"js/utils/signHmacSHA1.js",
+			"js/common/storageKeyName.js",
+			"js/libs/myStorage/myStorage.js"
 		]
 	},
 	"html/u-class/primary.html": {
@@ -134,7 +155,17 @@
 			"js/u-class/period-list.js",
 			"css/u-class/tea-list.css",
 			"js/mui.js",
-			"css/u-class/period-list.css"
+			"css/u-class/period-list.css",
+			"js/libs/jquery.js",
+			"js/utils/utils.js",
+			"js/libs/crypto-js/require.js",
+			"js/common/postData.js",
+			"js/utils/signHmacSHA1.js",
+			"js/common/storageKeyName.js",
+			"js/libs/myStorage/myStorage.js",
+			"js/libs/vue/vue.js",
+			"js/mui.min.js",
+			"js/common/publicProtocol.js"
 		],
 		"refer": [
 			"html/u-class/primary.html",
@@ -164,7 +195,9 @@
 			"js/utils/signHmacSHA1.js",
 			"js/mui.js",
 			"js/common/storageKeyName.js",
-			"js/utils/utils.js"
+			"js/utils/utils.js",
+			"js/utils/mui.pullToRefresh.js",
+			"js/utils/mui.pullToRefresh.material.js"
 		],
 		"refer": [
 			"html/u-class/primary.html",
@@ -210,7 +243,9 @@
 			"css/mui.min.css",
 			"css/utils/common.css",
 			"js/libs/vue/vue.js",
-			"images/file/11.png"
+			"images/file/11.png",
+			"js/mui.min.js",
+			"js/utils/utils.js"
 		]
 	},
 	"html/animation-class/classPlaying.html": {

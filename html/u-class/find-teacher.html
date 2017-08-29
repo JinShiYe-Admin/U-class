@@ -36,7 +36,7 @@
 
 	<body>
 		<div id="find-tea">
-			<div id="topPopover" class="mui-popover">
+			<!--<div id="topPopover" class="mui-popover">
 				<div class="mui-popover-arrow"></div>
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
@@ -44,9 +44,9 @@
 					</li>
 
 				</ul>
-			</div>
+			</div>-->
 			<div class="mui-content">
-				<div id="pullrefresh" class=" mui-scroll-wrapper">
+				<div id="pullrefresh" class=" mui-scroll-wrapper"  style="z-index: 1;">
 					<div class="mui-scroll">
 
 						<!--背景图片组件-->
@@ -72,6 +72,8 @@
 		<script src="../../js/u-class/period-list.js"></script>
 		<!--tealist 组件-->
 		<script src="../../js/u-class/tea-list.js"></script>
+		<script type="text/javascript" src="../../js/utils/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../../js/utils/mui.pullToRefresh.material.js"></script>
 		<script src="../../js/common/publicProtocol.js"></script>
 		<script src="../../js/utils/utils.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
@@ -80,21 +82,10 @@
 				keyEventBind: {
 					backbutton: false //关闭back按键监听
 				},
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						style: 'circle',
-						offset: '0px',
-						callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
-				}
 			});
 			var findTea;
 			mui.plusReady(function() {
+				
 				var provinceInfo = window.myStorage.getItem('provinceInfo');
 				findTea = new Vue({
 					el: '#find-tea',
@@ -112,6 +103,9 @@
 					},
 					created: function() {
 
+					},
+					updated:function(){
+						addpullRefresh();
 					},
 					computed: {
 

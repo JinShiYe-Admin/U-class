@@ -33,7 +33,7 @@
 
 	<body>
 		<div id="find-course" class="mui-content">
-			<div id="pullrefresh" class=" mui-scroll-wrapper">
+			<div id="pullrefresh" class=" mui-scroll-wrapper" style="z-index: 1;">
 				<div class="mui-scroll">
 					<div id="topPopover" class="mui-popover">
 						<div class="mui-popover-arrow"></div>
@@ -59,6 +59,8 @@
 		<!--tealist 组件-->
 		<script src="../../js/u-class/course-list.js"></script>
 		<script src="../../js/common/publicProtocol.js"></script>
+		<script type="text/javascript" src="../../js/utils/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../../js/utils/mui.pullToRefresh.material.js"></script>
 		<script src="../../js/utils/utils.js"></script>
 		<script type="text/javascript">
 			var findCourse;
@@ -67,18 +69,6 @@
 				keyEventBind: {
 					backbutton: false //关闭back按键监听
 				},
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						style: 'circle',
-						offset: '0px',
-						callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
-				}
 			});
 
 			mui.plusReady(function() {
@@ -107,6 +97,9 @@
 					},
 					computed: {
 
+					},
+					updated:function(){
+						addpullRefresh();
 					},
 					methods: {
 						getPeriodId: function(period) {
