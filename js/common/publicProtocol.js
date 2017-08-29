@@ -46,7 +46,6 @@ var postDataPro_provinceList = function(commonData, callback) {
 //var commonData = {
 //	resourceCategoryId:''//资源分类Id
 //}
-}
 var postDataPro_periodList = function(commonData, callback) {
 	//发送网络请求，data为网络返回值
 	postDataEncry(storageKeyName.MAINURL + 'api/period/list', commonData, 1, callback);
