@@ -93,9 +93,9 @@ var postDataPro_gradeList = function(commonData, callback) {
 //	subjectId:'',//科目的id
 //	bookVersionId:''//教版id
 //}
-var postDataPro_gradeList = function(commonData, callback) {
+var postDataPro_gradeistWithBookType = function(commonData, callback) {
 	//发送网络请求，data为网络返回值
-	postDataEncry(storageKeyName.MAINURL + 'api/grade/list', commonData, 1, callback);
+	postDataEncry(storageKeyName.MAINURL + '/api/grade/listWithBookType', commonData, 1, callback);
 }
 
 //6、获取资源的分类及子分类
