@@ -357,7 +357,7 @@
 					doubletap: true, //打开双击
 				}
 			});
-			
+
 			mui.plusReady(function() {
 				initData();
 				initListener();
@@ -387,7 +387,7 @@
 					var size = fileutil.convertFileSize(e.detail.data.size);
 					var data = {
 						url: e.detail.data.url, //文件路径
-						name: e.detail.data.name, //文件名称
+						name: e.detail.data.name + "." + e.detail.data.type, //文件名称
 						initSize: size, //文件大小
 						size: size, //显示的文件大小
 						speed: "", //下载速度
@@ -664,7 +664,7 @@
 				}
 
 				fileutil.addDownloadTask(vm_down.file_array[vm_down.downloadingFileId].url, "_documents/download/" + vm_down.file_array[vm_down.downloadingFileId].name, function(download, status) {
-					//console.log('下载任务完成:' + status + '|' + JSON.stringify(download));
+					console.log('下载任务完成:' + status + '|' + JSON.stringify(download));
 					//处理下载任务
 					vm_down.file_array[vm_down.downloadingFileId].state = "4"; //4,任务完成
 					vm_down.file_array[vm_down.downloadingFileId].result = status; //下载结果状态
