@@ -387,7 +387,7 @@
 					var size = fileutil.convertFileSize(e.detail.data.size);
 					var data = {
 						url: e.detail.data.url, //文件路径
-						name: e.detail.data.name, //文件名称
+						name: e.detail.data.name + "." + e.detail.data.type, //文件名称
 						initSize: size, //文件大小
 						size: size, //显示的文件大小
 						speed: "", //下载速度
