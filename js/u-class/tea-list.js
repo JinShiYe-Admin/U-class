@@ -7,10 +7,10 @@ Vue.component("tea-list", {
 		'<li v-on:tap="clickcell(item)" v-for="(item,index) of listData" v-bind:class="[\'mui-table-view-cell\',\'cell-container\']">' +
 		'<img v-bind:class="[\'tea-headImg\']" v-bind:src="item.img_url"/>' +
 		'<div v-bind:class="[\'tea-info\']">' +
-		'<p>{{item.name}}</p>' +
-		'<p>{{item.school_name}}</p>' +
+		'<p  style="white-space: pre;font-size:16px;color:#000000">  {{item.name}}</p>' +
+		'<p  style="white-space: pre;font-size:14px;color:#a6a6a6">  {{item.school_name}}</p>' +
 		'</div>' +
-		'<input v-bind:class="[\'tea-suject\']" type="button" v-bind:value="item.subjectList[0].name"/>' +
+		'<input  style="white-space: pre;font-size:16px;color:#ff8a11;border-color:#ff8a11" v-bind:class="[\'tea-suject\']" type="button" v-bind:value="item.subjectList[0].name"/>' +
 		'</li>' +
 		'</ul>',
 	data: function() {
