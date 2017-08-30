@@ -74,7 +74,8 @@
 			"js/common/postData.js",
 			"js/utils/signHmacSHA1.js",
 			"js/common/storageKeyName.js",
-			"js/libs/myStorage/myStorage.js"
+			"js/libs/myStorage/myStorage.js",
+			"images/utils/01.png"
 		],
 		"refer": [
 			"html/u-class/find-teacher.html",
@@ -91,7 +92,11 @@
 			"js/utils/mui.pullToRefresh.js",
 			"js/libs/vue/vue.min.js",
 			"js/utils/myStorage.js",
-			"js/mui.min.js"
+			"js/mui.min.js",
+			"js/libs/crypto-js/require.js",
+			"js/utils/signHmacSHA1.js",
+			"js/common/storageKeyName.js",
+			"js/libs/myStorage/myStorage.js"
 		],
 		"refer": [
 			"html/animation-class/classPlaying.html"
