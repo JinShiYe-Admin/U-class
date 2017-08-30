@@ -32,22 +32,25 @@
 	</head>
 
 	<body>
-		<div id="find-course" class="mui-content">
-			<div id="pullrefresh" class=" mui-scroll-wrapper" style="z-index: 1;">
-				<div class="mui-scroll">
-					<div id="topPopover" class="mui-popover">
-						<div class="mui-popover-arrow"></div>
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:click="clickPop(item)">
-								<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
-							</li>
+		<div id="find-course">
 
-						</ul>
+			<div id="topPopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:click="clickPop(item)">
+						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
+					</li>
+
+				</ul>
+			</div>
+			<div class="mui-content">
+				<div id="pullrefresh" class=" mui-scroll-wrapper" style="z-index: 1;">
+					<div class="mui-scroll">
+						<!--时期选择-->
+						<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
+						<!--老师列表-->
+						<course-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></course-list>
 					</div>
-					<!--时期选择-->
-					<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
-					<!--老师列表-->
-					<course-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></course-list>
 				</div>
 			</div>
 		</div>
@@ -82,8 +85,8 @@
 							resourceCategoryId: 14, //资源分类Id
 							periodId: 0, //学段id
 							areaId: 15, //省/市/区/县的id
-							//							subjectId: '', //科目id
-							//							gradeId: '', //年级id
+							subjectId: '', //科目id
+							gradeId: '', //年级id
 							//							teacherId: '', //教师id
 							//							orderType: '', //排序:1-按最新排,2-按最热排
 						},
@@ -98,30 +101,42 @@
 					computed: {
 
 					},
-					updated:function(){
+					updated: function() {
 						addpullRefresh();
 					},
 					methods: {
 						getPeriodId: function(period) {
 							console.log("主页获取的学段数据:" + JSON.stringify(period))
+							this.comData = {
+								pageNumber: 1, //当前页数
+								pageSize: 10, //每页显示的记录数
+								resourceCategoryId: 14, //资源分类Id
+								periodId: period.id, //学段id
+								areaId: 15, //省/市/区/县的id
+								subjectId: '', //科目id
+								gradeId: '', //年级id
+								//							teacherId: '', //教师id
+								//							orderType: '', //排序:1-按最新排,2-按最热排
+							}
 
-							this.comData.periodId = period.id;
-							this.comData.pageNumber = 1;
 						},
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);
 							this.totalPage = totalPage;
 						},
 						clickPop: function(proModel) {
-							mui('#topPopover').popover('toggle')
+//							mui('#topPopover').popover('toggle')
 							var page = plus.webview.getWebviewById("u-home.html")
-							mui.fire(page, 'showPop');
+							mui.fire(page, 'showPop',{
+								data: proModel
+							});
+							findCourse.comData.areaId = proModel.id
 							provinceInfo.currentPro = proModel;
 							window.myStorage.setItem('provinceInfo', provinceInfo);
 
 						},
 						gotoSuperChoice: function() {
-							
+
 							var currentId = plus.webview.currentWebview().id;
 							var areaId = this.currentPro.id
 							var data = {
@@ -131,7 +146,7 @@
 								webId: currentId,
 								winId: 'filterChange'
 							}
-							console.log('高级筛选参数：'+JSON.stringify(data));
+							console.log('高级筛选参数：' + JSON.stringify(data));
 
 							utils.openNewWindowWithData('../utils/filter.html', data)
 

@@ -36,7 +36,7 @@
 
 	<body>
 		<div id="find-tea">
-			<!--<div id="topPopover" class="mui-popover">
+			<div id="topPopover" class="mui-popover">
 				<div class="mui-popover-arrow"></div>
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
@@ -44,9 +44,9 @@
 					</li>
 
 				</ul>
-			</div>-->
+			</div>
 			<div class="mui-content">
-				<div id="pullrefresh" class=" mui-scroll-wrapper"  style="z-index: 1;">
+				<div id="pullrefresh" class=" mui-scroll-wrapper" style="z-index: 1;">
 					<div class="mui-scroll">
 
 						<!--背景图片组件-->
@@ -85,7 +85,7 @@
 			});
 			var findTea;
 			mui.plusReady(function() {
-				
+
 				var provinceInfo = window.myStorage.getItem('provinceInfo');
 				findTea = new Vue({
 					el: '#find-tea',
@@ -94,9 +94,9 @@
 							pageNumber: 1,
 							pageSize: 10, //每页显示的记录数
 							periodId: 0, //学段id
-							areaId: 0, //省/市/区/县的id
-							subjectId: '', //科目id
-							resourceCategoryId: 14
+							areaId: provinceInfo.data[0].id, //省/市/区/县的id
+//							subjectId: '', //科目id
+//							resourceCategoryId: 14
 						},
 						provinces: provinceInfo.data,
 						totalPage: 0
@@ -104,7 +104,7 @@
 					created: function() {
 
 					},
-					updated:function(){
+					updated: function() {
 						addpullRefresh();
 					},
 					computed: {
@@ -122,11 +122,13 @@
 						},
 						clickPop: function(proModel) {
 
-							mui('#topPopover').popover('toggle')
+							//							mui('#topPopover').popover('toggle')
+							findTea.comData.areaId = proModel.id
 							var page = plus.webview.getWebviewById("u-home.html")
 							mui.fire(page, 'showPop', {
 								data: proModel
 							});
+							console.log(JSON.stringify(findTea.comData))
 							provinceInfo.currentPro = proModel;
 							window.myStorage.setItem('provinceInfo', provinceInfo);
 

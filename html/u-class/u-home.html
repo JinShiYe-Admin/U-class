@@ -157,6 +157,7 @@
 						var wid = this.getAttribute("data-wid");
 						group.switchTab(wid);
 						tempWid = wid
+						console.log(tempWid);
 					});
 				}
 				var tempWid = 'find-teacher.html';
@@ -169,6 +170,7 @@
 				})
 
 				function showPop() {
+				
 					page = plus.webview.getWebviewById(tempWid)
 					mui.fire(page, 'showPop', {
 						data: 'show'

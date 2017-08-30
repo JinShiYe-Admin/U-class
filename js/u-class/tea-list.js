@@ -42,6 +42,7 @@ Vue.component("tea-list", {
 	methods: {
 		getListData: function() {
 			var com = this;
+			console.log('老师列表请求参数：'+JSON.stringify(this.comdata))
 			postDataPro_teacherList(this.comdata, function(response) {
 				console.log("获取的老师列表：" + JSON.stringify(response));
 				if(response.code == 0) {
@@ -104,7 +105,6 @@ function pullupRefresh() {
 
 }
 window.addEventListener("showPop", function(e) {
-	console.log(555555)
 	mui('#topPopover').popover('toggle')
 
 })

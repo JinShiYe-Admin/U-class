@@ -58,6 +58,7 @@ Vue.component("course-list", {
 
 	}
 })
+
 function addpullRefresh() {
 	var pullRefresh = mui('.mui-scroll-wrapper .mui-scroll').pullToRefresh({
 		down: {
@@ -80,8 +81,9 @@ function addpullRefresh() {
 		}
 	});
 }
+
 function pulldownRefresh() {
-//		this.endPullDownToRefresh();
+	//		this.endPullDownToRefresh();
 	findCourse.comData.pageNumber = 1;
 
 }
@@ -90,7 +92,7 @@ function pulldownRefresh() {
  */
 function pullupRefresh() {
 	findCourse.comData.pageNumber++
-	this.endPullupToRefresh(false); //参数为true代表没有更多数据了。
+		this.endPullupToRefresh(false); //参数为true代表没有更多数据了。
 
 }
 
@@ -102,6 +104,11 @@ window.addEventListener("filterChange", function(e) {
 	window.scrollTo(0, 0);
 	var data = e.detail.data;
 	console.log(JSON.stringify(data))
-	
+	findCourse.pageNumber = 1;
+	for(var i = 0; i < data.length; i++) {
+		var key = data[i].key;
+		findCourse.comData[key] = data[i].item.id
+	}
+	console.log(JSON.stringify(findCourse.comData))
 
 })
