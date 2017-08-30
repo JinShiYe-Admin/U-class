@@ -63,7 +63,8 @@ Vue.component("source-list", {
 			utils.showWebAndFireWinListen('../utils/download.html', 'addDownLoad', {
 				url: model.download_link,
 				name: model.name,
-				size: model.file_size
+				size: model.file_size,
+				type:model.file_ext
 
 			})
 		}
