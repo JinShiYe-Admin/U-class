@@ -58,6 +58,7 @@
 		<div id="find-sourse">
 			<header class="mui-bar mui-bar-nav">
 				<h1 class="mui-title">资源</h1>
+				<a style="font-size: 15px;margin-top: 5px;" class="mui-icon mui-pull-right" v-on:tap="gotoSuperChoice">筛选项</a>
 			</header>
 
 			<div class="mui-content">
@@ -66,7 +67,7 @@
 
 					<!--时期选择-->
 					<div class="mui-scroll">
-						<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
+						<!--<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>-->
 
 						<!--老师列表-->
 						<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
@@ -113,10 +114,10 @@
 							pageNumber: 1, //当前页数
 							pageSize: 10, //每页显示的记录数
 							resourceCategoryId: 8, //资源分类Id
-							periodId: 0, //学段id
+							periodId: 2, //学段id
 							//							areaId: 15, //省/市/区/县的id
-							subjectId: 0, //科目id
-							gradeId: 0, //年级id
+							subjectId: '', //科目id
+							gradeId: '', //年级id
 							//							teacherId: '', //教师id
 							//							orderType: '', //排序:1-按最新排,2-按最热排
 						},

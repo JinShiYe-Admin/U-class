@@ -106,7 +106,6 @@ window.addEventListener("showPop", function(e) {
 window.addEventListener("filterChange", function(e) {
 	window.scrollTo(0, 0);
 	var data = e.detail.data;
-	console.log(JSON.stringify(data))
 	findCourse.pageNumber = 1;
 	for(var i = 0; i < data.length; i++) {
 		var key = data[i].key;
