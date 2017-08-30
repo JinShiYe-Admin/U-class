@@ -18,7 +18,7 @@ Vue.component('period-view', {
 		'{{period.name}}</a>' +
 		'</template>' +
 		'</div>' +
-		'<p v-if="moreSlect" v-on:tap="gotoSuperChoice()" v-bind:style="{float:\'right\'}">高级筛选>></p></div>',
+		'<p v-if="moreSlect" v-on:tap="gotoSuperChoice()" style="float:right;font-size:15px;margin-top:10px;color:#37b9fe">高级筛选>></p></div>',
 	data: function() {
 		return {
 			periodList: []

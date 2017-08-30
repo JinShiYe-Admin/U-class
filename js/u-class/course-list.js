@@ -4,7 +4,7 @@
 Vue.component("course-list", {
 	props: ['comdata'],
 	template: '<ul class="mui-table-view mui-table-view-chevron">' +
-		'<li class="mui-table-view-cell mui-media" v-for="item in listData">' +
+		'<li  v-on:tap="clickcell(item)"  class="mui-table-view-cell mui-media" v-for="item in listData">' +
 		'<a href="javascript:;">' +
 		'<img class=" mui-pull-left" style="width: 100px;height: 60px;" :src="item.img_url">' +
 		'<div class="mui-media-body" style="white-space: pre;">' +
@@ -54,6 +54,9 @@ Vue.component("course-list", {
 				}
 				com.$emit('requiredEnd', com.totalPage);
 			});
+		},
+		clickcell: function(model) {
+			utils.openNewWindowWithData('teachSpace.html', model)
 		}
 
 	}
