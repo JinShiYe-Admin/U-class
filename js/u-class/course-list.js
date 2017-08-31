@@ -57,7 +57,12 @@ Vue.component("course-list", {
 			});
 		},
 		clickcell: function(model) {
-			utils.openNewWindowWithData('teachSpace.html', model)
+			var tempModel = {
+				img_url:model.teacher_img_url,
+				currentModel : model,
+				subjectList:[]
+			}
+			utils.openNewWindowWithData('../../html/animation-class/classPlaying.html', tempModel)
 		}
 
 	}
