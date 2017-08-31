@@ -44,7 +44,7 @@
 				</ul>
 			</div>
 			<div class="mui-content">
-				<div id="pullrefresh" class=" mui-scroll-wrapper" style="z-index: 1;">
+				<div id="pullrefresh" class=" mui-scroll-wrapper" style="z-index: 1;padding-bottom: 30px;margin-bottom: 30px">
 					<div class="mui-scroll">
 						<!--时期选择-->
 						<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
@@ -102,7 +102,7 @@
 
 					},
 					updated: function() {
-						addpullRefresh();
+						
 					},
 					methods: {
 						getPeriodId: function(period) {
@@ -153,6 +153,7 @@
 						}
 					}
 				});
+				addpullRefresh();
 			})
 		</script>
 	</body>

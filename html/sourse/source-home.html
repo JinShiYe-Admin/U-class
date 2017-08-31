@@ -61,20 +61,18 @@
 				<a style="font-size: 15px;margin-top: 5px;" class="mui-icon mui-pull-right" v-on:tap="gotoSuperChoice">筛选项</a>
 			</header>
 
-			<div class="mui-content">
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="z-index: 1;padding-bottom: 0px;margin-bottom: 0px">
 
-				<div id="pullrefresh" class=" mui-scroll-wrapper">
+				<!--时期选择-->
+				<div class="mui-scroll">
+					<!--<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>-->
 
-					<!--时期选择-->
-					<div class="mui-scroll">
-						<!--<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>-->
-
-						<!--老师列表-->
-						<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
-					</div>
+					<!--老师列表-->
+					<source-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></source-list>
 				</div>
 			</div>
 		</div>
+
 		<script src="../../js/mui.js"></script>
 		<script src="../../js/libs/vue/vue.js"></script>
 		<script src="../../js/libs/vue/vue-router.js"></script>
@@ -83,6 +81,8 @@
 		<!--tealist 组件-->
 		<script src="../../js/u-class/sourse-list.js"></script>
 		<script src="../../js/common/publicProtocol.js"></script>
+		<script type="text/javascript" src="../../js/utils/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../../js/utils/mui.pullToRefresh.material.js"></script>
 		<script src="../../js/utils/utils.js"></script>
 		<script type="text/javascript">
 			var findsource;
@@ -90,18 +90,6 @@
 				swipeBack: false,
 				keyEventBind: {
 					backbutton: false //关闭back按键监听
-				},
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						style: 'circle',
-						offset: '0px',
-						callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
 				}
 			});
 
@@ -130,8 +118,8 @@
 
 					},
 					updated: function() {
-						//						var div = document.getElementById("find-sourse");
-						//						console.log(div.innerHTML)
+//						var div = document.getElementById("find-sourse");
+//						console.log(div.innerHTML)
 					},
 					computed: {
 						currentPro: function() {
@@ -168,12 +156,15 @@
 						}
 					}
 				});
+				addpullRefresh();
 
 			}
 			var main;
 			mui.plusReady(function() {
 				main = plus.webview.currentWebview();
-				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
+				showWeb();
+//				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
+				
 			})
 
 			function showPop() {

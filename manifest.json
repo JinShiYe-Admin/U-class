@@ -326,7 +326,11 @@
 					"js/libs/crypto-js/require.js",
 					"js/utils/signHmacSHA1.js",
 					"js/common/storageKeyName.js",
-					"js/libs/myStorage/myStorage.js"
+					"js/libs/myStorage/myStorage.js",
+					"js/utils/utils.js",
+					"js/libs/jquery.js",
+					"js/common/publicProtocol.js",
+					"js/common/postData.js"
 				],
 				"refer": [
 					"html/animation-class/classPlaying.html"
@@ -529,7 +533,8 @@
 					"js/libs/vue/vue.js",
 					"images/file/11.png",
 					"js/mui.min.js",
-					"js/utils/utils.js"
+					"js/utils/utils.js",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0

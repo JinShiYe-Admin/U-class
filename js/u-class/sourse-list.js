@@ -26,6 +26,7 @@ Vue.component("source-list", {
 	created: function() {
 		console.log("创建时的参数数据:" + JSON.stringify(this.comdata));
 		this.getListData();
+
 	},
 	watch: {
 		'$props': {
@@ -37,6 +38,10 @@ Vue.component("source-list", {
 		}
 	},
 	computed: {
+
+	},
+	updated: function() {
+//		addpullRefresh();
 
 	},
 	methods: {
@@ -52,6 +57,8 @@ Vue.component("source-list", {
 						com.listData = com.listData.concat(response.data.list);
 						console.log('列表条数：' + com.listData.length)
 						com.totalPage = response.data.totalPage
+						pullRefresh.endPullUpToRefresh();
+
 					}
 				} else {
 
@@ -64,7 +71,7 @@ Vue.component("source-list", {
 				url: model.download_link,
 				name: model.name,
 				size: model.file_size,
-				type:model.file_ext
+				type: model.file_ext
 
 			})
 		}
@@ -76,6 +83,35 @@ window.addEventListener("showPop", function(e) {
 	mui('#topPopover').popover('toggle')
 
 })
+var pullRefresh
+function addpullRefresh() {
+	var deceleration = mui.os.ios ? 0.0009 : 0.0009;
+	mui('.mui-scroll-wrapper').scroll({
+		bounce: false,
+		indicators: true, //是否显示滚动条
+		deceleration: deceleration
+	});
+	pullRefresh = mui('.mui-scroll-wrapper .mui-scroll').pullToRefresh({
+		down: {
+			callback: function() {
+				console.log('down');
+				setTimeout(function() {
+					findsource.comData.pageNumber = 0;
+					findsource.comData.pageNumber = 1;
+					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+				},0);
+			}
+		},
+		up: {
+			callback: function() {
+				console.log('up');
+				setTimeout(function() {
+					findsource.comData.pageNumber++
+				}, 0);
+			}
+		}
+	});
+}
 
 function pulldownRefresh() {
 	findsource.comData.pageNumber = 1;
