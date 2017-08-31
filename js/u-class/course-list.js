@@ -10,7 +10,7 @@ Vue.component("course-list", {
 		'<div class="mui-media-body" style="white-space: pre;">' +
 		'  {{item.subject_name}}<p class="mui-ellipsis" style="margin-top: 5px;margin-left: 5px;">' +
 		'<img style="width: 20px;height: 20px;vertical-align: text-bottom;border-radius: 50%;" :src="item.teacher_img_url" alt="" />' +
-		'{{item.teacher_name}}</p>' +
+		' {{item.teacher_name}}</p>' +
 		'</div>' +
 		'</a>' +
 		'</li>' +
@@ -68,11 +68,18 @@ Vue.component("course-list", {
 })
 
 function addpullRefresh() {
+	var deceleration = mui.os.ios ? 0.0009 : 0.0009;
+	mui('.mui-scroll-wrapper').scroll({
+		bounce: false,
+		indicators: true, //是否显示滚动条
+		deceleration: deceleration
+	});
 	var pullRefresh = mui('.mui-scroll-wrapper .mui-scroll').pullToRefresh({
 		down: {
 			callback: function() {
 				console.log('down');
 				setTimeout(function() {
+					findCourse.comData.pageNumber = 0;
 					findCourse.comData.pageNumber = 1;
 					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 				}, 1000);

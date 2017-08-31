@@ -42,7 +42,6 @@ Vue.component("tea-list", {
 	methods: {
 		getListData: function() {
 			var com = this;
-			console.log('老师列表请求参数：'+JSON.stringify(this.comdata))
 			postDataPro_teacherList(this.comdata, function(response) {
 				console.log("获取的老师列表：" + JSON.stringify(response));
 				if(response.code == 0) {
@@ -68,12 +67,19 @@ Vue.component("tea-list", {
 })
 
 function addpullRefresh() {
+	var deceleration = mui.os.ios ? 0.0009 : 0.0009;
+	mui('.mui-scroll-wrapper').scroll({
+		bounce: false,
+		indicators: true, //是否显示滚动条
+		deceleration: deceleration
+	});
 	var pullRefresh = mui('.mui-scroll-wrapper .mui-scroll').pullToRefresh({
 		down: {
 			callback: function() {
 				console.log('down');
 				setTimeout(function() {
-					findTea.comData.pageNumber = 1;
+					findTea.comData.pageNumber = 0;
+					findTea.comData.pageNumber = 1
 					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 				}, 1000);
 			}
@@ -90,20 +96,6 @@ function addpullRefresh() {
 	});
 }
 
-function pulldownRefresh() {
-	findTea.comData.pageNumber = 1;
-	this.endPullDownToRefresh()
-	//	mui('#pullrefresh').pullRefresh().endPulldown();
-
-}
-/**
- * 上拉加载具体业务实现
- */
-function pullupRefresh() {
-	findTea.comData.pageNumber++
-		this.endPullupToRefresh(false); //参数为true代表没有更多数据了。
-
-}
 window.addEventListener("showPop", function(e) {
 	mui('#topPopover').popover('toggle')
 
