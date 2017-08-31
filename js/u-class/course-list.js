@@ -48,6 +48,7 @@ Vue.component("course-list", {
 					} else {
 						com.listData = com.listData.concat(response.data.list);
 						com.totalPage = response.data.totalPage
+						pullRefresh.endPullUpToRefresh();
 					}
 				} else {
 
@@ -61,6 +62,7 @@ Vue.component("course-list", {
 
 	}
 })
+var pullRefresh
 
 function addpullRefresh() {
 	var deceleration = mui.os.ios ? 0.0009 : 0.0009;
@@ -69,7 +71,7 @@ function addpullRefresh() {
 		indicators: true, //是否显示滚动条
 		deceleration: deceleration
 	});
-	var pullRefresh = mui('.mui-scroll-wrapper .mui-scroll').pullToRefresh({
+	pullRefresh = mui('.mui-scroll-wrapper .mui-scroll').pullToRefresh({
 		down: {
 			callback: function() {
 				console.log('down');
@@ -83,10 +85,7 @@ function addpullRefresh() {
 		up: {
 			callback: function() {
 				console.log('up');
-				setTimeout(function() {
-					findCourse.comData.pageNumber++
-						pullRefresh.endPullUpToRefresh();
-				}, 1000);
+				findCourse.comData.pageNumber++
 			}
 		}
 	});

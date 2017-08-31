@@ -37,7 +37,7 @@
 			<div id="topPopover" class="mui-popover">
 				<div class="mui-popover-arrow"></div>
 				<ul class="mui-table-view">
-					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:click="clickPop(item)">
+					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:click="clickPop(index,item)">
 						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
 					</li>
 
@@ -124,11 +124,11 @@
 							console.log("主页获取的总页数:" + totalPage);
 							this.totalPage = totalPage;
 						},
-						clickPop: function(proModel) {
+						clickPop: function(index,proModel) {
 //							mui('#topPopover').popover('toggle')
 							var page = plus.webview.getWebviewById("u-home.html")
 							mui.fire(page, 'showPop',{
-								data: proModel
+								data: index
 							});
 							findCourse.comData.areaId = proModel.id
 							provinceInfo.currentPro = proModel;

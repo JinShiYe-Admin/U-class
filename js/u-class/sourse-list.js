@@ -99,15 +99,13 @@ function addpullRefresh() {
 					findsource.comData.pageNumber = 0;
 					findsource.comData.pageNumber = 1;
 					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-				},0);
+				},1000);
 			}
 		},
 		up: {
 			callback: function() {
 				console.log('up');
-				setTimeout(function() {
 					findsource.comData.pageNumber++
-				}, 0);
 			}
 		}
 	});

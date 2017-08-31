@@ -189,8 +189,7 @@
 				});
 				window.addEventListener("showPop", function(e) {
 					var data = e.detail.data;
-					var province = document.getElementById("province")
-					province.innerHTML = data.name;
+					vm.tempIndex = data;
 					mui('#topPopover').popover('toggle')
 				})
 
