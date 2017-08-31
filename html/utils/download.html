@@ -422,6 +422,7 @@
 
 				//打开文件
 				mui('#downloaded').on('tap', 'button', function() {
+					console.log("open:"+this.parentNode.id);
 					fileutil.openFile(this.parentNode.id, function(data) {
 						mui.toast(data.message);
 					});
@@ -544,7 +545,7 @@
 					var data = {
 						name: entry.name,
 						size: fileutil.convertFileSize(metadata.size),
-						path: entry.toLocalURL()
+						path: entry.toURL()
 					}
 					addDownloaded(data);
 				}, function(e) {
@@ -552,7 +553,7 @@
 					var data = {
 						name: entry.name,
 						size: "",
-						path: entry.toLocalURL()
+						path: entry.toURL()
 					}
 					addDownloaded(data);
 				});
