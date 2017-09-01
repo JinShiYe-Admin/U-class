@@ -478,7 +478,8 @@
 					"html/utils/middle.html",
 					"html/utils/high.html",
 					"html/utils/filter.html",
-					"html/u-class/teachSpace.html"
+					"html/u-class/teachSpace.html",
+					"html/animation-class/classPlaying.html"
 				],
 				"priority": 0
 			},

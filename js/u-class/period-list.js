@@ -14,11 +14,11 @@ Vue.component('period-view', {
 	},
 	template: '<div v-bind:style="{background:\'white\',height:\'40px\'}"><div v-bind:class="[\'mui-segmented-control\',\'mui-segmented-control-inverted\']">' +
 		'<template v-for="(period,index) of periodList">' +
-		'<a v-bind:class="[\'mui-control-item\', {\'mui-active\':index==0}]"  v-on:tap="checkListener(period,$event)">' +
+		'<a v-bind:class="[\'mui-control-item\', {\'mui-active\':index==0}]"  v-on:tap="checkListener(period,$event)" style="font-size:13px">' +
 		'{{period.name}}</a>' +
 		'</template>' +
 		'</div>' +
-		'<p v-if="moreSlect" v-on:tap="gotoSuperChoice()" style="float:right;font-size:15px;margin-top:10px;color:#37b9fe">高级筛选>></p></div>',
+		'<p v-if="moreSlect" v-on:tap="gotoSuperChoice()" style="float:right;font-size:11px;margin-top:10px;padding-right:3px;color:#37b9fe">高级筛选></p></div>',
 	data: function() {
 		return {
 			periodList: []

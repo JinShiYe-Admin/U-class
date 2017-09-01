@@ -6,10 +6,10 @@ Vue.component("course-list", {
 	template: '<ul class="mui-table-view mui-table-view-chevron">' +
 		'<li  v-on:tap="clickcell(item)"  class="mui-table-view-cell mui-media" v-for="item in listData">' +
 		'<a href="javascript:;">' +
-		'<img class=" mui-pull-left" style="width: 100px;height: 60px;" :src="item.img_url">' +
-		'<div class="mui-media-body" style="white-space: pre;">' +
-		'  {{item.subject_name}}<p class="mui-ellipsis" style="margin-top: 5px;margin-left: 5px;">' +
-		'<img style="width: 20px;height: 20px;vertical-align: text-bottom;border-radius: 50%;" :src="item.teacher_img_url" alt="" />' +
+		'<img class=" mui-pull-left" style="width: 106px;height: 60px;" :src="item.img_url">' +
+		'<div class="mui-media-body" style="white-space: pre;font-size:12px;color:#333333">' +
+		'  {{item.subject_name}}<p class="mui-ellipsis" style="margin-top: 5px;margin-left: 5px;font-size:10px;color:#999999">' +
+		'<img style="width: 20px;height: 20px;vertical-align: middle;border-radius: 50%;" :src="item.teacher_img_url" alt="" />' +
 		' {{item.teacher_name}}</p>' +
 		'</div>' +
 		'</a>' +

@@ -12,11 +12,11 @@ Vue.component("source-list", {
 		'<li class="mui-table-view-cell mui-media" v-for="item in listData">' +
 		'<a href="javascript:;">' +
 		'<img class="mui-media-object mui-pull-left" style="width: 40px;height: 40px;" src="../../images/utils/img-teacher-bg2.png">' +
-		'<div class="mui-media-body"  style="white-space: pre;font-size:16px;color:#353535; width:75%;text-overflow:ellipsis;">' +
+		'<div class="mui-media-body"  style="white-space: pre;font-size:16px;color:#353535; width:75%;text-overflow:ellipsis;font-size:13px">' +
 		'{{item.name}}' +
-		'<p style="font-size: 10px;">上传时间:{{item.create_time.substring(0,10)}} 下载次数:{{item.downloads}} 格式:{{item.file_ext}}</p>' +
+		'<p style="font-size: 9px;">上传时间:{{item.create_time.substring(0,10)}} 下载次数:{{item.downloads}} 格式:{{item.file_ext}}</p>' +
 		'</div>' +
-		'<button :id="item.id" style="margin-top: -10px;background-color:#edf9ff;color:#37b9fe;font-size:15px;border-color:#37b9fe"  @click="download(item)" type="button" class="mui-btn mui-btn-warning mui-btn-outlined mui-pull-right">下载</button>' +
+		'<button :id="item.id" style="margin-top: -10px;margin-right: -5px;padding-top:7px;background-color:#edf9ff;color:#37b9fe;font-size:13px;border-color:#37b9fe;border-radius: 20px;height:30px;width:60px"  @click="download(item)" type="button" class="mui-btn mui-btn-warning mui-btn-outlined mui-pull-right">下载</button>' +
 		'</a>' +
 		'</li>' +
 		'</ul>',

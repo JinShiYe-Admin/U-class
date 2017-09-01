@@ -217,7 +217,8 @@
 			"html/u-class/high.html",
 			"html/utils/school.html",
 			"html/utils/filter.html",
-			"html/u-class/teachSpace.html"
+			"html/u-class/teachSpace.html",
+			"html/animation-class/classPlaying.html"
 		]
 	},
 	"html/u-class/high.html": {
