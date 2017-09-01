@@ -15,6 +15,12 @@
 		<style>
 			body {
 				word-wrap: break-word;
+				line-height: initial;
+				font-size: initial;
+			}
+
+			h1.mui-title {
+				font-size: 15px;
 			}
 
 			.mui-table-view:after {
@@ -42,6 +48,7 @@
 				display: flex;
 				/*justify-content: center;*/
 				align-items: center;
+				padding: 16px 14px;
 			}
 
 			.mui-table-view-cell.mui-active {
@@ -50,13 +57,14 @@
 
 			.download-type {
 				background-color: white;
-				padding: 11px 15px 4px 15px;
+				padding: 18px 14px 5px 14px;
 				top: 10px;
 				color: #353535;
+				font-size: 9px;
 			}
 
 			.download-image {
-				margin: 0 15px 0 0;
+				margin: 0 13px 0 0;
 				width: 40px;
 			}
 
@@ -67,6 +75,7 @@
 			.download-file-size {
 				display: inline;
 				color: #898989;
+				font-size: 9px;
 			}
 
 			.download-file-speed {
@@ -101,6 +110,7 @@
 				-webkit-box-orient: vertical;
 				word-wrap: break-word;
 				color: #353535;
+				font-size: 13px;
 			}
 
 			.download-info {
@@ -115,7 +125,7 @@
 			}
 
 			#downloading {
-				margin-bottom: 5px;
+				margin-bottom: 7px;
 			}
 
 			#failPop .mui-popup {
@@ -422,7 +432,7 @@
 
 				//打开文件
 				mui('#downloaded').on('tap', 'button', function() {
-					console.log("open:"+this.parentNode.id);
+					console.log("open:" + this.parentNode.id);
 					fileutil.openFile(this.parentNode.id, function(data) {
 						mui.toast(data.message);
 					});
