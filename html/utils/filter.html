@@ -25,6 +25,7 @@
 			h1.mui-title {
 				color: #323232;
 				font-family: '微软雅黑', '微软雅黑';
+				font-size: 15px;
 			}
 
 			.mui-action-back {
@@ -33,6 +34,8 @@
 
 			.title-text-pull-right {
 				color: #36b9fe;
+				font-size: 12px;
+				right: 16px;
 			}
 
 			body,
@@ -42,7 +45,7 @@
 			}
 
 			.mui-table-view {
-				padding: 0 5px;
+				padding: 0 6px;
 			}
 
 			.mui-table-view:before,
@@ -54,9 +57,9 @@
 				background-color: #F2F2F2;
 				text-align: center;
 				border-radius: 7px;
-				margin: 5px;
+				margin: 3.5px;
 				color: #333333;
-				font-size: 15px;
+				font-size: 11px;
 			}
 
 			.mui-table-view-cell:active,
@@ -67,13 +70,12 @@
 			}
 
 			.filter-title {
-				padding: 15px 5px 5px 5px;
+				padding: 9px 5px 0 5px;
 				color: #333333;
-				font-size: 17px;
+				font-size: 11px;
 			}
-
-			.filter-title:first-child {
-				padding-top: 20px;
+			.mui-table-view:first-child{
+				padding-top: 4.5px;
 			}
 		</style>
 	</head>
@@ -126,7 +128,12 @@
 						key: "subjectId", //类型id
 						value: "科目", //类型名称
 						selectNum: null, //被选中的选项的index
-						item_array: [] //类型的选项数组
+						item_array: [{item: {"sequence": 0,
+								"name": "全部",
+								"is_del": false,
+								"id": -1, //-1代表全部
+								"status": 1}, //选项的数据
+								isSelect: false}] //类型的选项数组
 					}, {
 						isShow: false, //是否显示
 						key: "bookVersionId",
@@ -138,7 +145,16 @@
 						key: "gradeId",
 						value: "年级",
 						selectNum: null,
-						item_array: []
+						item_array: [{
+							item: {
+								"sequence": 0,
+								"name": "全部",
+								"is_del": false,
+								"id": -1, //-1代表全部
+								"status": 1
+							}, //选项的数据
+							isSelect: false
+						}]
 					}]
 				},
 				methods: {
