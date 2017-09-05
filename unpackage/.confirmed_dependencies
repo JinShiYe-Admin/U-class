@@ -100,7 +100,8 @@
 			"js/utils/utils.js",
 			"js/libs/jquery.js",
 			"js/common/publicProtocol.js",
-			"js/common/postData.js"
+			"js/common/postData.js",
+			"fonts/mui.ttf"
 		],
 		"refer": [
 			"html/animation-class/classPlaying.html"
@@ -216,7 +217,8 @@
 			"html/u-class/high.html",
 			"html/utils/school.html",
 			"html/utils/filter.html",
-			"html/u-class/teachSpace.html"
+			"html/u-class/teachSpace.html",
+			"html/animation-class/classPlaying.html"
 		]
 	},
 	"html/u-class/high.html": {
@@ -264,7 +266,20 @@
 	"html/animation-class/classPlaying.html": {
 		"resources": [
 			"css/mui.min.css",
-			"images/utils/yuantiao.jpg"
+			"images/utils/yuantiao.jpg",
+			"js/mui.min.js",
+			"js/libs/vue/vue.js",
+			"js/libs/jquery.js",
+			"js/utils/mui.pullToRefresh.material.js",
+			"js/utils/mui.pullToRefresh.js",
+			"js/utils/utils.js",
+			"js/common/publicProtocol.js",
+			"js/libs/crypto-js/require.js",
+			"js/common/postData.js",
+			"js/utils/signHmacSHA1.js",
+			"js/utils/myStorage.js",
+			"js/common/storageKeyName.js",
+			"js/libs/myStorage/myStorage.js"
 		]
 	},
 	"html/u-class/teachSpace.html": {
@@ -284,6 +299,9 @@
 			"js/utils/signHmacSHA1.js",
 			"js/utils/myStorage.js",
 			"js/common/storageKeyName.js"
+		],
+		"refer": [
+			"html/animation-class/classPlaying.html"
 		]
 	}
 }

@@ -15,6 +15,12 @@
 		<style>
 			body {
 				word-wrap: break-word;
+				line-height: initial;
+				font-size: initial;
+			}
+
+			h1.mui-title {
+				font-size: 15px;
 			}
 
 			.mui-table-view:after {
@@ -42,6 +48,7 @@
 				display: flex;
 				/*justify-content: center;*/
 				align-items: center;
+				padding: 16px 14px;
 			}
 
 			.mui-table-view-cell.mui-active {
@@ -50,13 +57,14 @@
 
 			.download-type {
 				background-color: white;
-				padding: 11px 15px 4px 15px;
+				padding: 18px 14px 5px 14px;
 				top: 10px;
 				color: #353535;
+				font-size: 9px;
 			}
 
 			.download-image {
-				margin: 0 15px 0 0;
+				margin: 0 13px 0 0;
 				width: 40px;
 			}
 
@@ -67,6 +75,7 @@
 			.download-file-size {
 				display: inline;
 				color: #898989;
+				font-size: 9px;
 			}
 
 			.download-file-speed {
@@ -101,6 +110,7 @@
 				-webkit-box-orient: vertical;
 				word-wrap: break-word;
 				color: #353535;
+				font-size: 13px;
 			}
 
 			.download-info {
@@ -115,7 +125,7 @@
 			}
 
 			#downloading {
-				margin-bottom: 5px;
+				margin-bottom: 7px;
 			}
 
 			#failPop .mui-popup {
@@ -422,7 +432,7 @@
 
 				//打开文件
 				mui('#downloaded').on('tap', 'button', function() {
-					console.log("open:"+this.parentNode.id);
+					console.log("open:" + this.parentNode.id);
 					fileutil.openFile(this.parentNode.id, function(data) {
 						mui.toast(data.message);
 					});
@@ -488,6 +498,18 @@
 								vm_down.deling = false;
 							}
 						}, "div");
+					}
+				});
+
+				//网络变化
+				document.addEventListener("netchange", function() {
+					if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_WIFI) {
+						console.log("downloading:" + vm_down.downloading);
+						console.log("downloadNoWiFi:" + vm_down.downloadNoWiFi);
+						if(!vm_down.downloadNoWiFi) {
+							console.log("startDownloadingFirst:");
+							startDownloadingFirst();
+						}
 					}
 				});
 			}
@@ -633,7 +655,7 @@
 			function startDownloadingSecond() {
 				var netType = plus.networkinfo.getCurrentType();
 				if(netType == plus.networkinfo.CONNECTION_WIFI || vm_down.downloadNoWiFi) {
-					//WIFI||没有WIFI也上传
+					//WIFI||没有WIFI也下载
 					startDownloadingThird();
 				} else {
 					if(netType != plus.networkinfo.CONNECTION_NONE) {
@@ -645,6 +667,11 @@
 								startDownloadingThird();
 							} else {
 								vm_down.downloadNoWiFi = false;
+								if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_WIFI) {
+									startDownloadingThird();
+								} else {
+									vm_down.downloading = false;
+								}
 							}
 							vm_down.deling = false;
 						}, 'div');
