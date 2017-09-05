@@ -37,7 +37,9 @@
 			var aniShow = {}; //记录是否显示过页面
 			var activeTab = "u-home.html"; //当前激活的页面id
 			var main; //当前webview
-			mui.init();
+			mui.init({
+				statusBarBackground: '#13b7f6'
+			});
 			mui.plusReady(function() {
 				getProvinceList();
 				initListener();

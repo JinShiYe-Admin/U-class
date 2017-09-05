@@ -115,30 +115,15 @@
 	</head>
 
 	<body>
-		<div id="topPopover" class="mui-popover">
-			<div class="mui-popover-arrow"></div>
-			<ul class="mui-table-view">
-				<li id="100" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">山东</div>
-				</li>
-
-				<li id="101" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">湖北</div>
-				</li>
-				<li id="201" class="mui-table-view-cell mui-media ">
-					<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">海南</div>
-				</li>
-			</ul>
-		</div>
 		<header class="mui-bar mui-bar-nav">
-			<a id="province" style="font-size: 17px;margin-top: 5px;" class="mui-icon mui-pull-left" href="#topPopover"></a>
+			<a id="province" style="font-size: 15px;margin-top: 5px;" class="mui-icon mui-pull-left"></a>
 			<h1 class="mui-title">动画课</h1>
 		</header>
 		<div class="mui-content" id="animationData">
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item" :class="{'mui-active':item.active}" v-on:tap="clickClassName(item,index)" :href="'#'+item.id" v-for="(item,index) in animationArray">
+						<a class="mui-control-item" style="font-size: 14px;" :class="{'mui-active':item.active}" v-on:tap="clickClassName(item,index)" :href="'#'+item.id" v-for="(item,index) in animationArray">
 							{{item.name}}
 						</a>
 					</div>
@@ -151,7 +136,7 @@
 									<li class="mui-table-view-cell mui-media" :class="index==0?'mui-col-xs-12':'mui-col-xs-6'" v-for="(lessonData,index) in item.childList" v-on:tap="clickClass(lessonData)" style="padding: 0px 0px;margin-right: 0px;border:1px solid white;">
 										<a href="#" style="margin: 0px 0px;">
 											<img class="mui-media-object" :src=lessonData.img_url>
-											<div class="mui-media-body" style="text-align: left;margin-left: 10px;margin-top: 5px;margin-bottom: 5px;">{{lessonData.name}}</div>
+											<div class="mui-media-body" style="text-align: left;color: #333333;font-size: 12px;margin-left: 14px;margin-top: 5px;margin-bottom: 5px;">{{lessonData.name}}</div>
 										</a>
 									</li>
 								</ul>
@@ -178,7 +163,7 @@
 				},
 				updated: function() {
 					var div = document.getElementById("animationData")
-					//					console.log(div)
+					console.log(div)
 				},
 				methods: {
 					clickClass: function(model) {
@@ -189,23 +174,6 @@
 							currentModel: model
 						}
 						utils.openNewWindowWithData('animationClassPlaying.html', tempModel);
-						//						utils.openNewWindowWithData('../../html/u-class/testAAA.html', model);
-						//						var webview = plus.webview.create("../html/u-class/teachSpace.html", "teachSpace.html", {
-						//							titleNView: {
-						//								backgroundColor: '#f7f7f7', //导航栏背景色
-						//								titleText: '透明渐变(native模式)', //导航栏标题
-						//								titleColor: '#000000', //文字颜色
-						//								type: 'transparent', //透明渐变样式
-						//								autoBackButton: true, //自动绘制返回箭头
-						//								splitLine: { //底部分割线
-						//									color: '#cccccc'
-						//								}
-						//							}
-						//						}, extras: {
-						//							data: 'data'
-						//						});
-						//						var temp = plus.webview.create()
-						//						webview.show("slide-in-right", 300); //直接显示
 					},
 					clickClassName: function(model, index) {
 						classIndex = index; //将点击的栏目索引
@@ -219,11 +187,7 @@
 				}
 			});
 			var classIndex = 0; //获取当前的栏目索引
-			var main; //当前webview
 			mui.plusReady(function() {
-				main = plus.webview.currentWebview();
-				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
-				//				mui('.mui-content').on('slider','.mui-slider',function(){
 				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
 					console.log('11111');
 					classIndex = event.detail.slideNumber; //将点击的栏目索引
@@ -236,11 +200,45 @@
 					}
 				});
 
-				//								document.getElementById('slider').addEventListener('slider', function(e) {
-				//									console.log('11111');
-				//								});
-				//				var slider = mui('#slider').slider();
-				//				slider.stopped = true; //关闭滑动切换
+				//初始化界面，将本地保存的资源列表，给本页面vue赋值
+				var tempList = window.myStorage.getItem(window.storageKeyName.RESOURCELIST);
+				if(tempList.length >= 2) {
+					var tempArr = [];
+					tempArr = tempList[1].childList;
+					var tempModel = {
+						"sequence": tempList[1].sequence,
+						"name": "全部",
+						"pid": tempList[1].pid,
+						"childList": [],
+						"id": tempList[1].id
+					}
+					//插入全部
+					tempArr.splice(0, 0, tempModel);
+					//给默认值
+					for(var i = 0; i < tempArr.length; i++) {
+						var tempModel1 = tempArr[i];
+						tempModel1.active = false;
+						if(i == 0) {
+							tempModel1.active = true;
+						}
+						tempModel1.pageIndex = 1; //获取第几页数据
+						tempModel1.pageFlag = 0; //0刷新，1加载更多
+					}
+					console.log('tempArr:' + JSON.stringify(tempArr));
+					//给vue赋值
+					animationData.animationArray = tempArr;
+					//默认请求第0个数据
+					if(animationData.animationArray.length > 0) {
+						//6、分页获取资源列表
+						getAnimationList(animationData.animationArray[0]);
+						classIndex = 0;
+					}
+				}
+				addLoadingMore();
+			});
+
+			//添加加载更多和刷新
+			function addLoadingMore() {
 				(function($) {
 					//阻尼系数
 					var deceleration = mui.os.ios ? 0.0009 : 0.0009;
@@ -260,10 +258,6 @@
 										tempModel.pageIndex = 1;
 										//6、分页获取资源列表
 										getAnimationList(tempModel, this);
-										//										var self = this;
-										//										setTimeout(function() {
-										//											self.endPullDownToRefresh();
-										//										}, 1000);
 									}
 								},
 								up: {
@@ -272,49 +266,13 @@
 										tempModel.pageFlag = 1;
 										//6、分页获取资源列表
 										getAnimationList(tempModel, this);
-										//										var self = this;
-										//										setTimeout(function() {
-										//											self.endPullUpToRefresh();
-										//										}, 1000);
 									}
 								}
 							});
 						});
 					});
 				})(mui);
-			});
-
-			//			var slider = mui("#slider");
-			//		document.getElementById("switch").addEventListener('toggle', function(e) {
-			//			console.log('1111111111111111111');
-			//			if (e.detail.isActive) {
-			//				slider.slider({
-			//					interval: 5000
-			//				});
-			//			} else {
-			//				slider.slider({
-			//					interval: 0
-			//				});
-			//			}
-			//		});
-			//点击popover里cell
-			mui('.mui-popover').on('tap', 'li', function(e) {
-				var name = this.querySelector(".mui-media-body").innerHTML
-				var province = document.getElementById("province")
-				mui('#topPopover').popover('toggle')
-				if(province.name == name) {
-					return;
-				}
-				province.innerHTML = name;
-				var id = this.getAttribute('id'); //省份id
-				//重新获取数据
-				var data = {
-					name: name,
-					id: id
-				}
-				window.myStorage.setItem('province', data); //把省份存到本地
-
-			});
+			}
 
 			//6、分页获取资源列表
 			function getAnimationList(model, self) {
@@ -336,72 +294,12 @@
 								self.endPullUpToRefresh();
 							}
 						}
-						//阻尼系数
-						var deceleration = mui.os.ios ? 0.0009 : 0.0009;
-						mui('.mui-scroll-wrapper').scroll({
-							bounce: false,
-							indicators: true, //是否显示滚动条
-							deceleration: deceleration
-						});
+						addLoadingMore();
 						model.pageIndex++;
 						console.log('animationData.animationArray:' + JSON.stringify(animationData.animationArray));
 					}
 				});
 			}
-
-			function showWeb() {
-				console.log('显示动画界面');
-
-				var province = window.myStorage.getItem(window.storageKeyName.PROVINCEINFO);
-				var currProvince = document.getElementById("province")
-				if(currProvince.innerHTML == '') {
-					currProvince.innerHTML = province.currentPro.name;
-					//重新获取数据
-					//初始化界面，将本地保存的资源列表，给本页面vue赋值
-					var tempList = window.myStorage.getItem(window.storageKeyName.RESOURCELIST);
-					if(tempList.length >= 2) {
-						var tempArr = [];
-						tempArr = tempList[1].childList;
-						var tempModel = {
-							"sequence": tempList[1].sequence,
-							"name": "全部",
-							"pid": tempList[1].pid,
-							"childList": [],
-							"id": tempList[1].id
-						}
-						//插入全部
-						tempArr.splice(0, 0, tempModel);
-						//给默认值
-						for(var i = 0; i < tempArr.length; i++) {
-							var tempModel1 = tempArr[i];
-							tempModel1.active = false;
-							if(i == 0) {
-								tempModel1.active = true;
-							}
-							tempModel1.pageIndex = 1; //获取第几页数据
-							tempModel1.pageFlag = 0; //0刷新，1加载更多
-						}
-						console.log('tempArr:' + JSON.stringify(tempArr));
-						//给vue赋值
-						animationData.animationArray = tempArr;
-						//默认请求第0个数据
-						if(animationData.animationArray.length > 0) {
-							//6、分页获取资源列表
-							getAnimationList(animationData.animationArray[0]);
-							classIndex = 0;
-						}
-					}
-				} else if(province.currentPro.name == currProvince.innerHTML) {
-					return;
-				} else {
-					currProvince.innerHTML = province.currentPro.name;
-
-				}
-			}
-
-			window.addEventListener("toUHome", function(e) {
-				mui('#topPopover').popover('hide')
-			})
 		</script>
 	</body>
 
