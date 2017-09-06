@@ -113,9 +113,11 @@
 					},
 					methods: {
 						getPeriodId: function(period) {
+							pullRefresh.refresh(true);
 							console.log("主页获取的学段数据:" + JSON.stringify(period))
 							this.comData.periodId = period.id;
 							this.comData.pageNumber = 1;
+							this.flag=0;
 						},
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);

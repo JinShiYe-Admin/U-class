@@ -54,6 +54,17 @@ Vue.component("course-list", {
 						pullRefresh.endPullUpToRefresh();
 					}
 				} else {
+					if(com.comdata.pageNumber === 1) {
+
+						if(findCourse.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
+					} else {
+						pullRefresh.endPullUpToRefresh();
+
+					}
+
+					mui.toast('请检查网络')
 
 				}
 				com.$emit('requiredEnd', com.totalPage);
