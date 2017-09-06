@@ -68,7 +68,7 @@
 	<body>
 		<!--导航栏选项卡-->
 		<header class="mui-bar mui-bar-nav" id="provinceInfo">
-			<a id="province" style="font-size: 14px;margin-top: 5px;" class="mui-icon mui-pull-left" onclick="showPop()">{{currentPro}} <img style="width: 8px;height: 8px;vertical-align:-5px ;" src="../../images/utils/01.png"/></a>
+			<a id="province" style="font-size: 14px;margin-top: 5px;" class="mui-icon mui-pull-left" onclick="showPop()">{{currentPro}} <img style="width: 8px;height: 8px;vertical-align:-5px ;" src="../../images/utils/01.png" /></a>
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
@@ -106,8 +106,7 @@
 							return this.provinceInfo[this.tempIndex].name
 						}
 					},
-					updated: function() {
-					}
+					updated: function() {}
 				})
 				mui.init();
 				var main; //当前webview
@@ -175,7 +174,7 @@
 				})
 
 				function showPop() {
-				
+					hideFlag = 0;
 					page = plus.webview.getWebviewById(tempWid)
 					mui.fire(page, 'showPop', {
 						data: 'show'
@@ -187,15 +186,22 @@
 					//console.log('shown', e.detail.id);//detail为当前popover元素
 				});
 				mui('body').on('hidden', '.mui-popover', function(e) {
+					if(hideFlag == -1) {
+						return;
+					}
 					var page = plus.webview.getWebviewById(tempWid)
 					mui.fire(page, 'showPop', {
 						data: 'hide'
 					});
 				});
+				var hideFlag = 0;
 				window.addEventListener("showPop", function(e) {
 					var data = e.detail.data;
-					vm.tempIndex = data;
-					mui('#topPopover').popover('toggle')
+					hideFlag=data
+					if(data != -1) {
+						vm.tempIndex = data;
+					}
+					mui('#topPopover').popover('hide')
 				})
 
 				function getProvinceList() {

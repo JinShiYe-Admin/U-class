@@ -53,6 +53,9 @@ Vue.component("source-list", {
 					if(com.comdata.pageNumber === 1) {
 						com.listData = response.data.list;
 						com.totalPage = response.data.totalPage
+						if(findsource.flag==1){
+						pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
 					} else {
 						com.listData = com.listData.concat(response.data.list);
 						console.log('列表条数：' + com.listData.length)
@@ -98,7 +101,8 @@ function addpullRefresh() {
 				setTimeout(function() {
 					findsource.comData.pageNumber = 0;
 					findsource.comData.pageNumber = 1;
-					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+					findsource.flag = 1;
+//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 				},1000);
 			}
 		},
