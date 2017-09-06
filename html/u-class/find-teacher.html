@@ -127,6 +127,7 @@
 
 							//							mui('#topPopover').popover('toggle')
 							findTea.comData.areaId = proModel.id
+							this.comData.pageNumber = 1;
 							var page = plus.webview.getWebviewById("u-home.html")
 							mui.fire(page, 'showPop', {
 								data: index
