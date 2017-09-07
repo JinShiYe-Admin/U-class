@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
 		<title>Hello MUI</title>
@@ -24,7 +23,7 @@
 			}
 			
 			.banner {
-				height: auto;
+				height: 130px;
 				overflow: hidden;
 				position: relative;
 				background-position: center;
@@ -42,7 +41,6 @@
 					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(index,item)">
 						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
 					</li>
-
 				</ul>
 			</div>
 			<div class="mui-content">
@@ -135,6 +133,10 @@
 							console.log(JSON.stringify(findTea.comData))
 							provinceInfo.currentPro = proModel;
 							window.myStorage.setItem('provinceInfo', provinceInfo);
+							page = plus.webview.getWebviewById("find-course.html")
+							mui.fire(page, 'changePro',{
+								data: index
+							});
 
 						}
 					}

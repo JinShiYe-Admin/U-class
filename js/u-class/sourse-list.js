@@ -57,6 +57,10 @@ Vue.component("source-list", {
 							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 						}
 					} else {
+						if(response.data.list.length == 0) {
+							pullRefresh.endPullUpToRefresh(true);
+							return;
+						}
 						com.listData = com.listData.concat(response.data.list);
 						console.log('列表条数：' + com.listData.length)
 						com.totalPage = response.data.totalPage
