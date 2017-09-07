@@ -49,6 +49,10 @@ Vue.component("course-list", {
 							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 						}
 					} else {
+						if(response.data.list.length == 0) {
+							pullRefresh.endPullUpToRefresh(true);
+							return;
+						}
 						com.listData = com.listData.concat(response.data.list);
 						com.totalPage = response.data.totalPage
 						pullRefresh.endPullUpToRefresh();
@@ -133,6 +137,10 @@ window.addEventListener("filterChange", function(e) {
 	window.scrollTo(0, 0);
 	var data = e.detail.data;
 	findCourse.pageNumber = 1;
+	if(data.length==0){
+		findCourse.comData.subjectId=""//科目id
+		findCourse.comData.gradeId="" //年级id
+	}
 	for(var i = 0; i < data.length; i++) {
 		var key = data[i].key;
 		findCourse.comData[key] = data[i].item.id
@@ -146,3 +154,10 @@ mui('body').on('hidden', '.mui-popover', function(e) {
 		data: -1
 	});
 });
+window.addEventListener("changePro", function(e) {
+	console.log('改变省份')
+	var index = e.detail.data;
+	findCourse.comData.areaId = findCourse.provinces[index].id
+	provinceInfo.currentPro = findCourse.provinces[index];
+
+})

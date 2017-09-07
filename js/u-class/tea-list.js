@@ -119,6 +119,13 @@ window.addEventListener("showPop", function(e) {
 	mui('#topPopover').popover('toggle')
 
 })
+window.addEventListener("changePro", function(e) {
+	var index = e.detail.data;
+	findTea.comData.areaId = findTea.provinces[index].id
+
+
+})
+
 mui('body').on('hidden', '.mui-popover', function(e) {
 	var page = plus.webview.getWebviewById("u-home.html")
 	mui.fire(page, 'showPop', {

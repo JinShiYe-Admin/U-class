@@ -73,9 +73,9 @@
 					backbutton: false //关闭back按键监听
 				},
 			});
-
+			var provinceInfo;
 			mui.plusReady(function() {
-				var provinceInfo = window.myStorage.getItem('provinceInfo');
+				provinceInfo = window.myStorage.getItem('provinceInfo');
 				findCourse = new Vue({
 					el: '#find-course',
 					data: {
@@ -84,13 +84,13 @@
 							pageSize: 10, //每页显示的记录数
 							resourceCategoryId: 14, //资源分类Id
 							periodId: 0, //学段id
-							areaId: 15, //省/市/区/县的id
+							areaId: provinceInfo.currentPro.id, //省/市/区/县的id
 							subjectId: '', //科目id
 							gradeId: '', //年级id
 							//							teacherId: '', //教师id
 							//							orderType: '', //排序:1-按最新排,2-按最热排
 						},
-						flag:0,
+						flag: 0,
 						provinces: provinceInfo.data,
 						currentPro: provinceInfo.currentPro,
 						totalPage: 0,
@@ -103,39 +103,35 @@
 
 					},
 					updated: function() {
-						
+
 					},
 					methods: {
 						getPeriodId: function(period) {
 							console.log("主页获取的学段数据:" + JSON.stringify(period))
-							this.flag=0;
-							this.comData = {
-								pageNumber: 1, //当前页数
-								pageSize: 10, //每页显示的记录数
-								resourceCategoryId: 14, //资源分类Id
-								periodId: period.id, //学段id
-								areaId: 15, //省/市/区/县的id
-								subjectId: '', //科目id
-								gradeId: '', //年级id
-								//							teacherId: '', //教师id
-								//							orderType: '', //排序:1-按最新排,2-按最热排
-							}
-
+							this.flag = 0;
+							this.comData.periodId = period.id;
+							this.comData.pageNumber = 1;
+							this.comData.subjectId=""//科目id
+							this.comData.gradeId="" //年级id
 						},
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);
 							this.totalPage = totalPage;
 						},
-						clickPop: function(index,proModel) {
-//							mui('#topPopover').popover('toggle')
+						clickPop: function(index, proModel) {
+							//							mui('#topPopover').popover('toggle')
 							var page = plus.webview.getWebviewById("u-home.html")
-							mui.fire(page, 'showPop',{
+							mui.fire(page, 'showPop', {
 								data: index
 							});
 							findCourse.comData.areaId = proModel.id
 							this.comData.pageNumber = 1;
 							provinceInfo.currentPro = proModel;
 							window.myStorage.setItem('provinceInfo', provinceInfo);
+							page = plus.webview.getWebviewById("find-teacher.html")
+							mui.fire(page, 'changePro', {
+								data: index
+							});
 
 						},
 						gotoSuperChoice: function() {

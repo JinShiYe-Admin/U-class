@@ -135,6 +135,10 @@
 							console.log(JSON.stringify(findTea.comData))
 							provinceInfo.currentPro = proModel;
 							window.myStorage.setItem('provinceInfo', provinceInfo);
+							page = plus.webview.getWebviewById("find-course.html")
+							mui.fire(page, 'changePro',{
+								data: index
+							});
 
 						}
 					}
