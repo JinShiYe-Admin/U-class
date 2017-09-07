@@ -120,7 +120,8 @@
 			"js/common/postData.js",
 			"js/utils/signHmacSHA1.js",
 			"js/common/storageKeyName.js",
-			"js/libs/myStorage/myStorage.js"
+			"js/libs/myStorage/myStorage.js",
+			"css/iconfont/iconfont.css"
 		],
 		"refer": [
 			"html/u-class/u-home.html",
@@ -177,7 +178,8 @@
 			"js/mui.min.js",
 			"js/common/publicProtocol.js",
 			"js/utils/mui.pullToRefresh.js",
-			"js/utils/mui.pullToRefresh.material.js"
+			"js/utils/mui.pullToRefresh.material.js",
+			"images/utils/searchTeacher.png"
 		],
 		"refer": [
 			"html/u-class/primary.html",

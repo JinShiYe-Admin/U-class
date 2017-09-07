@@ -352,7 +352,8 @@
 					"js/common/postData.js",
 					"js/utils/signHmacSHA1.js",
 					"js/common/storageKeyName.js",
-					"js/libs/myStorage/myStorage.js"
+					"js/libs/myStorage/myStorage.js",
+					"css/iconfont/iconfont.css"
 				],
 				"refer": [
 					"html/sourse/source-home.html",
@@ -421,7 +422,8 @@
 					"js/libs/vue/vue.js",
 					"js/common/publicProtocol.js",
 					"js/utils/mui.pullToRefresh.js",
-					"js/utils/mui.pullToRefresh.material.js"
+					"js/utils/mui.pullToRefresh.material.js",
+					"images/utils/searchTeacher.png"
 				],
 				"refer": [
 					"html/u-class/high.html",
