@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>主页</title>
 		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont/iconfont.css"/>
 		<style>
 			.mui-bar {
 				box-shadow: none;
@@ -16,15 +17,15 @@
 	<body>
 		<nav class="mui-bar mui-bar-tab">
 			<a class="mui-tab-item mui-active" href="u-home.html">
-				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-icon iconfont icon-u-class"></span>
 				<span class="mui-tab-label">优课</span>
 			</a>
 			<a class="mui-tab-item" href="source-home.html">
-				<span class="mui-icon mui-icon-email"></span>
+				<span class="mui-icon iconfont icon-u-ziyuan"></span>
 				<span class="mui-tab-label">资源</span>
 			</a>
 			<a class="mui-tab-item" href="ani-home.html">
-				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-icon iconfont icon-u-donghua"></span>
 				<span class="mui-tab-label">动画课</span>
 			</a>
 		</nav>
@@ -45,7 +46,17 @@
 				initListener();
 				initSubPage();
 				utils.preloadWebWithData("../utils/download.html"); //预加载下载页
+				//开启网络监听
+				document.addEventListener("netchange", wainshow, false);
 			});
+			
+			function wainshow() {
+					if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+						mui.toast("网络异常，请检查网络设置！");
+					} else {
+						
+					}
+				}
 
 			/**
 			 * 初始化监听

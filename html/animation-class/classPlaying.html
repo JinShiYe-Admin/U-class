@@ -79,7 +79,7 @@
 				<p style="margin-left: 14px;color: #333333;font-size: 15px;">{{sumModel.currentModel.name}}</p>
 				<div style="position:relative">
 					<img :src="sumModel.img_url" style="width: 40px;height: 40px;margin-left: 15px;border-radius: 50%;" />
-					<span style="position:absolute;font-size: 10px; top:0px;margin-left: 5px;color: #999999;">{{sumModel.currentModel.teacher_name + ' '+sumModel.currentModel.create_time+'上传 '+sumModel.currentModel.hits+'次播放'}}</span>
+					<span style="position:absolute;font-size: 10px; top:0px;margin-left: 5px;color: #999999;" v-if="sumModel.currentModel.hits>=0">{{sumModel.currentModel.teacher_name + ' '+sumModel.currentModel.create_time+'上传 '+sumModel.currentModel.hits+'次播放'}}</span>
 					<span style="position:absolute; font-size: 12px; top:20px;margin-left: 5px;color: gray;">{{sumModel.currentModel.school_name}}</span>
 				</div>
 				<p></p>
