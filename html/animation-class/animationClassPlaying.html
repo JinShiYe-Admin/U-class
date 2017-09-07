@@ -79,7 +79,7 @@
 				<p style="margin-left: 14px;color: #333333;font-size: 15px;">{{playingModel.name}}</p>
 				<div>
 					<!--<img :src="playingModel.modelImg" style="width: 40px;height: 40px;margin-left: 15px;" />-->
-					<span style="font-size: 10px; top:0px;margin-left: 14px;color: #999999;">{{playingModel.hits+'次播放'+' 来源:'+playingModel.school_name+' 类型:'+playingModel.resource_category_name}}</span>
+					<span style="font-size: 10px; top:0px;margin-left: 14px;color: #999999;" v-if="playingModel.hits>=0">{{playingModel.hits+'次播放'+' 类型:'+playingModel.resource_category_name}}</span>
 					<!--<span style="font-size: 12px; top:20px;margin-left: 15px;color: gray;">{{playingModel.modelSchool}}</span>-->
 				</div>
 				<p></p>
@@ -190,6 +190,13 @@
 							mui('#pullrefresh').pullRefresh().endPullup();
 						}
 						model.pageIndex++;
+					}else{
+						mui.toast(data.RspTxt);
+						if(model.pageFlag == 0) { //刷新
+							mui('#pullrefresh').pullRefresh().endPulldown();
+						} else { //加载更多
+							mui('#pullrefresh').pullRefresh().endPullup();
+						}
 					}
 				});
 			}
