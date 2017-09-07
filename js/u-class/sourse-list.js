@@ -11,7 +11,7 @@ Vue.component("source-list", {
 	template: '<ul class="mui-table-view mui-table-view-chevron">' +
 		'<li class="mui-table-view-cell mui-media" v-for="item in listData">' +
 		'<a href="javascript:;">' +
-		'<img class="mui-media-object mui-pull-left" style="width: 40px;height: 40px;" src="../../images/utils/img-teacher-bg2.png">' +
+		'<img class="mui-media-object mui-pull-left" style="width: 40px;height: 40px;" src="../../images/file/11.png">' +
 		'<div class="mui-media-body"  style="white-space: pre;font-size:16px;color:#353535; width:75%;text-overflow:ellipsis;font-size:13px">' +
 		'{{item.name}}' +
 		'<p style="font-size: 9px;">上传时间:{{item.create_time.substring(0,10)}} 下载次数:{{item.downloads}} 格式:{{item.file_ext}}</p>' +
