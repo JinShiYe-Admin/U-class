@@ -45,12 +45,26 @@ Vue.component("course-list", {
 					if(com.comdata.pageNumber === 1) {
 						com.listData = response.data.list;
 						com.totalPage = response.data.totalPage
+						if(findCourse.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
 					} else {
 						com.listData = com.listData.concat(response.data.list);
 						com.totalPage = response.data.totalPage
 						pullRefresh.endPullUpToRefresh();
 					}
 				} else {
+					if(com.comdata.pageNumber === 1) {
+
+						if(findCourse.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
+					} else {
+						pullRefresh.endPullUpToRefresh();
+
+					}
+
+					mui.toast('请检查网络')
 
 				}
 				com.$emit('requiredEnd', com.totalPage);
@@ -58,9 +72,9 @@ Vue.component("course-list", {
 		},
 		clickcell: function(model) {
 			var tempModel = {
-				img_url:model.teacher_img_url,
-				currentModel : model,
-				subjectList:[]
+				img_url: model.teacher_img_url,
+				currentModel: model,
+				subjectList: []
 			}
 			utils.openNewWindowWithData('../../html/animation-class/classPlaying.html', tempModel)
 		}
@@ -83,7 +97,8 @@ function addpullRefresh() {
 				setTimeout(function() {
 					findCourse.comData.pageNumber = 0;
 					findCourse.comData.pageNumber = 1;
-					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+					findCourse.flag = 1;
+					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 				}, 1000);
 			}
 		},
@@ -125,3 +140,9 @@ window.addEventListener("filterChange", function(e) {
 	console.log(JSON.stringify(findCourse.comData))
 
 })
+mui('body').on('hidden', '.mui-popover', function(e) {
+	var page = plus.webview.getWebviewById("u-home.html")
+	mui.fire(page, 'showPop', {
+		data: -1
+	});
+});

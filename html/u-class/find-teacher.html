@@ -98,6 +98,7 @@
 							//							subjectId: '', //科目id
 							//							resourceCategoryId: 14
 						},
+						flag:0,
 						provinces: provinceInfo.data,
 						totalPage: 0
 					},
@@ -112,9 +113,11 @@
 					},
 					methods: {
 						getPeriodId: function(period) {
+							pullRefresh.refresh(true);
 							console.log("主页获取的学段数据:" + JSON.stringify(period))
 							this.comData.periodId = period.id;
 							this.comData.pageNumber = 1;
+							this.flag=0;
 						},
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);
@@ -124,6 +127,7 @@
 
 							//							mui('#topPopover').popover('toggle')
 							findTea.comData.areaId = proModel.id
+							this.comData.pageNumber = 1;
 							var page = plus.webview.getWebviewById("u-home.html")
 							mui.fire(page, 'showPop', {
 								data: index

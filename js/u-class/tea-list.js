@@ -10,7 +10,7 @@ Vue.component("tea-list", {
 		'<p  style="white-space: pre;font-size:15px;color:#000000">  {{item.name}}</p>' +
 		'<p  style="white-space: pre;font-size:11px;color:#a6a6a6;padding-top:2px">  {{item.school_name}}</p>' +
 		'</div>' +
-		'<input  style="white-space: pre;font-size:13px;color:#ff8a11;border-color:#ff8a11;border-radius: 20px;height:30px;width:60px;;margin-right: -5px;padding-top:5.5px;" v-bind:class="[\'tea-suject\']" type="button" v-bind:value="item.subjectList[0].name"/>' +
+		'<input  style="white-space: pre;font-size:13px;color:#ff8a11;border-color:#ff8a11;border-radius: 20px;height:30px;width:auto;;margin-right: -5px;padding-top:5.5px;" v-bind:class="[\'tea-suject\']" type="button" v-bind:value="item.subjectList[0].name"/>' +
 		'</li>' +
 		'</ul>',
 	data: function() {
@@ -49,13 +49,31 @@ Vue.component("tea-list", {
 					if(com.comdata.pageNumber === 1) {
 						com.listData = response.data.list;
 						com.totalPage = response.data.totalPage
+						if(findTea.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
 					} else {
+						if(response.data.list.length == 0) {
+							pullRefresh.endPullUpToRefresh(true);
+							return;
+						}
 						com.listData = com.listData.concat(response.data.list);
 						com.totalPage = response.data.totalPage
 						pullRefresh.endPullUpToRefresh();
 
 					}
 				} else {
+					if(com.comdata.pageNumber === 1) {
+
+						if(findTea.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
+					} else {
+						pullRefresh.endPullUpToRefresh();
+
+					}
+
+					mui.toast('请检查网络')
 
 				}
 				com.$emit('requiredEnd', com.totalPage);
@@ -83,7 +101,8 @@ function addpullRefresh() {
 				setTimeout(function() {
 					findTea.comData.pageNumber = 0;
 					findTea.comData.pageNumber = 1
-					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+					findTea.flag = 1;
 				}, 1000);
 			}
 		},
@@ -100,3 +119,9 @@ window.addEventListener("showPop", function(e) {
 	mui('#topPopover').popover('toggle')
 
 })
+mui('body').on('hidden', '.mui-popover', function(e) {
+	var page = plus.webview.getWebviewById("u-home.html")
+	mui.fire(page, 'showPop', {
+		data: -1
+	});
+});

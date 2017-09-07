@@ -41,7 +41,7 @@ Vue.component("source-list", {
 
 	},
 	updated: function() {
-//		addpullRefresh();
+		//		addpullRefresh();
 
 	},
 	methods: {
@@ -53,6 +53,9 @@ Vue.component("source-list", {
 					if(com.comdata.pageNumber === 1) {
 						com.listData = response.data.list;
 						com.totalPage = response.data.totalPage
+						if(findsource.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
 					} else {
 						com.listData = com.listData.concat(response.data.list);
 						console.log('列表条数：' + com.listData.length)
@@ -61,6 +64,17 @@ Vue.component("source-list", {
 
 					}
 				} else {
+					if(com.comdata.pageNumber === 1) {
+
+						if(findsource.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
+					} else {
+						pullRefresh.endPullUpToRefresh();
+
+					}
+
+					mui.toast('请检查网络')
 
 				}
 				com.$emit('requiredEnd', com.totalPage);
@@ -84,6 +98,7 @@ window.addEventListener("showPop", function(e) {
 
 })
 var pullRefresh
+
 function addpullRefresh() {
 	var deceleration = mui.os.ios ? 0.0009 : 0.0009;
 	mui('.mui-scroll-wrapper').scroll({
@@ -98,14 +113,15 @@ function addpullRefresh() {
 				setTimeout(function() {
 					findsource.comData.pageNumber = 0;
 					findsource.comData.pageNumber = 1;
-					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-				},1000);
+					findsource.flag = 1;
+					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+				}, 1000);
 			}
 		},
 		up: {
 			callback: function() {
 				console.log('up');
-					findsource.comData.pageNumber++
+				findsource.comData.pageNumber++
 			}
 		}
 	});
