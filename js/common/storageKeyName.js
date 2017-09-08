@@ -108,6 +108,7 @@ var storageKeyName = (function(mod) {
 			break;
 	}
 	
+	mod.YIDONGTOKEN = 'yidongToken';//移动的和校园中，调起应用时，得到的token
 	mod.TOKEN = 'token';//优课协议获取到的token
 	mod.PROVINCEINFO =  'provinceInfo'
 	mod.RESOURCELIST = 'resourceList';//第5个协议获取到的资源列表，包含优课、资源、动画课

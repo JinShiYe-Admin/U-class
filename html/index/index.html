@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>主页</title>
 		<link href="../../css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" type="text/css" href="../../css/iconfont/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont/iconfont.css" />
 		<style>
 			.mui-bar {
 				box-shadow: none;
@@ -42,6 +42,9 @@
 				statusBarBackground: '#13b7f6'
 			});
 			mui.plusReady(function() {
+				document.addEventListener('plusready', function() {
+					checkArguments();
+				}, false);
 				getProvinceList();
 				initListener();
 				initSubPage();
@@ -49,14 +52,34 @@
 				//开启网络监听
 				document.addEventListener("netchange", wainshow, false);
 			});
-			
+
 			function wainshow() {
-					if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
-						mui.toast("网络异常，请检查网络设置！");
-					} else {
-						
-					}
+				if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+					mui.toast("网络异常，请检查网络设置！");
+				} else {
+
 				}
+			}
+
+			// 判断启动方式
+			function checkArguments() {
+				var args = plus.runtime.arguments;
+				alert('arguments:' + args);
+				if(args) {
+					var strs = new Array(); //定义一数组
+					strs = args.split("//"); //字符分割 
+					// 处理args参数，如打开新页面等,存储token，然后获取个人信息
+					window.myStorage.setItem(window.storageKeyName.YIDONGTOKEN, strs[1]);
+					//通过token，获取个人信息
+					postDataPro_getPersonInfo({
+						token: strs[1]
+					}, function(data) {
+						if (data.RspCode == 0) {
+							window.myStorage.setItem(window.storageKeyName.PERSONALINFO, data.RspData);
+						}
+					});
+				}
+			}
 
 			/**
 			 * 初始化监听
@@ -127,7 +150,7 @@
 			function getProvinceList() {
 				//5、获取资源的分类及子分类
 				postDataPro_rescatList({}, function(data) {
-					if (data.code == 0) {
+					if(data.code == 0) {
 						//将获取到的数据，保存到本地，方便别的页面调用
 						window.myStorage.setItem(window.storageKeyName.RESOURCELIST, data.data);
 					}
