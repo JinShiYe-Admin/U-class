@@ -137,6 +137,7 @@ window.addEventListener("filterChange", function(e) {
 	window.scrollTo(0, 0);
 	var data = e.detail.data;
 	findCourse.pageNumber = 1;
+	findCourse.flag = 0;
 	if(data.length==0){
 		findCourse.comData.subjectId=""//科目id
 		findCourse.comData.gradeId="" //年级id

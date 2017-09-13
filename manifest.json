@@ -281,7 +281,8 @@
 					"fonts/mui.ttf",
 					"js/common/publicProtocol.js",
 					"js/utils/mui.pullToRefresh.material.js",
-					"js/utils/mui.pullToRefresh.js"
+					"js/utils/mui.pullToRefresh.js",
+					"images/file/11.png"
 				],
 				"refer": [
 					"html/u-class/middle.html",
@@ -341,7 +342,8 @@
 					"fonts/mui.ttf"
 				],
 				"refer": [
-					"html/animation-class/classPlaying.html"
+					"html/animation-class/classPlaying.html",
+					"html/animation-class/animationClassPlaying.html"
 				],
 				"priority": 0
 			},
@@ -592,6 +594,26 @@
 				"refer": [
 					"html/animation-class/classPlaying.html"
 				],
+				"priority": 0
+			},
+			"html/animation-class/animationClassPlaying.html": {
+				"resources": [
+					"js/libs/vue/vue.js",
+					"js/utils/mui.pullToRefresh.js",
+					"js/utils/utils.js",
+					"js/libs/crypto-js/require.js",
+					"js/libs/myStorage/myStorage.js",
+					"js/utils/mui.pullToRefresh.material.js",
+					"js/libs/jquery.js",
+					"js/mui.min.js",
+					"js/common/publicProtocol.js",
+					"css/mui.min.css",
+					"js/common/postData.js",
+					"js/utils/signHmacSHA1.js",
+					"js/utils/myStorage.js",
+					"js/common/storageKeyName.js"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},
