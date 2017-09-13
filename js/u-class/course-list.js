@@ -98,12 +98,10 @@ function addpullRefresh() {
 		down: {
 			callback: function() {
 				console.log('down');
-				setTimeout(function() {
 					findCourse.comData.pageNumber = 0;
 					findCourse.comData.pageNumber = 1;
 					findCourse.flag = 1;
 					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-				}, 1000);
 			}
 		},
 		up: {
