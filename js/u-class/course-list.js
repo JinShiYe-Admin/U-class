@@ -98,12 +98,10 @@ function addpullRefresh() {
 		down: {
 			callback: function() {
 				console.log('down');
-				setTimeout(function() {
 					findCourse.comData.pageNumber = 0;
 					findCourse.comData.pageNumber = 1;
 					findCourse.flag = 1;
 					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-				}, 1000);
 			}
 		},
 		up: {
@@ -137,6 +135,7 @@ window.addEventListener("filterChange", function(e) {
 	window.scrollTo(0, 0);
 	var data = e.detail.data;
 	findCourse.pageNumber = 1;
+	findCourse.flag = 0;
 	if(data.length==0){
 		findCourse.comData.subjectId=""//科目id
 		findCourse.comData.gradeId="" //年级id

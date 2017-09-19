@@ -114,12 +114,10 @@ function addpullRefresh() {
 		down: {
 			callback: function() {
 				console.log('down');
-				setTimeout(function() {
 					findsource.comData.pageNumber = 0;
 					findsource.comData.pageNumber = 1;
 					findsource.flag = 1;
 					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-				}, 1000);
 			}
 		},
 		up: {
@@ -148,6 +146,7 @@ window.addEventListener("filterChange", function(e) {
 	window.scrollTo(0, 0);
 	var data = e.detail.data;
 	findsource.pageNumber = 1;
+	findsource.flag = 0;
 	for(var i = 0; i < data.length; i++) {
 		var key = data[i].key;
 		findsource.comData[key] = data[i].item.id
