@@ -31,6 +31,7 @@
 		</nav>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
+		<script src="../../js/common/storageKeyName.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 			//页面路径
@@ -42,9 +43,7 @@
 				statusBarBackground: '#13b7f6'
 			});
 			mui.plusReady(function() {
-				document.addEventListener('plusready', function() {
-					checkArguments();
-				}, false);
+				checkArguments();
 				getProvinceList();
 				initListener();
 				initSubPage();
@@ -66,18 +65,31 @@
 				var args = plus.runtime.arguments;
 				alert('arguments:' + args);
 				if(args) {
-					var strs = new Array(); //定义一数组
-					strs = args.split("//"); //字符分割 
-					// 处理args参数，如打开新页面等,存储token，然后获取个人信息
-					window.myStorage.setItem(window.storageKeyName.YIDONGTOKEN, strs[1]);
-					//通过token，获取个人信息
-					postDataPro_getPersonInfo({
-						token: strs[1]
-					}, function(data) {
-						if (data.RspCode == 0) {
-							window.myStorage.setItem(window.storageKeyName.PERSONALINFO, data.RspData);
+					// 处理args参数，如打开新页面等
+					//在？的地方，转为数组，
+					var tempArr = args.split('?');
+					if (tempArr.length>0) {
+						var tempArr1 = tempArr[1].split('&');
+						var tempModel = {};
+						for (var i = 0; i < tempArr1.length; i++) {
+							if (i == 0) {
+								tempModel.token = tempArr1[i].split("=")[1];
+							} else{
+								tempModel.channel = tempArr1[i].split("=")[1];
+							}
 						}
-					});
+						console.log('tempModel:'+JSON.stringify(tempModel));
+						var tempData = {
+							cptoken:tempModel.token
+						}
+						postDataPro_getPersonInfo(tempData,function(data){
+							if (data.RspCode == 0) {
+								data.RspData.token = tempModel.token;
+								data.RspData.channel = tempModel.channel;
+								window.myStorage.setItem(window.storageKeyName.PERSONALINFO, data.RspData);
+							}
+						});
+					}
 				}
 			}
 
