@@ -310,12 +310,6 @@
 							//-2,重新进入队列的下载任务;0,下载任务开始调度;1,下载任务开始请求;2,下载任务请求已经接收;3,下载任务接收数据;
 							vm_down.file_array[index].disabled = true;
 							vm_down.file_array[index].task.pause();
-							vm_down.file_array[index].state = "5"; //5,下载任务已暂停
-							vm_down.file_array[index].button = "继续";
-							initDownloading();
-							vm_down.file_array[index].disabled = false;
-							//继续下载
-							startDownloadingFirst();
 						} else if(vm_down.file_array[index].state == "5") {
 							//5,下载任务已暂停;
 							vm_down.file_array[index].disabled = true;
@@ -694,6 +688,7 @@
 				fileutil.addDownloadTask(vm_down.file_array[vm_down.downloadingFileId].url, "_documents/download/" + vm_down.file_array[vm_down.downloadingFileId].name, function(download, status) {
 					console.log('下载任务完成:' + status + '|' + JSON.stringify(download));
 					//处理下载任务
+					console.log("downloadingFileId:" + vm_down.downloadingFileId);
 					vm_down.file_array[vm_down.downloadingFileId].state = "4"; //4,任务完成
 					vm_down.file_array[vm_down.downloadingFileId].result = status; //下载结果状态
 					vm_down.file_array[vm_down.downloadingFileId].task = null; //清理下载任务
@@ -701,8 +696,8 @@
 					if(status == 200) {
 						//下载成功
 						//1.处理下载任务
-						vm_down.file_array[vm_down.downloadingFileId].button = "完成"; //改变按钮文字
 						vm_down.file_array[vm_down.downloadingFileId].isShow = false; //隐藏列表中的li
+						vm_down.file_array[vm_down.downloadingFileId].button = "完成"; //改变按钮文字
 						//vm_down.file_array.splice(vm_down.downloadingFileId, 1); //删除数据
 						//2.调整标题
 						vm_down.downloading_num--;
@@ -745,6 +740,14 @@
 						vm_down.file_array[vm_down.downloadingFileId].size = downloadSize + "/" + totalSize;
 						var progress = parseInt(download.downloadedSize / download.totalSize * 100);
 						mui("#" + download.id).progressbar().setProgress(progress);
+					} else if(download.state == 5) {
+						console.log('下载状态变化:' + download.state + '|' + JSON.stringify(download));
+						vm_down.file_array[vm_down.downloadingFileId].state = "5"; //5,下载任务已暂停
+						vm_down.file_array[vm_down.downloadingFileId].button = "继续";
+						vm_down.file_array[vm_down.downloadingFileId].disabled = false;
+						initDownloading();
+						//继续下载
+						startDownloadingFirst();
 					}
 					//else {
 					////4,下载任务已完成
@@ -756,6 +759,9 @@
 					vm_down.file_array[vm_down.downloadingFileId].task = dtask;
 					vm_down.file_array[vm_down.downloadingFileId].taskid = dtask.id;
 					dtask.start();
+//					setTimeout(function() {
+//						vm_down.file_array[vm_down.downloadingFileId].task.pause();
+//					}, 400);
 				});
 			}
 

@@ -23,6 +23,12 @@ var renewToken = function(url, commonData,flag,callback) {
 	});
 }
 
+//通过移动的token，获取个人信息
+var postDataPro_getPersonInfo = function(commonData, callback) {
+	//发送网络请求，data为网络返回值
+	postDataEncry66('http://114.215.222.194:8088/MobileCpService/getUserData', commonData, 0, callback);
+}
+
 //获取token
 //var commonData = {
 //	username:'jsy',

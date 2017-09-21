@@ -76,19 +76,19 @@
 				</video>
 				<!--<img id="img1" :src=playingModel.modelImgUrl />-->
 				<p></p>
-				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">{{playingModel.name}}</p>
+				<p style="margin-left: 14px;color: #333333;font-size: 15px;">{{playingModel.name}}</p>
 				<div>
 					<!--<img :src="playingModel.modelImg" style="width: 40px;height: 40px;margin-left: 15px;" />-->
-					<span style="font-size: 12px; top:0px;margin-left: 15px;color: gray;">{{playingModel.hits+'次播放'+' 来源:'+playingModel.school_name+' 类型:'+playingModel.resource_category_name}}</span>
+					<span style="font-size: 10px; top:0px;margin-left: 14px;color: #999999;" v-if="playingModel.hits>=0">{{playingModel.hits+'次播放'+' 类型:'+playingModel.resource_category_name}}</span>
 					<!--<span style="font-size: 12px; top:20px;margin-left: 15px;color: gray;">{{playingModel.modelSchool}}</span>-->
 				</div>
 				<p></p>
-				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">播放列表</p>
+				<p style="margin-left: 14px;color: #333333;font-size: 12px;">播放列表</p>
 				<ul class="mui-table-view mui-table-view-chevron" v-for="item in sumModel.childList">
 					<li class="mui-table-view-cell mui-media" v-on:tap='clickCloumn(item)'>
 						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" :src="item.img_url">
-							<div class="mui-media-body">
+							<img class="mui-media-object mui-pull-left" :src="item.img_url" style="width: 106px;height: 60px;">
+							<div class="mui-media-body" style="font-size: 12px;color: #333333;">
 								{{item.name}}
 								<!--<p class='mui-ellipsis'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>-->
 							</div>
@@ -190,6 +190,13 @@
 							mui('#pullrefresh').pullRefresh().endPullup();
 						}
 						model.pageIndex++;
+					}else{
+						mui.toast(data.RspTxt);
+						if(model.pageFlag == 0) { //刷新
+							mui('#pullrefresh').pullRefresh().endPulldown();
+						} else { //加载更多
+							mui('#pullrefresh').pullRefresh().endPullup();
+						}
 					}
 				});
 			}

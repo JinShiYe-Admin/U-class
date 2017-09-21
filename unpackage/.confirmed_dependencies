@@ -276,7 +276,8 @@
 			"fonts/mui.ttf",
 			"js/common/publicProtocol.js",
 			"js/utils/mui.pullToRefresh.material.js",
-			"js/utils/mui.pullToRefresh.js"
+			"js/utils/mui.pullToRefresh.js",
+			"images/file/11.png"
 		],
 		"refer": [
 			"html/utils/school.html",
@@ -332,7 +333,8 @@
 			"fonts/mui.ttf"
 		],
 		"refer": [
-			"html/animation-class/classPlaying.html"
+			"html/animation-class/classPlaying.html",
+			"html/animation-class/animationClassPlaying.html"
 		]
 	},
 	"html/index/index.html": {
@@ -348,7 +350,8 @@
 			"js/common/postData.js",
 			"js/utils/signHmacSHA1.js",
 			"js/common/storageKeyName.js",
-			"js/libs/myStorage/myStorage.js"
+			"js/libs/myStorage/myStorage.js",
+			"css/iconfont/iconfont.css"
 		],
 		"refer": [
 			"html/u-class/u-home.html",
@@ -405,7 +408,8 @@
 			"js/mui.min.js",
 			"js/common/publicProtocol.js",
 			"js/utils/mui.pullToRefresh.js",
-			"js/utils/mui.pullToRefresh.material.js"
+			"js/utils/mui.pullToRefresh.material.js",
+			"images/utils/searchTeacher.png"
 		],
 		"refer": [
 			"html/u-class/primary.html",
@@ -530,6 +534,24 @@
 		],
 		"refer": [
 			"html/animation-class/classPlaying.html"
+		]
+	},
+	"html/animation-class/animationClassPlaying.html": {
+		"resources": [
+			"js/libs/vue/vue.js",
+			"js/utils/mui.pullToRefresh.js",
+			"js/utils/utils.js",
+			"js/libs/crypto-js/require.js",
+			"js/libs/myStorage/myStorage.js",
+			"js/utils/mui.pullToRefresh.material.js",
+			"js/libs/jquery.js",
+			"js/mui.min.js",
+			"js/common/publicProtocol.js",
+			"css/mui.min.css",
+			"js/common/postData.js",
+			"js/utils/signHmacSHA1.js",
+			"js/utils/myStorage.js",
+			"js/common/storageKeyName.js"
 		]
 	}
 >>>>>>> 5b909d2d47402788545af56008ec98930a1c5e69

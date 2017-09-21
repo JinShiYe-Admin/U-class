@@ -76,19 +76,19 @@
 				</video>
 				<!--<img id="img1" :src=playingModel.modelImgUrl />-->
 				<p></p>
-				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">{{sumModel.currentModel.name}}</p>
+				<p style="margin-left: 14px;color: #333333;font-size: 15px;">{{sumModel.currentModel.name}}</p>
 				<div style="position:relative">
-					<img :src="sumModel.img_url" style="width: 40px;height: 40px;margin-left: 15px;" />
-					<span style="position:absolute;font-size: 12px; top:0px;margin-left: 5px;color: gray;">{{sumModel.currentModel.teacher_name + ' '+sumModel.currentModel.create_time+'上传 '+sumModel.currentModel.hits+'次播放'}}</span>
+					<img :src="sumModel.img_url" style="width: 40px;height: 40px;margin-left: 15px;border-radius: 50%;" />
+					<span style="position:absolute;font-size: 10px; top:0px;margin-left: 5px;color: #999999;" v-if="sumModel.currentModel.hits>=0">{{sumModel.currentModel.teacher_name + ' '+sumModel.currentModel.create_time+'上传 '+sumModel.currentModel.hits+'次播放'}}</span>
 					<span style="position:absolute; font-size: 12px; top:20px;margin-left: 5px;color: gray;">{{sumModel.currentModel.school_name}}</span>
 				</div>
 				<p></p>
-				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">相关视频</p>
+				<p style="margin-left: 14px;color: #333333;font-size: 12px;">相关视频</p>
 				<ul class="mui-table-view mui-table-view-chevron" v-for="item in sumModel.spaceArray">
 					<li class="mui-table-view-cell mui-media" @click="clickTeacherSpace()">
 						<a class="mui-navigate-right">
-							<img class="mui-media-object mui-pull-left" :src="item.img_url">
-							<div class="mui-media-body">
+							<img class="mui-media-object mui-pull-left" :src="item.img_url" style="width: 106px;height: 60px;">
+							<div class="mui-media-body" style="font-size: 12px;color: #999999;">
 								{{item.name}}
 								<!--<p class='mui-ellipsis'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>-->
 							</div>

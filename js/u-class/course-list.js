@@ -8,7 +8,7 @@ Vue.component("course-list", {
 		'<a href="javascript:;">' +
 		'<img class=" mui-pull-left" style="width: 106px;height: 60px;" :src="item.img_url">' +
 		'<div class="mui-media-body" style="white-space: pre;font-size:12px;color:#333333">' +
-		'  {{item.subject_name}}<p class="mui-ellipsis" style="margin-top: 5px;margin-left: 5px;font-size:10px;color:#999999">' +
+		'  {{item.name}}<p class="mui-ellipsis" style="margin-top: 5px;margin-left: 5px;font-size:10px;color:#999999">' +
 		'<img style="width: 20px;height: 20px;vertical-align: middle;border-radius: 50%;" :src="item.teacher_img_url" alt="" />' +
 		' {{item.teacher_name}}</p>' +
 		'</div>' +
@@ -45,12 +45,30 @@ Vue.component("course-list", {
 					if(com.comdata.pageNumber === 1) {
 						com.listData = response.data.list;
 						com.totalPage = response.data.totalPage
+						if(findCourse.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
 					} else {
+						if(response.data.list.length == 0) {
+							pullRefresh.endPullUpToRefresh(true);
+							return;
+						}
 						com.listData = com.listData.concat(response.data.list);
 						com.totalPage = response.data.totalPage
 						pullRefresh.endPullUpToRefresh();
 					}
 				} else {
+					if(com.comdata.pageNumber === 1) {
+
+						if(findCourse.flag == 1) {
+							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+						}
+					} else {
+						pullRefresh.endPullUpToRefresh();
+
+					}
+
+					mui.toast('请检查网络')
 
 				}
 				com.$emit('requiredEnd', com.totalPage);
@@ -58,9 +76,9 @@ Vue.component("course-list", {
 		},
 		clickcell: function(model) {
 			var tempModel = {
-				img_url:model.teacher_img_url,
-				currentModel : model,
-				subjectList:[]
+				img_url: model.teacher_img_url,
+				currentModel: model,
+				subjectList: []
 			}
 			utils.openNewWindowWithData('../../html/animation-class/classPlaying.html', tempModel)
 		}
@@ -80,11 +98,10 @@ function addpullRefresh() {
 		down: {
 			callback: function() {
 				console.log('down');
-				setTimeout(function() {
 					findCourse.comData.pageNumber = 0;
 					findCourse.comData.pageNumber = 1;
-					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-				}, 1000);
+					findCourse.flag = 1;
+					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 			}
 		},
 		up: {
@@ -118,10 +135,28 @@ window.addEventListener("filterChange", function(e) {
 	window.scrollTo(0, 0);
 	var data = e.detail.data;
 	findCourse.pageNumber = 1;
+	findCourse.flag = 0;
+	if(data.length==0){
+		findCourse.comData.subjectId=""//科目id
+		findCourse.comData.gradeId="" //年级id
+	}
 	for(var i = 0; i < data.length; i++) {
 		var key = data[i].key;
 		findCourse.comData[key] = data[i].item.id
 	}
 	console.log(JSON.stringify(findCourse.comData))
+
+})
+mui('body').on('hidden', '.mui-popover', function(e) {
+	var page = plus.webview.getWebviewById("u-home.html")
+	mui.fire(page, 'showPop', {
+		data: -1
+	});
+});
+window.addEventListener("changePro", function(e) {
+	console.log('改变省份')
+	var index = e.detail.data;
+	findCourse.comData.areaId = findCourse.provinces[index].id
+	provinceInfo.currentPro = findCourse.provinces[index];
 
 })

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
 		<title>Hello MUI</title>
@@ -24,7 +23,7 @@
 			}
 			
 			.banner {
-				height: 180px;
+				height: 116px;
 				overflow: hidden;
 				position: relative;
 				background-position: center;
@@ -42,7 +41,6 @@
 					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(index,item)">
 						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
 					</li>
-
 				</ul>
 			</div>
 			<div class="mui-content">
@@ -53,7 +51,7 @@
 						<!--顶部banner图 开始-->
 						<div class="banner">
 							<a href="javascript:;">
-								<img src="https://pic.36krcnd.com/avatar/201707/31133433/lbdbrk0crfxofgf9.jpeg!feature" />
+								<img src="../../images/utils/searchTeacher.png" />
 							</a>
 						</div>
 
@@ -98,6 +96,7 @@
 							//							subjectId: '', //科目id
 							//							resourceCategoryId: 14
 						},
+						flag:0,
 						provinces: provinceInfo.data,
 						totalPage: 0
 					},
@@ -112,9 +111,11 @@
 					},
 					methods: {
 						getPeriodId: function(period) {
+							pullRefresh.refresh(true);
 							console.log("主页获取的学段数据:" + JSON.stringify(period))
 							this.comData.periodId = period.id;
 							this.comData.pageNumber = 1;
+							this.flag=0;
 						},
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);
@@ -124,6 +125,7 @@
 
 							//							mui('#topPopover').popover('toggle')
 							findTea.comData.areaId = proModel.id
+							this.comData.pageNumber = 1;
 							var page = plus.webview.getWebviewById("u-home.html")
 							mui.fire(page, 'showPop', {
 								data: index
@@ -131,6 +133,10 @@
 							console.log(JSON.stringify(findTea.comData))
 							provinceInfo.currentPro = proModel;
 							window.myStorage.setItem('provinceInfo', provinceInfo);
+							page = plus.webview.getWebviewById("find-course.html")
+							mui.fire(page, 'changePro',{
+								data: index
+							});
 
 						}
 					}

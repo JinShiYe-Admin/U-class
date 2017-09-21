@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>主页</title>
 		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont/iconfont.css" />
 		<style>
 			.mui-bar {
 				box-shadow: none;
@@ -16,20 +17,21 @@
 	<body>
 		<nav class="mui-bar mui-bar-tab">
 			<a class="mui-tab-item mui-active" href="u-home.html">
-				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-icon iconfont icon-u-class"></span>
 				<span class="mui-tab-label">优课</span>
 			</a>
 			<a class="mui-tab-item" href="source-home.html">
-				<span class="mui-icon mui-icon-email"></span>
+				<span class="mui-icon iconfont icon-u-ziyuan"></span>
 				<span class="mui-tab-label">资源</span>
 			</a>
 			<a class="mui-tab-item" href="ani-home.html">
-				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-icon iconfont icon-u-donghua"></span>
 				<span class="mui-tab-label">动画课</span>
 			</a>
 		</nav>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" src="../../js/utils/utils.js"></script>
+		<script src="../../js/common/storageKeyName.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 			//页面路径
@@ -37,13 +39,59 @@
 			var aniShow = {}; //记录是否显示过页面
 			var activeTab = "u-home.html"; //当前激活的页面id
 			var main; //当前webview
-			mui.init();
+			mui.init({
+				statusBarBackground: '#13b7f6'
+			});
 			mui.plusReady(function() {
+				checkArguments();
 				getProvinceList();
 				initListener();
 				initSubPage();
 				utils.preloadWebWithData("../utils/download.html"); //预加载下载页
+				//开启网络监听
+				document.addEventListener("netchange", wainshow, false);
 			});
+
+			function wainshow() {
+				if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+					mui.toast("网络异常，请检查网络设置！");
+				} else {
+
+				}
+			}
+
+			// 判断启动方式
+			function checkArguments() {
+				var args = plus.runtime.arguments;
+				alert('arguments:' + args);
+				if(args) {
+					// 处理args参数，如打开新页面等
+					//在？的地方，转为数组，
+					var tempArr = args.split('?');
+					if (tempArr.length>0) {
+						var tempArr1 = tempArr[1].split('&');
+						var tempModel = {};
+						for (var i = 0; i < tempArr1.length; i++) {
+							if (i == 0) {
+								tempModel.token = tempArr1[i].split("=")[1];
+							} else{
+								tempModel.channel = tempArr1[i].split("=")[1];
+							}
+						}
+						console.log('tempModel:'+JSON.stringify(tempModel));
+						var tempData = {
+							cptoken:tempModel.token
+						}
+						postDataPro_getPersonInfo(tempData,function(data){
+							if (data.RspCode == 0) {
+								data.RspData.token = tempModel.token;
+								data.RspData.channel = tempModel.channel;
+								window.myStorage.setItem(window.storageKeyName.PERSONALINFO, data.RspData);
+							}
+						});
+					}
+				}
+			}
 
 			/**
 			 * 初始化监听
@@ -114,7 +162,7 @@
 			function getProvinceList() {
 				//5、获取资源的分类及子分类
 				postDataPro_rescatList({}, function(data) {
-					if (data.code == 0) {
+					if(data.code == 0) {
 						//将获取到的数据，保存到本地，方便别的页面调用
 						window.myStorage.setItem(window.storageKeyName.RESOURCELIST, data.data);
 					}

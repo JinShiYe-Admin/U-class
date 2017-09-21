@@ -17,7 +17,7 @@ var storageKeyName = (function(mod) {
 		case 0: //开发
 			//---开发---start---
 //			mod.MAINURL = 'http://114.215.26.9:8080/ziyuanpt/'; //主url
-			mod.MAINURL = 'http://114.215.26.9:8080/youke/'; //主url
+			mod.MAINURL = 'http://118.190.141.206:8080/youke/'; //主url
 			//---开发---end---
 			//---七牛空间和接口---开发---start---
 			mod.QNPB = 'http://qn-kfpb.jiaobaowang.net/'; //公开空间域名
@@ -108,6 +108,7 @@ var storageKeyName = (function(mod) {
 			break;
 	}
 	
+	mod.YIDONGTOKEN = 'yidongToken';//移动的和校园中，调起应用时，得到的token
 	mod.TOKEN = 'token';//优课协议获取到的token
 	mod.PROVINCEINFO =  'provinceInfo'
 	mod.RESOURCELIST = 'resourceList';//第5个协议获取到的资源列表，包含优课、资源、动画课
