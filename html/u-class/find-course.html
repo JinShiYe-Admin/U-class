@@ -32,20 +32,27 @@
 	</head>
 
 	<body>
-		<div id="find-course" class="mui-content">
+		<div id="find-course">
+
 			<div id="topPopover" class="mui-popover">
 				<div class="mui-popover-arrow"></div>
 				<ul class="mui-table-view">
-					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:tap="clickPop(item)">
+					<li class="mui-table-view-cell mui-media" v-for="(item,index) in provinces" v-on:click="clickPop(index,item)">
 						<div class="mui-media-body" style="color: #323232;text-align: center;font-size: 16px;">{{item.name}}</div>
 					</li>
 
 				</ul>
 			</div>
-			<!--时期选择-->
-			<period-view v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
-			<!--老师列表-->
-			<course-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></course-list>
+			<div class="mui-content">
+				<div id="pullrefresh" class=" mui-scroll-wrapper" style="z-index: 1;padding-bottom: 30px;margin-bottom: 30px">
+					<div class="mui-scroll">
+						<!--时期选择-->
+						<period-view v-bind:resource-categoryId='comData.resourceCategoryId' v-bind:more-slect='moreSlect' v-on:periodchoice="getPeriodId" v-on:gotosuperchoice="gotoSuperChoice"></period-view>
+						<!--老师列表-->
+						<course-list v-bind:comdata="comData" v-on:required-end="requireTeaListEnd"></course-list>
+					</div>
+				</div>
+			</div>
 		</div>
 		<script src="../../js/mui.js"></script>
 		<script src="../../js/libs/vue/vue.js"></script>
@@ -55,10 +62,17 @@
 		<!--tealist 组件-->
 		<script src="../../js/u-class/course-list.js"></script>
 		<script src="../../js/common/publicProtocol.js"></script>
+		<script type="text/javascript" src="../../js/utils/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../../js/utils/mui.pullToRefresh.material.js"></script>
 		<script src="../../js/utils/utils.js"></script>
 		<script type="text/javascript">
 			var findCourse;
-			mui.init();
+			mui.init({
+				swipeBack: false,
+				keyEventBind: {
+					backbutton: false //关闭back按键监听
+				},
+			});
 
 			mui.plusReady(function() {
 				var provinceInfo = window.myStorage.getItem('provinceInfo');
@@ -67,14 +81,14 @@
 					data: {
 						comData: {
 							pageNumber: 1, //当前页数
-							pageSize:100, //每页显示的记录数
+							pageSize: 10, //每页显示的记录数
 							resourceCategoryId: 14, //资源分类Id
 							periodId: 0, //学段id
 							areaId: 15, //省/市/区/县的id
-//							subjectId: '', //科目id
-//							gradeId: '', //年级id
-//							teacherId: '', //教师id
-//							orderType: '', //排序:1-按最新排,2-按最热排
+							subjectId: '', //科目id
+							gradeId: '', //年级id
+							//							teacherId: '', //教师id
+							//							orderType: '', //排序:1-按最新排,2-按最热排
 						},
 						provinces: provinceInfo.data,
 						currentPro: provinceInfo.currentPro,
@@ -87,37 +101,59 @@
 					computed: {
 
 					},
+					updated: function() {
+						
+					},
 					methods: {
 						getPeriodId: function(period) {
 							console.log("主页获取的学段数据:" + JSON.stringify(period))
-							this.comData.periodId = period.id;
+							this.comData = {
+								pageNumber: 1, //当前页数
+								pageSize: 10, //每页显示的记录数
+								resourceCategoryId: 14, //资源分类Id
+								periodId: period.id, //学段id
+								areaId: 15, //省/市/区/县的id
+								subjectId: '', //科目id
+								gradeId: '', //年级id
+								//							teacherId: '', //教师id
+								//							orderType: '', //排序:1-按最新排,2-按最热排
+							}
+
 						},
 						requireTeaListEnd: function(totalPage) {
 							console.log("主页获取的总页数:" + totalPage);
 							this.totalPage = totalPage;
 						},
-						clickPop: function(proModel) {
-
-							mui('#topPopover').popover('toggle')
-							page = plus.webview.getWebviewById("u-home.html")
-							mui.fire(page, 'showPop', {
-								data: proModel
+						clickPop: function(index,proModel) {
+//							mui('#topPopover').popover('toggle')
+							var page = plus.webview.getWebviewById("u-home.html")
+							mui.fire(page, 'showPop',{
+								data: index
 							});
+							findCourse.comData.areaId = proModel.id
 							provinceInfo.currentPro = proModel;
-							window.myStorage.setItem('province', provinceInfo);
-							//									updateData();
+							window.myStorage.setItem('provinceInfo', provinceInfo);
 
 						},
 						gotoSuperChoice: function() {
+
 							var currentId = plus.webview.currentWebview().id;
-							utils.openNewWindowWithData('../utils/filter.html', {
-								type: 1,
+							var areaId = this.currentPro.id
+							var data = {
+								areaId: areaId,
+								periodId: this.comData.periodId,
+								resourceCategoryId: 14,
 								webId: currentId,
 								winId: 'filterChange'
-							})
+							}
+							console.log('高级筛选参数：' + JSON.stringify(data));
+
+							utils.openNewWindowWithData('../utils/filter.html', data)
+
 						}
 					}
 				});
+				addpullRefresh();
 			})
 		</script>
 	</body>

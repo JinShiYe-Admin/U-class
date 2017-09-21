@@ -270,7 +270,12 @@
 					"js/utils/signHmacSHA1.js",
 					"js/common/storageKeyName.js",
 					"js/libs/myStorage/myStorage.js",
-					"images/utils/img-teacher-bg2.png"
+					"images/utils/img-teacher-bg2.png",
+					"js/utils/utils.js",
+					"fonts/mui.ttf",
+					"js/common/publicProtocol.js",
+					"js/utils/mui.pullToRefresh.material.js",
+					"js/utils/mui.pullToRefresh.js"
 				],
 				"refer": [
 					"html/u-class/middle.html",
@@ -293,7 +298,16 @@
 					"js/libs/vue/vue.min.js",
 					"js/mui.min.js",
 					"js/utils/utils.js",
-					"html/u-class/find-course.html"
+					"html/u-class/find-course.html",
+					"js/libs/jquery.js",
+					"js/common/publicProtocol.js",
+					"fonts/mui.ttf",
+					"js/libs/crypto-js/require.js",
+					"js/common/postData.js",
+					"js/utils/signHmacSHA1.js",
+					"js/common/storageKeyName.js",
+					"js/libs/myStorage/myStorage.js",
+					"images/utils/01.png"
 				],
 				"refer": [],
 				"priority": 0
@@ -307,7 +321,18 @@
 					"js/utils/mui.pullToRefresh.material.js",
 					"js/utils/mui.pullToRefresh.js",
 					"js/libs/vue/vue.min.js",
-					"js/utils/myStorage.js"
+					"js/utils/myStorage.js",
+					"js/mui.min.js",
+					"js/libs/crypto-js/require.js",
+					"js/utils/signHmacSHA1.js",
+					"js/common/storageKeyName.js",
+					"js/libs/myStorage/myStorage.js",
+					"js/utils/utils.js",
+					"js/libs/jquery.js",
+					"js/common/publicProtocol.js",
+					"js/common/postData.js",
+					null,
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"html/animation-class/classPlaying.html"
@@ -343,7 +368,14 @@
 					"css/utils/common.css",
 					"js/libs/vue/vue.js",
 					"js/mui.min.js",
-					"js/utils/utils.js"
+					"js/utils/utils.js",
+					"js/libs/jquery.js",
+					"js/common/publicProtocol.js",
+					"js/libs/crypto-js/require.js",
+					"js/common/postData.js",
+					"js/utils/signHmacSHA1.js",
+					"js/common/storageKeyName.js",
+					"js/libs/myStorage/myStorage.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -379,7 +411,17 @@
 					"js/u-class/period-list.js",
 					"css/u-class/tea-list.css",
 					"js/mui.js",
-					"css/u-class/period-list.css"
+					"css/u-class/period-list.css",
+					"js/libs/jquery.js",
+					"js/libs/crypto-js/require.js",
+					"js/common/postData.js",
+					"js/utils/signHmacSHA1.js",
+					"js/common/storageKeyName.js",
+					"js/libs/myStorage/myStorage.js",
+					"js/libs/vue/vue.js",
+					"js/common/publicProtocol.js",
+					"js/utils/mui.pullToRefresh.js",
+					"js/utils/mui.pullToRefresh.material.js"
 				],
 				"refer": [
 					"html/u-class/high.html",
@@ -426,14 +468,18 @@
 					"js/utils/signHmacSHA1.js",
 					"js/mui.js",
 					"js/common/storageKeyName.js",
-					"js/utils/utils.js"
+					"js/utils/utils.js",
+					"js/utils/mui.pullToRefresh.js",
+					"js/utils/mui.pullToRefresh.material.js"
 				],
 				"refer": [
 					"html/u-class/high.html",
 					"html/u-class/middle.html",
 					"html/utils/middle.html",
 					"html/utils/high.html",
-					"html/utils/filter.html"
+					"html/utils/filter.html",
+					"html/u-class/teachSpace.html",
+					"html/animation-class/classPlaying.html"
 				],
 				"priority": 0
 			},
@@ -488,7 +534,10 @@
 					"css/mui.min.css",
 					"css/utils/common.css",
 					"js/libs/vue/vue.js",
-					"images/file/11.png"
+					"images/file/11.png",
+					"js/mui.min.js",
+					"js/utils/utils.js",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0
@@ -496,7 +545,20 @@
 			"html/animation-class/classPlaying.html": {
 				"resources": [
 					"css/mui.min.css",
-					"images/utils/yuantiao.jpg"
+					"images/utils/yuantiao.jpg",
+					"js/mui.min.js",
+					"js/libs/vue/vue.js",
+					"js/libs/jquery.js",
+					"js/utils/mui.pullToRefresh.material.js",
+					"js/utils/mui.pullToRefresh.js",
+					"js/utils/utils.js",
+					"js/common/publicProtocol.js",
+					"js/libs/crypto-js/require.js",
+					"js/common/postData.js",
+					"js/utils/signHmacSHA1.js",
+					"js/utils/myStorage.js",
+					"js/common/storageKeyName.js",
+					"js/libs/myStorage/myStorage.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -504,9 +566,24 @@
 			"html/u-class/teachSpace.html": {
 				"resources": [
 					"css/mui.min.css",
-					"images/utils/yuantiao.jpg"
+					"images/utils/yuantiao.jpg",
+					"js/libs/vue/vue.js",
+					"js/utils/mui.pullToRefresh.js",
+					"js/utils/utils.js",
+					"js/libs/crypto-js/require.js",
+					"js/libs/myStorage/myStorage.js",
+					"js/utils/mui.pullToRefresh.material.js",
+					"js/libs/jquery.js",
+					"js/mui.min.js",
+					"js/common/publicProtocol.js",
+					"js/common/postData.js",
+					"js/utils/signHmacSHA1.js",
+					"js/utils/myStorage.js",
+					"js/common/storageKeyName.js"
 				],
-				"refer": [],
+				"refer": [
+					"html/animation-class/classPlaying.html"
+				],
 				"priority": 0
 			}
 		},

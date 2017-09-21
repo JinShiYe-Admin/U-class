@@ -138,7 +138,7 @@
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll">
-						<a class="mui-control-item" :class="{'mui-active':item.active}" @click="clickClassName(item,index)" :href="'#'+item.id" v-for="(item,index) in animationArray">
+						<a class="mui-control-item" :class="{'mui-active':item.active}" v-on:tap="clickClassName(item,index)" :href="'#'+item.id" v-for="(item,index) in animationArray">
 							{{item.name}}
 						</a>
 					</div>
@@ -183,8 +183,13 @@
 				methods: {
 					clickClass: function(model) {
 						console.log('点击的model:' + JSON.stringify(model));
-						//						utils.openNewWindowWithData('classPlaying.html', model);
-						utils.openNewWindowWithData('../../html/u-class/testAAA.html', model);
+						//将当前界面的数据列表，和选择的model，都传到下个界面
+						var tempModel = {
+							sumModel: animationData.animationArray[classIndex],
+							currentModel: model
+						}
+						utils.openNewWindowWithData('animationClassPlaying.html', tempModel);
+						//						utils.openNewWindowWithData('../../html/u-class/testAAA.html', model);
 						//						var webview = plus.webview.create("../html/u-class/teachSpace.html", "teachSpace.html", {
 						//							titleNView: {
 						//								backgroundColor: '#f7f7f7', //导航栏背景色
@@ -208,7 +213,7 @@
 						//如果切换的当前课程目录下数据为空，则发送协议获取
 						if(model.childList.length == 0) {
 							console.log('000');
-							getAnimationList(model);
+							getAnimationList(model, null);
 						}
 					}
 				}
@@ -218,6 +223,24 @@
 			mui.plusReady(function() {
 				main = plus.webview.currentWebview();
 				main.addEventListener('show', showWeb, false); //增加窗口显示的监听
+				//				mui('.mui-content').on('slider','.mui-slider',function(){
+				document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+					console.log('11111');
+					classIndex = event.detail.slideNumber; //将点击的栏目索引
+					console.log('000');
+					var tempModel = animationData.animationArray[classIndex];
+					//如果切换的当前课程目录下数据为空，则发送协议获取
+					if(tempModel.childList.length == 0) {
+						console.log('000');
+						getAnimationList(tempModel, null);
+					}
+				});
+
+				//								document.getElementById('slider').addEventListener('slider', function(e) {
+				//									console.log('11111');
+				//								});
+				//				var slider = mui('#slider').slider();
+				//				slider.stopped = true; //关闭滑动切换
 				(function($) {
 					//阻尼系数
 					var deceleration = mui.os.ios ? 0.0009 : 0.0009;
@@ -236,11 +259,11 @@
 										tempModel.pageFlag = 0;
 										tempModel.pageIndex = 1;
 										//6、分页获取资源列表
-										getAnimationList(tempModel);
-										var self = this;
-										setTimeout(function() {
-											self.endPullDownToRefresh();
-										}, 1000);
+										getAnimationList(tempModel, this);
+										//										var self = this;
+										//										setTimeout(function() {
+										//											self.endPullDownToRefresh();
+										//										}, 1000);
 									}
 								},
 								up: {
@@ -248,11 +271,11 @@
 										var tempModel = animationData.animationArray[classIndex];
 										tempModel.pageFlag = 1;
 										//6、分页获取资源列表
-										getAnimationList(tempModel);
-										var self = this;
-										setTimeout(function() {
-											self.endPullUpToRefresh();
-										}, 1000);
+										getAnimationList(tempModel, this);
+										//										var self = this;
+										//										setTimeout(function() {
+										//											self.endPullUpToRefresh();
+										//										}, 1000);
 									}
 								}
 							});
@@ -260,6 +283,20 @@
 					});
 				})(mui);
 			});
+
+			//			var slider = mui("#slider");
+			//		document.getElementById("switch").addEventListener('toggle', function(e) {
+			//			console.log('1111111111111111111');
+			//			if (e.detail.isActive) {
+			//				slider.slider({
+			//					interval: 5000
+			//				});
+			//			} else {
+			//				slider.slider({
+			//					interval: 0
+			//				});
+			//			}
+			//		});
 			//点击popover里cell
 			mui('.mui-popover').on('tap', 'li', function(e) {
 				var name = this.querySelector(".mui-media-body").innerHTML
@@ -280,7 +317,7 @@
 			});
 
 			//6、分页获取资源列表
-			function getAnimationList(model) {
+			function getAnimationList(model, self) {
 				var commonData = {
 					pageNumber: model.pageIndex, //当前页数
 					pageSize: 20, //每页显示的记录数
@@ -290,11 +327,24 @@
 					if(data.code == 0) {
 						if(model.pageFlag == 0) { //刷新
 							model.childList = data.data.list;
+							if(self) {
+								self.endPullDownToRefresh();
+							}
 						} else { //加载更多
 							model.childList = model.childList.concat(data.data.list);
+							if(self) {
+								self.endPullUpToRefresh();
+							}
 						}
+						//阻尼系数
+						var deceleration = mui.os.ios ? 0.0009 : 0.0009;
+						mui('.mui-scroll-wrapper').scroll({
+							bounce: false,
+							indicators: true, //是否显示滚动条
+							deceleration: deceleration
+						});
 						model.pageIndex++;
-						console.log('animationData.animationArray:'+JSON.stringify(animationData.animationArray));
+						console.log('animationData.animationArray:' + JSON.stringify(animationData.animationArray));
 					}
 				});
 			}
@@ -304,12 +354,8 @@
 
 				var province = window.myStorage.getItem(window.storageKeyName.PROVINCEINFO);
 				var currProvince = document.getElementById("province")
-				if(currProvince == '') {
-
-				} else if(province.name == currProvince.innerHTML) {
-					return;
-				} else {
-					currProvince.innerHTML = province.name;
+				if(currProvince.innerHTML == '') {
+					currProvince.innerHTML = province.currentPro.name;
 					//重新获取数据
 					//初始化界面，将本地保存的资源列表，给本页面vue赋值
 					var tempList = window.myStorage.getItem(window.storageKeyName.RESOURCELIST);
@@ -345,6 +391,11 @@
 							classIndex = 0;
 						}
 					}
+				} else if(province.currentPro.name == currProvince.innerHTML) {
+					return;
+				} else {
+					currProvince.innerHTML = province.currentPro.name;
+
 				}
 			}
 

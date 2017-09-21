@@ -90,7 +90,7 @@ function postDataEncry(url, commonData, flag, callback) {
 	if(flag == 1) {
 		commonData.token = window.myStorage.getItem(window.storageKeyName.TOKEN);
 	}
-	console.log('commonData:'+JSON.stringify(commonData));
+	console.log(url + ':commonData:'+JSON.stringify(commonData));
 	//发送协议
 	mui.ajax(url, {
 		data: commonData,

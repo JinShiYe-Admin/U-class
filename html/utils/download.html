@@ -15,6 +15,12 @@
 		<style>
 			body {
 				word-wrap: break-word;
+				line-height: initial;
+				font-size: initial;
+			}
+
+			h1.mui-title {
+				font-size: 15px;
 			}
 
 			.mui-table-view:after {
@@ -25,6 +31,7 @@
 			.mui-table-view-cell:after {
 				left: 10px;
 				right: 10px;
+				color: #dedede;
 			}
 
 			.mui-progressbar {
@@ -33,10 +40,15 @@
 				margin: 5px 0;
 			}
 
+			.mui-progressbar span {
+				background: #4f8efe;
+			}
+
 			.mui-content .mui-table-view-cell {
 				display: flex;
 				/*justify-content: center;*/
 				align-items: center;
+				padding: 16px 14px;
 			}
 
 			.mui-table-view-cell.mui-active {
@@ -45,12 +57,14 @@
 
 			.download-type {
 				background-color: white;
-				padding: 11px 15px 4px 15px;
+				padding: 18px 14px 5px 14px;
 				top: 10px;
+				color: #353535;
+				font-size: 9px;
 			}
 
 			.download-image {
-				margin: 0 15px 0 0;
+				margin: 0 13px 0 0;
 				width: 40px;
 			}
 
@@ -61,6 +75,7 @@
 			.download-file-size {
 				display: inline;
 				color: #898989;
+				font-size: 9px;
 			}
 
 			.download-file-speed {
@@ -78,13 +93,13 @@
 				margin-top: -1px;
 				border-radius: 20px;
 				padding: 8px 15px 6px 15px;
-				border-color: #35B8FE;
+				border-color: #37B8FE;
 				background-color: #EEF9FF;
-				color: #35B8FE;
+				color: #37B8FE;
 			}
 
 			.mui-btn.mui-btn-outlined:active {
-				background-color: #35B8FE;
+				background-color: #37B8FE;
 			}
 
 			.download-ellipsis {
@@ -94,6 +109,8 @@
 				-webkit-line-clamp: 1;
 				-webkit-box-orient: vertical;
 				word-wrap: break-word;
+				color: #353535;
+				font-size: 13px;
 			}
 
 			.download-info {
@@ -103,12 +120,12 @@
 
 			.download-delete-logs {
 				float: right;
-				color: #35B8FE;
+				color: #37B8FE;
 				opacity: 0.5;
 			}
 
 			#downloading {
-				margin-bottom: 5px;
+				margin-bottom: 7px;
 			}
 
 			#failPop .mui-popup {
@@ -135,6 +152,18 @@
 				background-color: white;
 			}
 		</style>
+		<script>
+			//动态设置样式
+			(function() {
+				var wsWidth = window.screen.width;
+				var download_ellipsis = wsWidth - (30 + 40 + 100 + 15); //文件名称的宽度
+				var style = document.createElement("style");
+				style.type = "text/css";
+				var sstr_0 = ".download-ellipsis{width: " + download_ellipsis + "px;}";
+				style.innerHTML = sstr_0;
+				document.getElementsByTagName('head').item(0).appendChild(style);
+			})();
+		</script>
 	</head>
 
 	<body>
@@ -146,7 +175,7 @@
 			<div class="mui-scroll">
 				<div class="download-type">正在下载{{downloading_title}}</div>
 				<ul id="downloading" class="mui-table-view">
-					<download-item @tap-close="tapClose" @tap-button="tapButton" v-for="(value,index) in file_array" :key="index" :infowidth="width" :value="value" :index="index"></download-item>
+					<download-item @tap-close="tapClose" @tap-button="tapButton" v-for="(value,index) in file_array" :key="index" :value="value" :index="index"></download-item>
 				</ul>
 				<div class="download-type download-delete-logs" :style="{opacity:opacity}">清除记录</div>
 				<div class="download-type">已下载{{downloaded_num}}</div>
@@ -161,7 +190,7 @@
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll">
 						<ul class="mui-table-view">
-							<li  v-for="value in failArray" class="mui-table-view-cell mui-ellipsis">{{value}}</li>
+							<li v-for="value in failArray" class="mui-table-view-cell mui-ellipsis">{{value}}</li>
 						</ul>
 					</div>
 				</div>
@@ -174,12 +203,12 @@
 		<script type="text/javascript" src="../../js/utils/fileutil.js"></script>
 		<script type="text/javascript">
 			Vue.component("download-item", {
-				props: ["value", "infowidth", "index"],
+				props: ["value", "index"],
 				template: '\
-					<li v-if="value.isShow" class="mui-table-view-cell" style="height: 241px;">\
+					<li v-if="value.isShow" class="mui-table-view-cell">\
 						<img class="download-image" src="../../images/file/11.png" />\
 						<div class="download-info">\
-							<div class="download-file-name download-ellipsis" :style="{width: infowidth+\'px\'}">{{value.name}}</div>\
+							<div class="download-file-name download-ellipsis">{{value.name}}</div>\
 							<div :id="value.taskid" v-show="value.showProgress" class="mui-progressbar">\
 								<span></span>\
 							</div>\
@@ -215,7 +244,6 @@
 			var vm_down = new Vue({
 				el: "#content",
 				data: {
-					width: 0,
 					deling: false, //是否正在删除
 					downloading_num: 0, //正在下载的数量
 					downloading_title: "", //正在下载列表的标题
@@ -333,11 +361,13 @@
 					}
 				}
 			});
+
 			mui.init({
 				gestureConfig: {
 					doubletap: true, //打开双击
 				}
 			});
+
 			mui.plusReady(function() {
 				initData();
 				initListener();
@@ -357,18 +387,17 @@
 				ul_downloaded = document.getElementById("downloaded");
 				div_downloaded_title = document.getElementById("downloaded_title");
 				div_delete_logs = document.getElementById("delete_logs");
-				vm_down.width = plus.screen.resolutionWidth - (30 + 40 + 100 + 15);
 				createDownloadFolder();
 			}
 
 			function initListener() {
 				//增加下载记录
 				window.addEventListener('addDownLoad', function(e) {
-					//console.log("addDownLoad:" + JSON.stringify(e.detail.data));
+					console.log("addDownLoad:" + JSON.stringify(e.detail.data));
 					var size = fileutil.convertFileSize(e.detail.data.size);
 					var data = {
 						url: e.detail.data.url, //文件路径
-						name: e.detail.data.name, //文件名称
+						name: e.detail.data.name + "." + e.detail.data.type, //文件名称
 						initSize: size, //文件大小
 						size: size, //显示的文件大小
 						speed: "", //下载速度
@@ -403,6 +432,7 @@
 
 				//打开文件
 				mui('#downloaded').on('tap', 'button', function() {
+					console.log("open:" + this.parentNode.id);
 					fileutil.openFile(this.parentNode.id, function(data) {
 						mui.toast(data.message);
 					});
@@ -470,6 +500,18 @@
 						}, "div");
 					}
 				});
+
+				//网络变化
+				document.addEventListener("netchange", function() {
+					if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_WIFI) {
+						console.log("downloading:" + vm_down.downloading);
+						console.log("downloadNoWiFi:" + vm_down.downloadNoWiFi);
+						if(!vm_down.downloadNoWiFi) {
+							console.log("startDownloadingFirst:");
+							startDownloadingFirst();
+						}
+					}
+				});
 			}
 
 			/**
@@ -525,7 +567,7 @@
 					var data = {
 						name: entry.name,
 						size: fileutil.convertFileSize(metadata.size),
-						path: entry.toLocalURL()
+						path: entry.toURL()
 					}
 					addDownloaded(data);
 				}, function(e) {
@@ -533,7 +575,7 @@
 					var data = {
 						name: entry.name,
 						size: "",
-						path: entry.toLocalURL()
+						path: entry.toURL()
 					}
 					addDownloaded(data);
 				});
@@ -551,7 +593,7 @@
 				ele.innerHTML = '\
 						<img class="download-image" src="../../images/file/11.png" />\
 						<div class="download-info">\
-							<div class="download-file-name download-ellipsis" style="width: ' + vm_down.width + 'px">' + data.name + '</div>\
+							<div class="download-file-name download-ellipsis">' + data.name + '</div>\
 							<div class="download-file-size">' + data.size + '</div>\
 						</div>\
 						<div class="mui-icon mui-icon-closeempty"></div>\
@@ -613,7 +655,7 @@
 			function startDownloadingSecond() {
 				var netType = plus.networkinfo.getCurrentType();
 				if(netType == plus.networkinfo.CONNECTION_WIFI || vm_down.downloadNoWiFi) {
-					//WIFI||没有WIFI也上传
+					//WIFI||没有WIFI也下载
 					startDownloadingThird();
 				} else {
 					if(netType != plus.networkinfo.CONNECTION_NONE) {
@@ -625,6 +667,11 @@
 								startDownloadingThird();
 							} else {
 								vm_down.downloadNoWiFi = false;
+								if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_WIFI) {
+									startDownloadingThird();
+								} else {
+									vm_down.downloading = false;
+								}
 							}
 							vm_down.deling = false;
 						}, 'div');
@@ -645,7 +692,7 @@
 				}
 
 				fileutil.addDownloadTask(vm_down.file_array[vm_down.downloadingFileId].url, "_documents/download/" + vm_down.file_array[vm_down.downloadingFileId].name, function(download, status) {
-					//console.log('下载任务完成:' + status + '|' + JSON.stringify(download));
+					console.log('下载任务完成:' + status + '|' + JSON.stringify(download));
 					//处理下载任务
 					vm_down.file_array[vm_down.downloadingFileId].state = "4"; //4,任务完成
 					vm_down.file_array[vm_down.downloadingFileId].result = status; //下载结果状态

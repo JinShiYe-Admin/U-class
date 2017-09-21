@@ -11,45 +11,45 @@
 			body {
 				background-color: #efeff4;
 			}
-
+			
 			.mui-bar .mui-pull-left .mui-icon {
 				padding-right: 5px;
 				font-size: 28px;
 			}
-
+			
 			.mui-bar .mui-btn {
 				font-weight: normal;
 				font-size: 17px;
 			}
-
+			
 			.mui-bar .mui-btn-link {
 				top: 1px;
 			}
-
+			
 			.mui-content img {
 				width: 100%;
 			}
-
+			
 			.hm-description {
 				margin: 15px;
 			}
-
+			
 			.hm-description>li {
 				font-size: 14px;
 				color: #8f8f94;
 			}
-
+			
 			.mui-bar-transparent {
 				background-color: rgba(19, 183, 246, 0);
 			}
-
+			
 			.mui-table-view .mui-media-object {
 				max-width: 80px;
 				max-height: 60px;
 				width: 80px;
 				height: 60px;
 			}
-
+			
 			#video {
 				background-color: black;
 				background-position: 50% 50%;
@@ -71,21 +71,21 @@
 		<div id="pullrefresh" class="mui-content" style="background-color: white;">
 			<div id="temp">
 				<!--静态图片-->
-				<video id="video" @playing="vPlaying" :src="sumModel.currentModel.file_path" :style="styleObject" controls="controls" webkit-playsinline playsinline preload="none" poster="null">
+				<video id="video" @playing="vPlaying" :src="playingModel.file_path" :style="styleObject" controls="controls" webkit-playsinline playsinline preload="none" poster="null">
 					您的浏览器不支持video标签
 				</video>
 				<!--<img id="img1" :src=playingModel.modelImgUrl />-->
 				<p></p>
-				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">{{sumModel.currentModel.name}}</p>
-				<div style="position:relative">
-					<img :src="sumModel.img_url" style="width: 40px;height: 40px;margin-left: 15px;" />
-					<span style="position:absolute;font-size: 12px; top:0px;margin-left: 5px;color: gray;">{{sumModel.currentModel.teacher_name + ' '+sumModel.currentModel.create_time+'上传 '+sumModel.currentModel.hits+'次播放'}}</span>
-					<span style="position:absolute; font-size: 12px; top:20px;margin-left: 5px;color: gray;">{{sumModel.currentModel.school_name}}</span>
+				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">{{playingModel.name}}</p>
+				<div>
+					<!--<img :src="playingModel.modelImg" style="width: 40px;height: 40px;margin-left: 15px;" />-->
+					<span style="font-size: 12px; top:0px;margin-left: 15px;color: gray;">{{playingModel.hits+'次播放'+' 来源:'+playingModel.school_name+' 类型:'+playingModel.resource_category_name}}</span>
+					<!--<span style="font-size: 12px; top:20px;margin-left: 15px;color: gray;">{{playingModel.modelSchool}}</span>-->
 				</div>
 				<p></p>
-				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">相关视频</p>
-				<ul class="mui-table-view mui-table-view-chevron" v-for="item in sumModel.spaceArray">
-					<li class="mui-table-view-cell mui-media" @click="clickTeacherSpace()">
+				<p style="margin-left: 15px;color: -webkit-text;font-size: 15px;">播放列表</p>
+				<ul class="mui-table-view mui-table-view-chevron" v-for="item in sumModel.childList">
+					<li class="mui-table-view-cell mui-media" v-on:tap='clickCloumn(item)'>
 						<a class="mui-navigate-right">
 							<img class="mui-media-object mui-pull-left" :src="item.img_url">
 							<div class="mui-media-body">
@@ -106,25 +106,23 @@
 		<script src="../../js/common/publicProtocol.js"></script>
 		<script type="text/javascript">
 			mui.init({
-				//				pullRefresh: {
-				//					container: '#pullrefresh',
-				//					down: {
-				//						style: 'circle',
-				//						callback: pulldownRefresh
-				//					},
-				//					up: {
-				//						contentrefresh: '正在加载...',
-				//						callback: pullupRefresh
-				//					}
-				//				}
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style: 'circle',
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
 			});
-			
 			var spaceData = new Vue({
 				el: '#pullrefresh',
 				data: {
-					sumModel: {
-						currentModel:{}
-					},
+					sumModel: [],
+					playingModel: {},
 					styleObject: {
 						backgroundImage: '', //视频的背景图，切换视频时需要更改这个参数---@赵
 						height: parseInt(window.screen.width * 190 / 360) + "px"
@@ -137,33 +135,64 @@
 					vPlaying: function() {
 						this.styleObject.backgroundImage = "";
 					},
-					clickTeacherSpace:function(){
-						utils.openNewWindowWithDataNew('classPlaying.html', spaceData.sumModel);
+					clickCloumn: function(model){
+						console.log('12121121222222222');
+						var tempModel = {
+							sumModel:spaceData.sumModel,
+							currentModel:model
+						}
+						console.log('tempModel:'+JSON.stringify(tempModel));
+						utils.openNewWindowWithDataNew('animationClassPlaying.html', tempModel);
 					}
 				}
 			});
-			
-			mui.plusReady(function(){
+
+			mui.plusReady(function() {
 				var curPage = plus.webview.currentWebview().data;
-				console.log('detail:'+JSON.stringify(curPage));
+				console.log('detail:' + JSON.stringify(curPage));
 				//当前播放的数据
-				spaceData.sumModel = curPage;
-				spaceData.styleObject.backgroundImage = 'url(' + spaceData.sumModel.currentModel.img_url + ')';
+				spaceData.playingModel = curPage.currentModel;
+				spaceData.styleObject.backgroundImage = 'url(' + spaceData.playingModel.img_url + ')';
+				spaceData.sumModel = curPage.sumModel;
 			});
 
-			//			function pullupRefresh() {
-			//				setTimeout(function() {
-			//					mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
-			//				}, 1500);
-			//			}
-			//			/**
-			//			 * 下拉刷新具体业务实现
-			//			 */
-			//			function pulldownRefresh() {
-			//				setTimeout(function() {
-			//					mui('#pullrefresh').pullRefresh().endPulldown();
-			//				}, 1500);
-			//			}
+			function pullupRefresh() {
+				var tempModel = spaceData.sumModel;
+				tempModel.pageFlag = 1;
+				//6、分页获取资源列表
+				getAnimationList(tempModel);
+			}
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				var tempModel = spaceData.sumModel;
+				tempModel.pageFlag = 0;
+				tempModel.pageIndex = 1;
+				//6、分页获取资源列表
+				getAnimationList(tempModel);
+			}
+
+			//6、分页获取资源列表
+			function getAnimationList(model) {
+				var commonData = {
+					pageNumber: model.pageIndex, //当前页数
+					pageSize: 20, //每页显示的记录数
+					resourceCategoryId: model.id //资源分类Id
+				}
+				postDataPro_resList(commonData, function(data) {
+					if(data.code == 0) {
+						if(model.pageFlag == 0) { //刷新
+							model.childList = data.data.list;
+							mui('#pullrefresh').pullRefresh().endPulldown();
+						} else { //加载更多
+							model.childList = model.childList.concat(data.data.list);
+							mui('#pullrefresh').pullRefresh().endPullup();
+						}
+						model.pageIndex++;
+					}
+				});
+			}
 		</script>
 	</body>
 
