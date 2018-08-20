@@ -65,14 +65,17 @@
 
 	<body>
 		<header id="header" class="mui-bar mui-bar-transparent">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
 			<h1 class="mui-title"></h1>
 		</header>
 		<div id="pullrefresh" class="mui-content" style="background-color: white;">
 			<div id="temp">
 				<!--静态图片-->
-				<video id="video" @playing="vPlaying" :src="sumModel.currentModel.file_path" :style="styleObject" controls="controls" webkit-playsinline playsinline preload="none" poster="null">
+				<!--<video id="video" @playing="vPlaying" :src="sumModel.currentModel.file_path" :style="styleObject" controls="controls" webkit-playsinline playsinline preload="none" poster="null">
 					您的浏览器不支持video标签
+				</video>-->
+				<video id="video" height="" :src="sumModel.currentModel.file_path" :style="styleObject" controls="controls">
+					当前浏览器不支持 video直接播放
 				</video>
 				<!--<img id="img1" :src=playingModel.modelImgUrl />-->
 				<p></p>
@@ -85,7 +88,7 @@
 				<p></p>
 				<p style="margin-left: 14px;color: #333333;font-size: 12px;">相关视频</p>
 				<ul class="mui-table-view mui-table-view-chevron" v-for="item in sumModel.spaceArray">
-					<li class="mui-table-view-cell mui-media" @click="clickTeacherSpace()">
+					<li class="mui-table-view-cell mui-media" @click="clickTeacherSpace(item)">
 						<a class="mui-navigate-right">
 							<img class="mui-media-object mui-pull-left" :src="item.img_url" style="width: 106px;height: 60px;">
 							<div class="mui-media-body" style="font-size: 12px;color: #999999;">
@@ -137,7 +140,8 @@
 					vPlaying: function() {
 						this.styleObject.backgroundImage = "";
 					},
-					clickTeacherSpace:function(){
+					clickTeacherSpace:function(model){
+						spaceData.sumModel.currentModel = model;
 						utils.openNewWindowWithDataNew('classPlaying.html', spaceData.sumModel);
 					}
 				}

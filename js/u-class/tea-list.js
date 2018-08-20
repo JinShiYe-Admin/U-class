@@ -54,7 +54,8 @@ Vue.component("tea-list", {
 						}
 					} else {
 						if(response.data.list.length == 0) {
-							pullRefresh.endPullUpToRefresh(true);
+							pullRefresh.endPullUpToRefresh();
+							mui.toast('没有更多数据了')
 							return;
 						}
 						com.listData = com.listData.concat(response.data.list);

@@ -13,7 +13,7 @@ function tempTime() {
 			return 30000;
 			break;
 		case "iOS":
-			return 300000;
+			return 30000;
 			break;
 		default:
 			// 其它平台

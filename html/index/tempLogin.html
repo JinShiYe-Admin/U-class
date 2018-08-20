@@ -172,6 +172,8 @@ none; margin-top: -15px;">登录</button>
 		<!--本地存储-->
 		<script src="../../js/libs/myStorage/myStorage.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/common/storageKeyName.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../../js/utils/utils.js"></script>
+		<script src="../../js/common/publicProtocol.js" type="text/javascript" charset="utf-8"></script>
 
 		<script>
 			(function($, doc) {
@@ -179,6 +181,13 @@ none; margin-top: -15px;">登录</button>
 					statusBarBackground: '#13b7f6'
 				});
 				$.plusReady(function() {
+					//5、获取资源的分类及子分类
+				postDataPro_rescatList({}, function(data) {
+					if(data.code == 0) {
+						//将获取到的数据，保存到本地，方便别的页面调用
+						window.myStorage.setItem(window.storageKeyName.RESOURCELIST, data.data);
+					}
+				});
 					//					plus.screen.lockOrientation("portrait-primary");
 					//					var settings = app.getSettings();
 					//					var state = app.getState();

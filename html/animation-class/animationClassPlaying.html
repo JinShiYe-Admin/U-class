@@ -71,8 +71,11 @@
 		<div id="pullrefresh" class="mui-content" style="background-color: white;">
 			<div id="temp">
 				<!--静态图片-->
-				<video id="video" @playing="vPlaying" :src="playingModel.file_path" :style="styleObject" controls="controls" webkit-playsinline playsinline preload="none" poster="null">
+				<!--<video id="video" @playing="vPlaying" :src="playingModel.file_path" :style="styleObject" controls="controls" webkit-playsinline playsinline preload="none" poster="null">
 					您的浏览器不支持video标签
+				</video>-->
+				<video id="video" height="" :src="playingModel.file_path" :style="styleObject" controls="controls">
+					当前浏览器不支持 video直接播放
 				</video>
 				<!--<img id="img1" :src=playingModel.modelImgUrl />-->
 				<p></p>
