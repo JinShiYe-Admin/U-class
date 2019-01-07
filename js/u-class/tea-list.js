@@ -48,29 +48,28 @@ Vue.component("tea-list", {
 
 					if(com.comdata.pageNumber === 1) {
 						com.listData = response.data.list;
-						com.totalPage = response.data.totalPage
-						if(findTea.flag == 1) {
-							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-						}
+						com.totalPage = response.data.totalPage;
+// 						if(findTea.flag == 1) {
+// 							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+// 						}
 					} else {
 						if(response.data.list.length == 0) {
-							pullRefresh.endPullUpToRefresh();
+							// pullRefresh.endPullUpToRefresh();
 							mui.toast('没有更多数据了')
 							return;
 						}
 						com.listData = com.listData.concat(response.data.list);
-						com.totalPage = response.data.totalPage
-						pullRefresh.endPullUpToRefresh();
-
+						com.totalPage = response.data.totalPage;
+						// pullRefresh.endPullUpToRefresh();
 					}
 				} else {
 					if(com.comdata.pageNumber === 1) {
 
-						if(findTea.flag == 1) {
-							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-						}
+// 						if(findTea.flag == 1) {
+// 							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+// 						}
 					} else {
-						pullRefresh.endPullUpToRefresh();
+						// pullRefresh.endPullUpToRefresh();
 
 					}
 
@@ -102,7 +101,7 @@ function addpullRefresh() {
 				setTimeout(function() {
 					findTea.comData.pageNumber = 0;
 					findTea.comData.pageNumber = 1
-					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+										pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 					findTea.flag = 1;
 				}, 1000);
 			}
@@ -110,7 +109,8 @@ function addpullRefresh() {
 		up: {
 			callback: function() {
 				console.log('up');
-				findTea.comData.pageNumber++
+				findTea.comData.pageNumber++;
+				pullRefresh.endPullUpToRefresh();
 			}
 		}
 	});

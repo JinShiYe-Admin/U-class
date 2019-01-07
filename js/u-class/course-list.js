@@ -45,28 +45,26 @@ Vue.component("course-list", {
 					if(com.comdata.pageNumber === 1) {
 						com.listData = response.data.list;
 						com.totalPage = response.data.totalPage
-						if(findCourse.flag == 1) {
-							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-						}
+// 						if(findCourse.flag == 1) {
+// 							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+// 						}
 					} else {
-						if(response.data.list.length == 0) {
-							pullRefresh.endPullUpToRefresh(true);
-							return;
-						}
+// 						if(response.data.list.length == 0) {
+// 							pullRefresh.endPullUpToRefresh(true);
+// 							return;
+// 						}
 						com.listData = com.listData.concat(response.data.list);
 						com.totalPage = response.data.totalPage
-						pullRefresh.endPullUpToRefresh();
+						// pullRefresh.endPullUpToRefresh();
 					}
 				} else {
-					if(com.comdata.pageNumber === 1) {
-
-						if(findCourse.flag == 1) {
-							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
-						}
-					} else {
-						pullRefresh.endPullUpToRefresh();
-
-					}
+// 					if(com.comdata.pageNumber === 1) {
+// 						if(findCourse.flag == 1) {
+// 							pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+// 						}
+// 					} else {
+// 						pullRefresh.endPullUpToRefresh();
+// 					}
 
 					mui.toast('请检查网络')
 
@@ -101,13 +99,14 @@ function addpullRefresh() {
 					findCourse.comData.pageNumber = 0;
 					findCourse.comData.pageNumber = 1;
 					findCourse.flag = 1;
-					//					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
+					pullRefresh.endPullDownToRefresh(); //结束下拉刷新
 			}
 		},
 		up: {
 			callback: function() {
 				console.log('up');
-				findCourse.comData.pageNumber++
+				findCourse.comData.pageNumber++;
+				pullRefresh.endPullUpToRefresh();
 			}
 		}
 	});

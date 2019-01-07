@@ -119,6 +119,7 @@
 							this.totalPage = totalPage;
 						},
 						clickPop: function(index, proModel) {
+							mui("#pullrefresh").scroll().scrollTo(0, 0, 0);
 							//							mui('#topPopover').popover('toggle')
 							var page = plus.webview.getWebviewById("u-home.html")
 							mui.fire(page, 'showPop', {
